@@ -8,12 +8,12 @@ public class ArrayStorage {
     private int resumeCount;
 
     void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, resumeCount, null);
         resumeCount = 0;
     }
 
     void save(Resume r) {
-        if (resumeCount < 10_000) {
+        if (resumeCount < storage.length) {
             storage[resumeCount++] = r;
         }
     }
@@ -32,12 +32,12 @@ public class ArrayStorage {
         for (int i = 0; i < resumeCount; i++) {
             if (!foundUuid && storage[i].uuid.equals(uuid)) {
                 foundUuid = true;
+                resumeCount--;
             }
             if (foundUuid) {
-                storage[i] = (i + 1 == 10_000) ? null : storage[i + 1];
+                storage[i] = (i + 1 == storage.length) ? null : storage[i + 1];
             }
         }
-        resumeCount--;
     }
 
     /**
