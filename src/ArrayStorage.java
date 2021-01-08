@@ -13,13 +13,16 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        storage[resumeCount++] = r;
+        if (resumeCount < 10000) {
+            storage[resumeCount++] = r;
+        }
     }
 
     Resume get(String uuid) {
         for (int i = 0; i < resumeCount; i++) {
-            if (storage[i].uuid.equals(uuid))
+            if (storage[i].uuid.equals(uuid)) {
                 return storage[i];
+            }
         }
         return null;
     }
@@ -27,7 +30,7 @@ public class ArrayStorage {
     void delete(String uuid) {
         boolean foundUuid = false;
         for (int i = 0; i < resumeCount; i++) {
-            if (storage[i].uuid.equals(uuid)) {
+            if (!foundUuid && storage[i].uuid.equals(uuid)) {
                 foundUuid = true;
             }
             if (foundUuid) {
