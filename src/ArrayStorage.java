@@ -13,7 +13,7 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        if (resumeCount < 10000) {
+        if (resumeCount < 10_000) {
             storage[resumeCount++] = r;
         }
     }
@@ -34,7 +34,7 @@ public class ArrayStorage {
                 foundUuid = true;
             }
             if (foundUuid) {
-                storage[i] = storage[i + 1];
+                storage[i] = (i + 1 == 10_000) ? null : storage[i + 1];
             }
         }
         resumeCount--;
