@@ -1,6 +1,7 @@
 package com.urise.webapp.storage;
 
 import java.util.Arrays;
+
 import com.urise.webapp.model.Resume;
 
 /**
@@ -15,43 +16,42 @@ public class ArrayStorage {
         size = 0;
     }
 
-    public void update(Resume r) {
-        int pos = position(r.getUuid());
-        if (pos > -1 ) {
-            storage[pos] = r;
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
+        if (index > -1) {
+            storage[index] = resume;
         } else {
-            System.out.println("Update ERROR: Resume not found");
+            System.out.println("Update ERROR: Resume with UUID " + resume.getUuid() + " not found");
         }
     }
 
-    public void save(Resume r) {
+    public void save(Resume resume) {
         if (size == storage.length) {
             System.out.println("Save ERROR: storage is full");
-        } else if (position(r.getUuid()) > -1 ) {
-            System.out.println("Save ERROR: Resume exists in database");
-        }
-        else {
-            storage[size++] = r;
+        } else if (getIndex(resume.getUuid()) > -1) {
+            System.out.println("Save ERROR: Resume  with UUID " + resume.getUuid() + " exists in database");
+        } else {
+            storage[size++] = resume;
         }
     }
 
     public Resume get(String uuid) {
-        int pos = position(uuid);
-        if (pos > -1 ) {
-            return storage[pos];
+        int index = getIndex(uuid);
+        if (index > -1) {
+            return storage[index];
         }
-        System.out.println("Get ERROR: Resume not found");
+        System.out.println("Get ERROR: Resume with UUID " + uuid + " not found");
         return null;
     }
 
     public void delete(String uuid) {
-        int pos = position(uuid);
-        if (pos > -1 ) {
-            storage[pos] = storage[size - 1];
+        int index = getIndex(uuid);
+        if (index > -1) {
+            storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
         } else {
-            System.out.println("Delete ERROR: Resume not found");
+            System.out.println("Delete ERROR: Resume with UUID " + uuid + " not found");
         }
     }
 
@@ -66,11 +66,10 @@ public class ArrayStorage {
         return size;
     }
 
-    private int position(String uuid) {
+    private int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
+            if (storage[i].getUuid().equals(uuid))
                 return i;
-            }
         }
         return -1;
     }
