@@ -8,6 +8,7 @@ import ru.javawebinar.basejava.model.Resume;
  * Array based storage for Resumes
  */
 public class ArrayStorage extends AbstractArrayStorage {
+
     @Override
     protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
@@ -18,27 +19,9 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void clear() {
-        Arrays.fill(storage, 0, size, null);
-        size = 0;
-    }
-
-    @Override
-    public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (getIndex(resume.getUuid()) > -1) {
-            storage[index] = resume;
-        } else {
-            System.out.println("Update ERROR: Resume with UUID " + resume.getUuid() + " not found");
-            //save(resume);
-        }
-    }
-
-    @Override
     public void save(Resume resume) {
         if (getIndex(resume.getUuid()) > -1) {
             System.out.println("Save ERROR: Resume  with UUID " + resume.getUuid() + " exists in database");
-            //update(resume);
         } else if (size == storage.length) {
             System.out.println("Save ERROR: storage is full");
         } else {
@@ -56,10 +39,5 @@ public class ArrayStorage extends AbstractArrayStorage {
         } else {
             System.out.println("Delete ERROR: Resume with UUID " + uuid + " not found");
         }
-    }
-
-    @Override
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
     }
 }
