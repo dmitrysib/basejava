@@ -15,16 +15,11 @@ public class MainTestArrayStorage {
     public static void main(String[] args) {
 
         //Test SortedArrayStorage
-        Resume r10 = new Resume();
-        r10.setUuid("uuid10");
-        Resume r11 = new Resume();
-        r11.setUuid("uuid11");
-        Resume r12 = new Resume();
-        r12.setUuid("uuid12");
-        Resume r13 = new Resume();
-        r13.setUuid("uuid13");
-        Resume r14 = new Resume();
-        r14.setUuid("uuid14");
+        Resume r10 = new Resume("uuid10");
+        Resume r11 = new Resume("uuid11");
+        Resume r12 = new Resume("uuid12");
+        Resume r13 = new Resume("uuid13");
+        Resume r14 = new Resume("uuid14");
 
         SORTED_ARRAY_STORAGE.save(r11);
         SORTED_ARRAY_STORAGE.save(r13);
@@ -46,12 +41,9 @@ public class MainTestArrayStorage {
 
         //Test SortedArrayStorage
 
-        Resume r1 = new Resume();
-        r1.setUuid("uuid1");
-        Resume r2 = new Resume();
-        r2.setUuid("uuid2");
-        Resume r3 = new Resume();
-        r3.setUuid("uuid3");
+        Resume r1 = new Resume("uuid1");
+        Resume r2 = new Resume("uuid2");
+        Resume r3 = new Resume("uuid3");
 
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
@@ -63,8 +55,7 @@ public class MainTestArrayStorage {
         System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
 
         ARRAY_STORAGE.update(r2);
-        Resume r4 = new Resume();
-        r4.setUuid("uuid4");
+        Resume r4 = new Resume("uuid4");
         ARRAY_STORAGE.update(r4);
 
         printAll(ARRAY_STORAGE);

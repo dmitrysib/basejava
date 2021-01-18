@@ -1,5 +1,6 @@
 package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.exception.*;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
@@ -25,8 +26,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Resume " + uuid + " not exists");
-            return null;
+            throw new NotExistStorageException(uuid);
         }
         return storage[index];
     }
@@ -35,7 +35,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index < 0) {
-            System.out.println("Update ERROR: Resume with UUID " + resume.getUuid() + " not found");
+            throw new NotExistStorageException(resume.getUuid());
         } else {
             storage[index] = resume;
         }
@@ -45,7 +45,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Delete ERROR: Resume with UUID " + uuid + " not found");
+            throw new NotExistStorageException(uuid);
         } else {
             deleteResumeAt(index);
             storage[size - 1] = null;
@@ -57,9 +57,9 @@ public abstract class AbstractArrayStorage implements Storage {
     public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index > -1) {
-            System.out.println("Save ERROR: Resume  with UUID " + resume.getUuid() + " exists in database");
+            throw new ExistStorageException(resume.getUuid());
         } else if (size == storage.length) {
-            System.out.println("Save ERROR: storage is full");
+            throw new StorageException("Storage overflow", resume.getUuid());
         } else {
             saveResumeAt(resume, index);
             size++;
