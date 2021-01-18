@@ -10,6 +10,12 @@ public abstract class AbstractArrayStorage implements Storage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
+    protected abstract int getIndex(String uuid);
+
+    protected abstract void saveResumeAt(Resume resume, int index);
+
+    protected abstract void deleteResumeAt(int index);
+
     @Override
     public int size() {
         return size;
@@ -70,10 +76,4 @@ public abstract class AbstractArrayStorage implements Storage {
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
-
-    protected abstract int getIndex(String uuid);
-
-    protected abstract void saveResumeAt(Resume resume, int index);
-
-    protected abstract void deleteResumeAt(int index);
 }
