@@ -53,15 +53,26 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     void delete() {
+        Exception exception = assertThrows(NotExistStorageException.class, () -> storage.get("uuid4"));
+        if(!exception.getMessage().contains("Resume uuid4 not exist")) {
+            fail();
+        }
+
         storage.delete(UUID_1);
-        Exception exception = assertThrows(NotExistStorageException.class, () -> storage.get(UUID_1));
+        exception = assertThrows(NotExistStorageException.class, () -> storage.get(UUID_1));
         assertTrue(exception.getMessage().contains("Resume " + UUID_1 + " not exist"));
     }
 
     @Test
     void save() {
         Exception exception = assertThrows(ExistStorageException.class, () -> storage.save(new Resume(UUID_1)));
-        assertTrue(exception.getMessage().contains("Resume " + UUID_1 + " already exist"));
+        if(!exception.getMessage().contains("Resume " + UUID_1 + " already exist")) {
+            fail();
+        }
+
+        Resume resume = new Resume("uuid4");
+        storage.save(resume);
+        assertEquals(storage.get("uuid4"), resume);
     }
 
     @Test
