@@ -6,7 +6,6 @@ import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
-    protected static final int STORAGE_LIMIT = 10_000;
 
     protected abstract int getIndex(String uuid);
 
@@ -17,6 +16,10 @@ public abstract class AbstractStorage implements Storage {
     protected abstract void saveElement(int index, Resume resume);
 
     protected abstract void deleteElement(int index);
+
+    protected boolean checkStorageLimit() {
+        return true;
+    }
 
     @Override
     public Resume get(String uuid) {
@@ -53,7 +56,7 @@ public abstract class AbstractStorage implements Storage {
         int index = getIndex(resume.getUuid());
         if (index > -1) {
             throw new ExistStorageException(resume.getUuid());
-        } else if (size() == AbstractStorage.STORAGE_LIMIT) {
+        } else if (checkStorageLimit() && size() == AbstractArrayStorage.STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
         } else {
             saveElement(index, resume);
