@@ -3,7 +3,12 @@ package ru.javawebinar.basejava;
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.storage.AbstractArrayStorage;
 import ru.javawebinar.basejava.storage.ArrayStorage;
+import ru.javawebinar.basejava.storage.ListStorage;
 import ru.javawebinar.basejava.storage.SortedArrayStorage;
+
+import java.util.ArrayList;
+import java.util.Stack;
+import java.util.Vector;
 
 /**
  * Test for your ArrayStorage implementation
@@ -11,6 +16,8 @@ import ru.javawebinar.basejava.storage.SortedArrayStorage;
 public class MainTestArrayStorage {
     static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
     static final SortedArrayStorage SORTED_ARRAY_STORAGE = new SortedArrayStorage();
+
+    static final ListStorage LIST_STORAGE = new ListStorage(new ArrayList<>());
 
     public static void main(String[] args) {
 
@@ -20,6 +27,13 @@ public class MainTestArrayStorage {
         Resume r12 = new Resume("uuid12");
         Resume r13 = new Resume("uuid13");
         Resume r14 = new Resume("uuid14");
+
+        LIST_STORAGE.save(r10);
+        LIST_STORAGE.save(r11);
+        LIST_STORAGE.save(r12);
+        LIST_STORAGE.save(r13);
+        LIST_STORAGE.save(r14);
+        printAll(LIST_STORAGE);
 
         SORTED_ARRAY_STORAGE.save(r11);
         SORTED_ARRAY_STORAGE.save(r13);
@@ -68,6 +82,13 @@ public class MainTestArrayStorage {
     }
 
     static void printAll(AbstractArrayStorage array) {
+        System.out.println("\nGet All");
+        for (Resume r : array.getAll()) {
+            System.out.println(r);
+        }
+    }
+
+    static void printAll(ListStorage array) {
         System.out.println("\nGet All");
         for (Resume r : array.getAll()) {
             System.out.println(r);

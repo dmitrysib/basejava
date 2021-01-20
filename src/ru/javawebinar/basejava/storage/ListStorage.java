@@ -27,6 +27,11 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
+    protected boolean checkStorageLimit() {
+        return false;
+    }
+
+    @Override
     protected int getIndex(String uuid) {
         Resume resume = new Resume(uuid);
         return storage.indexOf(resume);

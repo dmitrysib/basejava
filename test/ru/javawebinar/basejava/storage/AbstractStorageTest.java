@@ -1,6 +1,5 @@
 package ru.javawebinar.basejava.storage;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.javawebinar.basejava.exception.ExistStorageException;
@@ -99,17 +98,20 @@ class AbstractStorageTest {
         assertArrayEquals(array, storage.getAll());
     }
 
+    //@Disabled("storageOverflowTest: Disabled for List storage")
     @Test
     void storageOverflowTest() {
-        storage.clear();
-        try {
-            for (int i = 0; i < AbstractStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
+        if (storage.getClass().getName().contains("Array")) {
+            storage.clear();
+            try {
+                for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
+                    storage.save(new Resume());
+                }
+            } catch (StorageException e) {
+                fail("Overflow before time!");
             }
-        } catch (StorageException e) {
-            fail("Overflow before time!");
-        }
 
-        assertThrows(StorageException.class, () -> storage.save(new Resume()));
+            assertThrows(StorageException.class, () -> storage.save(new Resume()));
+        }
     }
 }

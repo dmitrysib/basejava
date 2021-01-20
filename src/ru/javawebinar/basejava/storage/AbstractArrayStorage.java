@@ -5,7 +5,8 @@ import ru.javawebinar.basejava.model.Resume;
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
-    protected Resume[] storage = new Resume[AbstractStorage.STORAGE_LIMIT];
+    protected static final int STORAGE_LIMIT = 10_000;
+    protected Resume[] storage = new Resume[AbstractArrayStorage.STORAGE_LIMIT];
     protected int size = 0;
 
     protected abstract int getIndex(String uuid);
