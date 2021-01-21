@@ -7,10 +7,12 @@ import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class AbstractStorageTest {
-    private final Storage storage;
+public abstract class AbstractStorageTest {
+    protected final Storage storage;
 
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -95,23 +97,8 @@ class AbstractStorageTest {
     @Test
     void getAll() {
         Resume[] array = {RESUME_1, RESUME_2, RESUME_3};
-        assertArrayEquals(array, storage.getAll());
-    }
-
-    //@Disabled("storageOverflowTest: Disabled for List storage")
-    @Test
-    void storageOverflowTest() {
-        if (storage.getClass().getName().contains("Array")) {
-            storage.clear();
-            try {
-                for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                    storage.save(new Resume());
-                }
-            } catch (StorageException e) {
-                fail("Overflow before time!");
-            }
-
-            assertThrows(StorageException.class, () -> storage.save(new Resume()));
-        }
+        Resume[] result = storage.getAll();
+        Arrays.sort(result);
+        assertArrayEquals(array, result);
     }
 }

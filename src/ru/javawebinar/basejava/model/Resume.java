@@ -19,6 +19,10 @@ public class Resume implements Comparable<Resume> {
         this.uuid = uuid;
     }
 
+    public String getUuid() {
+        return uuid;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -40,9 +44,5 @@ public class Resume implements Comparable<Resume> {
     @Override
     public int compareTo(Resume o) {
         return uuid.compareTo(o.getUuid());
-    }
-
-    public String getUuid() {
-        return uuid;
     }
 }

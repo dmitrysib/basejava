@@ -5,8 +5,6 @@ import java.util.ArrayList;
 public class ListStorageTest extends AbstractStorageTest {
 
     ListStorageTest() {
-        super(new ListStorage(
-                new ArrayList<>()
-        ));
+        super(new ListStorage(new ArrayList<>()));
     }
 }

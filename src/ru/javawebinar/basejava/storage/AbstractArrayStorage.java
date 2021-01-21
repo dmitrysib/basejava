@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_LIMIT = 10_000;
-    protected Resume[] storage = new Resume[AbstractArrayStorage.STORAGE_LIMIT];
+    protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
     protected abstract int getIndex(String uuid);
@@ -32,7 +32,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getElement(int index) {
+    protected Resume getElement(int index, String uuid) {
         return storage[index];
     }
 
@@ -48,7 +48,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void deleteElement(int index) {
+    protected void deleteElement(int index, String uuid) {
         deleteResumeFromArray(index);
         storage[size - 1] = null;
         size--;
