@@ -7,24 +7,30 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract int eIndex(String uuid);
 
-    protected abstract Resume eGet(int index);
+    protected abstract Resume eGet(String searchKey);
 
-    protected abstract void eUpdate(int index, Resume resume);
+    protected abstract void eUpdate(String searchKey, Resume resume);
 
-    protected abstract void eSave(int index, Resume resume);
+    protected abstract void eSave(String searchKey, Resume resume);
 
-    protected abstract void eDelete(int index);
+    protected abstract void eDelete(String searchKey);
 
-    // test for...
-    private int getIndex(String uuid, boolean exist) {
+    // test for maps....
+    // hook: для всех возращает индекс, для МАПов - uuid
+    protected String selectIndexOrKey(int index, String searchKey) {
+        return Integer.toString(index);
+    }
+
+    private String getIndex(String uuid, boolean exist) {
         int index = eIndex(uuid);
         if (!exist && index < 0) {
             throw new NotExistStorageException(uuid);
         } else if (exist && index >= 0) {
             throw new ExistStorageException(uuid);
         }
-        return index;
+        return selectIndexOrKey(index, uuid);
     }
+    // test for maps....
 
     @Override
     public Resume get(String uuid) {
@@ -32,13 +38,13 @@ public abstract class AbstractStorage implements Storage {
     }
 
     @Override
-    public void update(Resume resume) {
-        eUpdate(getIndex(resume.getUuid(), false), resume);
+    public void delete(String uuid) {
+        eDelete(getIndex(uuid, false));
     }
 
     @Override
-    public void delete(String uuid) {
-        eDelete(getIndex(uuid, false));
+    public void update(Resume resume) {
+        eUpdate(getIndex(resume.getUuid(), false), resume);
     }
 
     @Override

@@ -18,23 +18,23 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume eGet(int index) {
-        return storage.get(index);
+    protected Resume eGet(String searchKey) {
+        return storage.get(Integer.parseInt(searchKey));
     }
 
     @Override
-    protected void eUpdate(int index, Resume resume) {
-        storage.set(index, resume);
+    protected void eUpdate(String searchKey, Resume resume) {
+        storage.set(Integer.parseInt(searchKey), resume);
     }
 
     @Override
-    protected void eSave(int index, Resume resume) {
+    protected void eSave(String searchKey, Resume resume) {
         storage.add(resume);
     }
 
     @Override
-    protected void eDelete(int index) {
-        storage.remove(index);
+    protected void eDelete(String searchKey) {
+        storage.remove(Integer.parseInt(searchKey));
     }
 
     @Override
