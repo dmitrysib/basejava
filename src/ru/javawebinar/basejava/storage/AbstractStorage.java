@@ -7,17 +7,13 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract int getIndex(String uuid);
 
-    protected abstract Resume getElement(int index, String uuid);
+    protected abstract Resume getElement(int index);
 
     protected abstract void updateElement(int index, Resume resume);
 
     protected abstract void saveElement(int index, Resume resume);
 
-    protected abstract void deleteElement(int index, String uuid);
-
-    protected boolean checkStorageLimit() {
-        return true;
-    }
+    protected abstract void deleteElement(int index);
 
     @Override
     public Resume get(String uuid) {
@@ -25,7 +21,7 @@ public abstract class AbstractStorage implements Storage {
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         } else {
-            return getElement(index, uuid);
+            return getElement(index);
         }
     }
 
@@ -45,7 +41,7 @@ public abstract class AbstractStorage implements Storage {
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         } else {
-            deleteElement(index, uuid);
+            deleteElement(index);
         }
     }
 
@@ -54,8 +50,6 @@ public abstract class AbstractStorage implements Storage {
         int index = getIndex(resume.getUuid());
         if (index > -1) {
             throw new ExistStorageException(resume.getUuid());
-        } else if (checkStorageLimit() && size() == AbstractArrayStorage.STORAGE_LIMIT) {
-            throw new StorageException("Storage overflow", resume.getUuid());
         } else {
             saveElement(index, resume);
         }

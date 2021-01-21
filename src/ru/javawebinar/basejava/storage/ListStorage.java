@@ -12,11 +12,6 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public int size() {
-        return storage.size();
-    }
-
-    @Override
     public void clear() {
         storage.clear();
     }
@@ -27,18 +22,13 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean checkStorageLimit() {
-        return false;
-    }
-
-    @Override
     protected int getIndex(String uuid) {
         Resume resume = new Resume(uuid);
         return storage.indexOf(resume);
     }
 
     @Override
-    protected Resume getElement(int index, String uuid) {
+    protected Resume getElement(int index) {
         return storage.get(index);
     }
 
@@ -53,7 +43,12 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void deleteElement(int index, String uuid) {
+    protected void deleteElement(int index) {
         storage.remove(index);
+    }
+
+    @Override
+    public int size() {
+        return storage.size();
     }
 }
