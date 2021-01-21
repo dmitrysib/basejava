@@ -21,6 +21,10 @@ public abstract class AbstractStorage implements Storage {
         return true;
     }
 
+    protected boolean checkStorageLimit() {
+        return true;
+    }
+
     @Override
     public Resume get(String uuid) {
         int index = getIndex(uuid);
