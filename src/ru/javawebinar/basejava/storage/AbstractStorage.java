@@ -5,53 +5,44 @@ import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected abstract int getIndex(String uuid);
+    protected abstract int eIndex(String uuid);
 
-    protected abstract Resume getElement(int index);
+    protected abstract Resume eGet(int index);
 
-    protected abstract void updateElement(int index, Resume resume);
+    protected abstract void eUpdate(int index, Resume resume);
 
-    protected abstract void saveElement(int index, Resume resume);
+    protected abstract void eSave(int index, Resume resume);
 
-    protected abstract void deleteElement(int index);
+    protected abstract void eDelete(int index);
+
+    // test for...
+    private int getIndex(String uuid, boolean exist) {
+        int index = eIndex(uuid);
+        if (!exist && index < 0) {
+            throw new NotExistStorageException(uuid);
+        } else if (exist && index >= 0) {
+            throw new ExistStorageException(uuid);
+        }
+        return index;
+    }
 
     @Override
     public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            return getElement(index);
-        }
+        return eGet(getIndex(uuid, false));
     }
 
     @Override
     public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        } else {
-            updateElement(index, resume);
-        }
+        eUpdate(getIndex(resume.getUuid(), false), resume);
     }
 
     @Override
     public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            deleteElement(index);
-        }
+        eDelete(getIndex(uuid, false));
     }
 
     @Override
     public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index > -1) {
-            throw new ExistStorageException(resume.getUuid());
-        } else {
-            saveElement(index, resume);
-        }
+        eSave(getIndex(resume.getUuid(), true), resume);
     }
 }
