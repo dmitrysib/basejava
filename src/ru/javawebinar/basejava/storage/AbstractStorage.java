@@ -16,19 +16,14 @@ public abstract class AbstractStorage implements Storage {
     protected abstract void eDelete(String searchKey);
 
     // test for maps....
-    // hook: для всех возращает индекс, для МАПов - uuid
-    protected String selectIndexOrKey(int index, String searchKey) {
-        return Integer.toString(index);
-    }
-
-    private String getIndex(String uuid, boolean exist) {
+    protected String getIndex(String uuid, boolean exist) {
         int index = eIndex(uuid);
         if (!exist && index < 0) {
             throw new NotExistStorageException(uuid);
         } else if (exist && index >= 0) {
             throw new ExistStorageException(uuid);
         }
-        return selectIndexOrKey(index, uuid);
+        return Integer.toString(index);
     }
     // test for maps....
 

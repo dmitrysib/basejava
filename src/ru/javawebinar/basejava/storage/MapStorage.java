@@ -12,12 +12,14 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected int eIndex(String uuid) {
-        return storage.containsKey(uuid) ? 1 : -1;
+    protected String getIndex(String uuid, boolean exist) {
+        super.getIndex(uuid, exist);
+        return uuid;
     }
 
-    protected String selectIndexOrKey(int index, String searchKey) {
-        return searchKey;
+    @Override
+    protected int eIndex(String uuid) {
+        return storage.containsKey(uuid) ? 1 : -1;
     }
 
     @Override
