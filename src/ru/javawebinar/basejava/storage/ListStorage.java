@@ -2,7 +2,7 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.*;
+import java.util.List;
 
 public class ListStorage extends AbstractStorage {
     private final List<Resume> storage;
