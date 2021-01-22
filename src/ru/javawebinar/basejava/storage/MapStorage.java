@@ -30,12 +30,14 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void eUpdate(Object searchKey, Resume resume) {
-        storage.replace(resume.getUuid(), resume);
+        String key = (String) searchKey;
+        storage.replace(key, resume);
     }
 
     @Override
     protected void eSave(Object searchKey, Resume resume) {
-        storage.put(resume.getUuid(), resume);
+        String key = (String) searchKey;
+        storage.put(key, resume);
     }
 
     @Override
