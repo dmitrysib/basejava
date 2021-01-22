@@ -5,18 +5,18 @@ import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected abstract int eIndex(String uuid);
+    protected abstract int getIndex(String uuid);
 
-    protected abstract Resume eGet(Object searchKey);
+    protected abstract Resume executeGet(Object searchKey);
 
-    protected abstract void eUpdate(Object searchKey, Resume resume);
+    protected abstract void executeUpdate(Object searchKey, Resume resume);
 
-    protected abstract void eSave(Object searchKey, Resume resume);
+    protected abstract void executeSave(Object searchKey, Resume resume);
 
-    protected abstract void eDelete(Object searchKey);
+    protected abstract void executeDelete(Object searchKey);
 
     protected Object getExistIndex(String searchKey) {
-        int index = eIndex(searchKey);
+        int index = getIndex(searchKey);
         if (index < 0) {
             throw new NotExistStorageException(searchKey);
         }
@@ -24,7 +24,7 @@ public abstract class AbstractStorage implements Storage {
     }
 
     protected Object getNotExistIndex(String searchKey) {
-        int index = eIndex(searchKey);
+        int index = getIndex(searchKey);
         if (index >= 0) {
             throw new ExistStorageException(searchKey);
         }
@@ -33,21 +33,21 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        return eGet(getExistIndex(uuid));
+        return executeGet(getExistIndex(uuid));
     }
 
     @Override
     public void delete(String uuid) {
-        eDelete(getExistIndex(uuid));
+        executeDelete(getExistIndex(uuid));
     }
 
     @Override
     public void update(Resume resume) {
-        eUpdate(getExistIndex(resume.getUuid()), resume);
+        executeUpdate(getExistIndex(resume.getUuid()), resume);
     }
 
     @Override
     public void save(Resume resume) {
-        eSave(getNotExistIndex(resume.getUuid()), resume);
+        executeSave(getNotExistIndex(resume.getUuid()), resume);
     }
 }
