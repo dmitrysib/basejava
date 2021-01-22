@@ -24,7 +24,8 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Resume eGet(Object searchKey) {
-        return storage.get(searchKey);
+        String key = (String) searchKey;
+        return storage.get(key);
     }
 
     @Override
@@ -39,7 +40,8 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void eDelete(Object searchKey) {
-        storage.remove(searchKey);
+        String key = (String) searchKey;
+        storage.remove(key);
     }
 
     @Override
