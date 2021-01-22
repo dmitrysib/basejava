@@ -12,8 +12,14 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected String getIndex(String searchKey, boolean exist) {
-        super.getIndex(searchKey, exist);
+    protected Object getNotExistIndex(String searchKey) {
+        super.getNotExistIndex(searchKey);
+        return searchKey;
+    }
+
+    @Override
+    protected Object getExistIndex(String searchKey) {
+        super.getExistIndex(searchKey);
         return searchKey;
     }
 
