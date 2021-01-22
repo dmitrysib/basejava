@@ -7,7 +7,7 @@ import java.util.Map;
 public class MapStorage extends AbstractStorage {
     private final Map<String, Resume> storage;
 
-    MapStorage(Map<String, Resume> storage) {
+    public MapStorage(Map<String, Resume> storage) {
         this.storage = storage;
     }
 
