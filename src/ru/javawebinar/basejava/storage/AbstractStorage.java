@@ -7,23 +7,23 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract int eIndex(String uuid);
 
-    protected abstract Resume eGet(String searchKey);
+    protected abstract Resume eGet(Object searchKey);
 
-    protected abstract void eUpdate(String searchKey, Resume resume);
+    protected abstract void eUpdate(Object searchKey, Resume resume);
 
-    protected abstract void eSave(String searchKey, Resume resume);
+    protected abstract void eSave(Object searchKey, Resume resume);
 
-    protected abstract void eDelete(String searchKey);
+    protected abstract void eDelete(Object searchKey);
 
     // test for maps....
-    protected String getIndex(String uuid, boolean exist) {
+    protected Object getIndex(String uuid, boolean exist) {
         int index = eIndex(uuid);
         if (!exist && index < 0) {
             throw new NotExistStorageException(uuid);
         } else if (exist && index >= 0) {
             throw new ExistStorageException(uuid);
         }
-        return Integer.toString(index);
+        return index;
     }
     // test for maps....
 

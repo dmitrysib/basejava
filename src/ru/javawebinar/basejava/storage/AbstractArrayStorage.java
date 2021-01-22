@@ -31,27 +31,27 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume eGet(String searchKey) {
-        return storage[Integer.parseInt(searchKey)];
+    protected Resume eGet(Object searchKey) {
+        return storage[(int) searchKey];
     }
 
     @Override
-    protected void eUpdate(String searchKey, Resume resume) {
-        storage[Integer.parseInt(searchKey)] = resume;
+    protected void eUpdate(Object searchKey, Resume resume) {
+        storage[(int) searchKey] = resume;
     }
 
     @Override
-    protected void eSave(String searchKey, Resume resume) {
+    protected void eSave(Object searchKey, Resume resume) {
         if (size == AbstractArrayStorage.STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
-        aSave(Integer.parseInt(searchKey), resume);
+        aSave((int) searchKey, resume);
         size++;
     }
 
     @Override
-    protected void eDelete(String searchKey) {
-        aDelete(Integer.parseInt(searchKey));
+    protected void eDelete(Object searchKey) {
+        aDelete((int) searchKey);
         storage[size - 1] = null;
         size--;
     }
