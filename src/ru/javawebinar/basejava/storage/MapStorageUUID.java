@@ -30,6 +30,7 @@ public class MapStorageUUID extends AbstractStorage {
 
     @Override
     protected Resume executeGet(Object key) {
+        // Insert string variable to suppress IDE warning cast Object -> String
         String strKey = (String) key;
         return storage.get(strKey);
     }
@@ -46,6 +47,7 @@ public class MapStorageUUID extends AbstractStorage {
 
     @Override
     protected void executeDelete(Object key) {
+        // Insert string variable to suppress IDE warning cast Object -> String
         String strKey = (String) key;
         storage.remove(strKey);
     }
