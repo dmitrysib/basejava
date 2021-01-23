@@ -3,6 +3,9 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.exception.*;
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.Comparator;
+import java.util.List;
+
 public abstract class AbstractStorage implements Storage {
 
     protected abstract Object getKey(String key);
@@ -18,6 +21,8 @@ public abstract class AbstractStorage implements Storage {
     protected abstract void executeSave(Object key, Resume resume);
 
     protected abstract void executeDelete(Object key);
+
+    protected abstract List<Resume> getArrayCopy();
 
     private Object getExistKey(String value) {
         Object key = getKey(value);
@@ -57,5 +62,12 @@ public abstract class AbstractStorage implements Storage {
     public void save(Resume resume) {
         Object key = getNotExistKey(resume.getUuid());
         executeSave(key, resume);
+    }
+
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> array = getArrayCopy();
+        array.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
+        return array;
     }
 }

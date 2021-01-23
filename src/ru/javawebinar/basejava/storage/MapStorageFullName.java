@@ -3,9 +3,9 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class MapStorageFullName extends AbstractStorage {
     private final Map<String, Resume> storage;
@@ -46,7 +46,9 @@ public class MapStorageFullName extends AbstractStorage {
     @Override
     protected void executeUpdate(Object key, Resume resume) {
         Resume r = getResumeByFullName((String) key);
-        storage.replace(r.getUuid(), resume);
+
+        // Insert Objects.requireNonNull to suppress IDE warning
+        storage.replace(Objects.requireNonNull(r).getUuid(), resume);
     }
 
     @Override
@@ -57,7 +59,9 @@ public class MapStorageFullName extends AbstractStorage {
     @Override
     protected void executeDelete(Object key) {
         Resume resume = getResumeByFullName((String) key);
-        storage.remove(resume.getUuid());
+
+        // Insert Objects.requireNonNull to suppress IDE warning
+        storage.remove(Objects.requireNonNull(resume).getUuid());
     }
 
     @Override
@@ -66,10 +70,8 @@ public class MapStorageFullName extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> copy = new ArrayList<>(List.copyOf(storage.values()));
-        copy.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
-        return copy;
+    protected List<Resume> getArrayCopy() {
+        return new ArrayList<>(List.copyOf(storage.values()));
     }
 
     @Override

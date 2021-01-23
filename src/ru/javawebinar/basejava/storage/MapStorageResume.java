@@ -3,7 +3,6 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -55,10 +54,8 @@ public class MapStorageResume extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> copy = new ArrayList<>(List.copyOf(storage.values()));
-        copy.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
-        return copy;
+    protected List<Resume> getArrayCopy() {
+        return new ArrayList<>(List.copyOf(storage.values()));
     }
 
     @Override
