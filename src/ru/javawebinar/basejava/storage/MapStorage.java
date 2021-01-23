@@ -25,7 +25,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getKey(String key) {
+    protected Object getKey(Object key) {
         for (Map.Entry<String, Resume> entry: storage.entrySet()) {
             if (entry.getKey().equals(key)) {
                 return entry.getKey();
@@ -34,9 +34,18 @@ public class MapStorage extends AbstractStorage {
         return null;
     }
 
-    protected Object getKeyForValue(String value) {
+    protected Object getKeyByResume(Object key) {
         for (Map.Entry<String, Resume> entry: storage.entrySet()) {
-            if (entry.getValue().getFullName().equals(value)) {
+            if (entry.getValue().equals(key)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    protected Object getKeyByFullName(Object key) {
+        for (Map.Entry<String, Resume> entry: storage.entrySet()) {
+            if (entry.getValue().getFullName().equals(key)) {
                 return entry.getKey();
             }
         }
