@@ -70,7 +70,7 @@ public class MapStorageFullName extends AbstractStorage {
     }
 
     @Override
-    protected List<Resume> getArrayCopy() {
+    protected List<Resume> getArrayList() {
         return new ArrayList<>(storage.values());
     }
 

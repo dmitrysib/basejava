@@ -22,7 +22,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void executeDelete(Object key);
 
-    protected abstract List<Resume> getArrayCopy();
+    protected abstract List<Resume> getArrayList();
 
     private Object getExistKey(String value) {
         Object key = getKey(value);
@@ -66,7 +66,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> array = getArrayCopy();
+        List<Resume> array = getArrayList();
         array.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
         return array;
     }
