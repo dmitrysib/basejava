@@ -34,6 +34,15 @@ public class MapStorage extends AbstractStorage {
         return null;
     }
 
+    protected Object getKeyForValue(String value) {
+        for (Map.Entry<String, Resume> entry: storage.entrySet()) {
+            if (entry.getValue().getFullName().equals(value)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
     @Override
     protected Resume executeGet(Object key) {
         String stringKey = (String) key;
