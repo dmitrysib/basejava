@@ -5,49 +5,57 @@ import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected abstract int getIndex(String uuid);
+    protected abstract Object getKey(String key);
 
-    protected abstract Resume executeGet(Object searchKey);
+    protected abstract boolean keyIsNotExist(Object key);
 
-    protected abstract void executeUpdate(Object searchKey, Resume resume);
+    protected abstract boolean keyIsExist(Object key);
 
-    protected abstract void executeSave(Object searchKey, Resume resume);
+    protected abstract Resume executeGet(Object key);
 
-    protected abstract void executeDelete(Object searchKey);
+    protected abstract void executeUpdate(Object key, Resume resume);
 
-    protected Object getExistIndex(String searchKey) {
-        int index = getIndex(searchKey);
-        if (index < 0) {
-            throw new NotExistStorageException(searchKey);
+    protected abstract void executeSave(Object key, Resume resume);
+
+    protected abstract void executeDelete(Object key);
+
+    protected Object getExistKey(String key) {
+        Object result = getKey(key);
+        if (keyIsNotExist(result)) {
+            throw new NotExistStorageException(key);
         }
-        return index;
+        return result;
     }
 
-    protected Object getNotExistIndex(String searchKey) {
-        int index = getIndex(searchKey);
-        if (index >= 0) {
-            throw new ExistStorageException(searchKey);
+    protected Object getNotExistKey(String key) {
+        Object result = getKey(key);
+        if (keyIsExist(result)) {
+            throw new ExistStorageException(key);
         }
-        return index;
+        return result;
     }
 
     @Override
     public Resume get(String uuid) {
-        return executeGet(getExistIndex(uuid));
+        Object key = getExistKey(uuid);
+        return executeGet(key);
     }
 
     @Override
     public void delete(String uuid) {
-        executeDelete(getExistIndex(uuid));
+        Object key = getExistKey(uuid);
+        executeDelete(key);
     }
 
     @Override
     public void update(Resume resume) {
-        executeUpdate(getExistIndex(resume.getUuid()), resume);
+        Object key = getExistKey(resume.getUuid());
+        executeUpdate(key, resume);
     }
 
     @Override
     public void save(Resume resume) {
-        executeSave(getNotExistIndex(resume.getUuid()), resume);
+        Object key = getNotExistKey(resume.getUuid());
+        executeSave(key, resume);
     }
 }

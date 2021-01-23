@@ -15,49 +15,45 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getNotExistIndex(String searchKey) {
-        super.getNotExistIndex(searchKey);
-        return searchKey;
+    protected boolean keyIsExist(Object key) {
+        return key != null;
     }
 
     @Override
-    protected Object getExistIndex(String searchKey) {
-        super.getExistIndex(searchKey);
-        return searchKey;
+    protected boolean keyIsNotExist(Object key) {
+        return key == null;
     }
 
     @Override
-    protected int getIndex(String searchKey) {
+    protected Object getKey(String key) {
         for (Map.Entry<String, Resume> entry: storage.entrySet()) {
-            if (entry.getKey().equals(searchKey)) {
-                return 1;
+            if (entry.getKey().equals(key)) {
+                return entry.getKey();
             }
         }
-        return -1;
+        return null;
     }
 
     @Override
-    protected Resume executeGet(Object searchKey) {
-        String key = (String) searchKey;
-        return storage.get(key);
+    protected Resume executeGet(Object key) {
+        String stringKey = (String) key;
+        return storage.get(stringKey);
     }
 
     @Override
-    protected void executeUpdate(Object searchKey, Resume resume) {
-        String key = (String) searchKey;
-        storage.replace(key, resume);
+    protected void executeUpdate(Object key, Resume resume) {
+        storage.replace((String) key, resume);
     }
 
     @Override
-    protected void executeSave(Object searchKey, Resume resume) {
-        String key = (String) searchKey;
-        storage.put(key, resume);
+    protected void executeSave(Object key, Resume resume) {
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void executeDelete(Object searchKey) {
-        String key = (String) searchKey;
-        storage.remove(key);
+    protected void executeDelete(Object key) {
+        String stringKey = (String) key;
+        storage.remove(stringKey);
     }
 
     @Override
