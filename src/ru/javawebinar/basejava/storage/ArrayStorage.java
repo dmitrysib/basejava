@@ -8,9 +8,9 @@ import ru.javawebinar.basejava.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected Object getKey(Object key) {
+    protected Object getKey(String value) {
         for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(key))
+            if (storage[i].getUuid().equals(value))
                 return i;
         }
         return -1;

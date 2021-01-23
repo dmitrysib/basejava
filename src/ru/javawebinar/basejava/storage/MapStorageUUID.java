@@ -7,10 +7,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-public class MapStorage extends AbstractStorage {
+public class MapStorageUUID extends AbstractStorage {
     private final Map<String, Resume> storage;
 
-    public MapStorage(Map<String, Resume> storage) {
+    public MapStorageUUID(Map<String, Resume> storage) {
         this.storage = storage;
     }
 
@@ -25,37 +25,13 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getKey(Object key) {
-        for (Map.Entry<String, Resume> entry: storage.entrySet()) {
-            if (entry.getKey().equals(key)) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
-
-    protected Object getKeyByResume(Object key) {
-        for (Map.Entry<String, Resume> entry: storage.entrySet()) {
-            if (entry.getValue().equals(key)) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
-
-    protected Object getKeyByFullName(Object key) {
-        for (Map.Entry<String, Resume> entry: storage.entrySet()) {
-            if (entry.getValue().getFullName().equals(key)) {
-                return entry.getKey();
-            }
-        }
-        return null;
+    protected Object getKey(String key) {
+        return storage.get(key) == null ? null : key;
     }
 
     @Override
     protected Resume executeGet(Object key) {
-        String stringKey = (String) key;
-        return storage.get(stringKey);
+        return storage.get((String) key);
     }
 
     @Override
@@ -70,8 +46,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void executeDelete(Object key) {
-        String stringKey = (String) key;
-        storage.remove(stringKey);
+        storage.remove((String) key);
     }
 
     @Override

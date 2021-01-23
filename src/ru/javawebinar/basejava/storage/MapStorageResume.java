@@ -5,52 +5,48 @@ import ru.javawebinar.basejava.model.Resume;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
-public class ListStorage extends AbstractStorage {
-    private final List<Resume> storage;
+public class MapStorageResume extends AbstractStorage {
+    private final Map<String, Resume> storage;
 
-    public ListStorage(List<Resume> storage) {
+    public MapStorageResume(Map<String, Resume> storage) {
         this.storage = storage;
     }
 
     @Override
     protected boolean keyIsExist(Object key) {
-        return (int) key > -1;
+        return key != null;
     }
 
     @Override
     protected boolean keyIsNotExist(Object key) {
-        return (int) key < 0;
+        return key == null;
     }
 
     @Override
-    protected Integer getKey(String key) {
-        for (int i = 0; i < size(); i++) {
-            if (storage.get(i).getUuid().equals(key)) {
-                return i;
-            }
-        }
-        return -1;
+    protected Object getKey(String key) {
+        return storage.get(key);
     }
 
     @Override
     protected Resume executeGet(Object key) {
-        return storage.get((int) key);
+        return (Resume) key;
     }
 
     @Override
     protected void executeUpdate(Object key, Resume resume) {
-        storage.set((int) key, resume);
+        storage.replace(((Resume) key).getUuid(), resume);
     }
 
     @Override
     protected void executeSave(Object key, Resume resume) {
-        storage.add(resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
     protected void executeDelete(Object key) {
-        storage.remove((int) key);
+        storage.remove(((Resume) key).getUuid());
     }
 
     @Override
@@ -60,7 +56,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> copy = new ArrayList<>(storage);
+        List<Resume> copy = new ArrayList<>(List.copyOf(storage.values()));
         copy.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
         return copy;
     }

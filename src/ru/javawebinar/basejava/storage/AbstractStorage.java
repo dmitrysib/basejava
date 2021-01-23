@@ -5,7 +5,7 @@ import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected abstract Object getKey(Object key);
+    protected abstract Object getKey(String key);
 
     protected abstract boolean keyIsNotExist(Object key);
 
@@ -19,20 +19,20 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void executeDelete(Object key);
 
-    private Object getExistKey(Object key) {
-        Object result = getKey(key);
-        if (keyIsNotExist(result)) {
-            throw new NotExistStorageException(key);
+    private Object getExistKey(String value) {
+        Object key = getKey(value);
+        if (keyIsNotExist(key)) {
+            throw new NotExistStorageException(value);
         }
-        return result;
+        return key;
     }
 
-    private Object getNotExistKey(Object key) {
-        Object result = getKey(key);
-        if (keyIsExist(result)) {
-            throw new ExistStorageException(key);
+    private Object getNotExistKey(String value) {
+        Object key = getKey(value);
+        if (keyIsExist(key)) {
+            throw new ExistStorageException(value);
         }
-        return result;
+        return key;
     }
 
     @Override
