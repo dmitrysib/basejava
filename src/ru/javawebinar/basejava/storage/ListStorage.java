@@ -2,6 +2,8 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
@@ -43,8 +45,10 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.toArray(Resume[]::new);
+    public List<Resume> getAllSorted() {
+        List<Resume> copy = new ArrayList<>(storage);
+        copy.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
+        return copy;
     }
 
     @Override

@@ -6,19 +6,20 @@ import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.Arrays;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public abstract class AbstractStorageTest {
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";
-    private static final Resume RESUME_1 = new Resume(UUID_1);
-    private static final Resume RESUME_2 = new Resume(UUID_2);
-    private static final Resume RESUME_3 = new Resume(UUID_3);
-    private static final Resume RESUME_4 = new Resume(UUID_4);
+    private static final Resume RESUME_1 = new Resume(UUID_1, "Alex Smith");
+    private static final Resume RESUME_2 = new Resume(UUID_2, "John Wick");
+    private static final Resume RESUME_3 = new Resume(UUID_3, "Tom sawyer");
+    private static final Resume RESUME_4 = new Resume(UUID_4, "John Doe");
     protected final Storage storage;
 
     public AbstractStorageTest(Storage storage) {
@@ -28,9 +29,9 @@ public abstract class AbstractStorageTest {
     @BeforeEach
     void setUp() {
         storage.clear();
-        storage.save(RESUME_1);
         storage.save(RESUME_2);
         storage.save(RESUME_3);
+        storage.save(RESUME_1);
     }
 
     @Test
@@ -92,10 +93,10 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    void getAll() {
-        Resume[] array = {RESUME_1, RESUME_2, RESUME_3};
-        Resume[] result = storage.getAll();
-        Arrays.sort(result);
-        assertArrayEquals(array, result);
+    void getAllSorted() {
+        List<Resume> result = storage.getAllSorted();
+        assertEquals(RESUME_1, result.get(0));
+        assertEquals(RESUME_2, result.get(1));
+        assertEquals(RESUME_3, result.get(2));
     }
 }
