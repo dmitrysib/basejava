@@ -6,6 +6,8 @@ import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -59,7 +61,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     void updateNotExist() {
-        assertThrows(NotExistStorageException.class, () -> storage.update(new Resume(UUID_4)));
+        assertThrows(NotExistStorageException.class, () -> storage.update(RESUME_4));
     }
 
     @Test
@@ -83,7 +85,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     void saveExist() {
-        assertThrows(ExistStorageException.class, () -> storage.save(new Resume(UUID_1)));
+        assertThrows(ExistStorageException.class, () -> storage.save(RESUME_1));
     }
 
     @Test
@@ -94,9 +96,8 @@ public abstract class AbstractStorageTest {
 
     @Test
     void getAllSorted() {
+        List<Resume> expectedResult = new ArrayList<>(Arrays.asList( RESUME_1, RESUME_2, RESUME_3));
         List<Resume> result = storage.getAllSorted();
-        assertEquals(RESUME_1, result.get(0));
-        assertEquals(RESUME_2, result.get(1));
-        assertEquals(RESUME_3, result.get(2));
+        assertEquals(expectedResult, result);
     }
 }

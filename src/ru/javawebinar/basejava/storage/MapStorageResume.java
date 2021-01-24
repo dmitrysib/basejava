@@ -14,13 +14,8 @@ public class MapStorageResume extends AbstractStorage {
     }
 
     @Override
-    protected boolean keyIsExist(Object key) {
+    protected boolean isExit(Object key) {
         return key != null;
-    }
-
-    @Override
-    protected boolean keyIsNotExist(Object key) {
-        return key == null;
     }
 
     @Override

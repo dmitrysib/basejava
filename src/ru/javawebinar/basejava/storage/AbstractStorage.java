@@ -10,9 +10,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Object getKey(String key);
 
-    protected abstract boolean keyIsNotExist(Object key);
-
-    protected abstract boolean keyIsExist(Object key);
+    protected abstract boolean isExit(Object key);
 
     protected abstract Resume executeGet(Object key);
 
@@ -23,22 +21,6 @@ public abstract class AbstractStorage implements Storage {
     protected abstract void executeDelete(Object key);
 
     protected abstract List<Resume> getArrayList();
-
-    private Object getExistKey(String value) {
-        Object key = getKey(value);
-        if (keyIsNotExist(key)) {
-            throw new NotExistStorageException(value);
-        }
-        return key;
-    }
-
-    private Object getNotExistKey(String value) {
-        Object key = getKey(value);
-        if (keyIsExist(key)) {
-            throw new ExistStorageException(value);
-        }
-        return key;
-    }
 
     @Override
     public Resume get(String uuid) {
@@ -62,6 +44,22 @@ public abstract class AbstractStorage implements Storage {
     public void save(Resume resume) {
         Object key = getNotExistKey(resume.getUuid());
         executeSave(key, resume);
+    }
+
+    private Object getExistKey(String uuid) {
+        Object key = getKey(uuid);
+        if (!isExit(key)) {
+            throw new NotExistStorageException(uuid);
+        }
+        return key;
+    }
+
+    private Object getNotExistKey(String uuid) {
+        Object key = getKey(uuid);
+        if (isExit(key)) {
+            throw new ExistStorageException(uuid);
+        }
+        return key;
     }
 
     @Override

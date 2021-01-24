@@ -6,21 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MapStorageUUID extends AbstractStorage {
+public class MapStorageUuid extends AbstractStorage {
     private final Map<String, Resume> storage;
 
-    public MapStorageUUID(Map<String, Resume> storage) {
+    public MapStorageUuid(Map<String, Resume> storage) {
         this.storage = storage;
     }
 
     @Override
-    protected boolean keyIsExist(Object key) {
+    protected boolean isExit(Object key) {
         return key != null;
-    }
-
-    @Override
-    protected boolean keyIsNotExist(Object key) {
-        return key == null;
     }
 
     @Override
