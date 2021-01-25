@@ -5,7 +5,7 @@ import ru.javawebinar.basejava.model.Resume;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage<Integer> {
     private final List<Resume> storage;
 
     public ListStorage(List<Resume> storage) {
@@ -13,8 +13,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExit(Object key) {
-        return (int) key >= 0;
+    protected boolean isExit(Integer key) {
+        return key >= 0;
     }
 
     @Override
@@ -28,22 +28,22 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume executeGet(Object key) {
-        return storage.get((int) key);
+    protected Resume executeGet(Integer key) {
+        return storage.get(key);
     }
 
     @Override
-    protected void executeUpdate(Object key, Resume resume) {
-        storage.set((int) key, resume);
+    protected void executeUpdate(Integer key, Resume resume) {
+        storage.set(key, resume);
     }
 
     @Override
-    protected void executeSave(Object key, Resume resume) {
+    protected void executeSave(Integer key, Resume resume) {
         storage.add(resume);
     }
 
     @Override
-    protected void executeDelete(Object key) {
+    protected void executeDelete(Integer key) {
         storage.remove((int) key);
     }
 

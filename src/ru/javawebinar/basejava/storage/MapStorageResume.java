@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MapStorageResume extends AbstractStorage {
+public class MapStorageResume extends AbstractStorage<Resume> {
     private final Map<String, Resume> storage;
 
     public MapStorageResume(Map<String, Resume> storage) {
@@ -14,33 +14,33 @@ public class MapStorageResume extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExit(Object key) {
+    protected boolean isExit(Resume key) {
         return key != null;
     }
 
     @Override
-    protected Object getKey(String key) {
+    protected Resume getKey(String key) {
         return storage.get(key);
     }
 
     @Override
-    protected Resume executeGet(Object key) {
-        return (Resume) key;
+    protected Resume executeGet(Resume key) {
+        return key;
     }
 
     @Override
-    protected void executeUpdate(Object key, Resume resume) {
-        storage.replace(((Resume) key).getUuid(), resume);
+    protected void executeUpdate(Resume key, Resume resume) {
+        storage.replace(key.getUuid(), resume);
     }
 
     @Override
-    protected void executeSave(Object key, Resume resume) {
+    protected void executeSave(Resume key, Resume resume) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void executeDelete(Object key) {
-        storage.remove(((Resume) key).getUuid());
+    protected void executeDelete(Resume key) {
+        storage.remove(key.getUuid());
     }
 
     @Override
