@@ -18,8 +18,24 @@ public class Resume implements Comparable<Resume> {
     }
 
     public Resume(String uuid, String fullName) {
+        Objects.requireNonNull(uuid, "uuid cannot be null");
+        Objects.requireNonNull(fullName, "fullName cannot be null");
+
         this.uuid = uuid;
         this.fullName = fullName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Resume resume = (Resume) o;
+        return getUuid().equals(resume.getUuid()) && getFullName().equals(resume.getFullName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUuid(), getFullName());
     }
 
     public String getUuid() {
@@ -31,25 +47,16 @@ public class Resume implements Comparable<Resume> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Resume resume = (Resume) o;
-        return Objects.equals(getUuid(), resume.getUuid());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getUuid());
-    }
-
-    @Override
     public String toString() {
-        return uuid;
+        return uuid + '(' + fullName + ')';
     }
 
     @Override
     public int compareTo(Resume o) {
-        return uuid.compareTo(o.getUuid());
+        int cmp = fullName.compareTo(o.getFullName());
+        if (cmp == 0) {
+            cmp = uuid.compareTo(o.getUuid());
+        }
+        return cmp;
     }
 }
