@@ -2,20 +2,20 @@ package ru.javawebinar.basejava.model;
 
 import java.util.List;
 
-public class ListSection extends AbstractSection<String> {
+public class Organization extends AbstractSection<Experience> {
 
-    public ListSection(List<String> elements) {
+    public Organization(List<Experience> elements) {
         super(elements);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (String element : elements) {
+        for (Experience experience : elements) {
             if (sb.length() > 0) {
-                sb.append("\n");
+                sb.append(",\n");
             }
-            sb.append("\t'").append(element).append('\'');
+            sb.append("\t").append(experience);
         }
         return "[\n" + sb.toString() + "\n]";
     }

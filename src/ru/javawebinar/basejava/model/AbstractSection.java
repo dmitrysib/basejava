@@ -2,23 +2,13 @@ package ru.javawebinar.basejava.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public abstract class AbstractSection<ST> implements Section {
-    protected List<ST> elements = new ArrayList<>();
+public abstract class AbstractSection<ST> {
+    protected List<ST> elements;
 
-    public void add(ST element) {
-        elements.add(element);
-    }
-
-    public void set(int index, ST element) {
-        elements.set(index, element);
-    }
-
-    public void del(int index) {
-        elements.remove(index);
-    }
-
-    public ST get(int index) {
-        return elements.get(index);
+    public AbstractSection(List<ST> elements) {
+        Objects.requireNonNull(elements, "elements cannot be null");
+        this.elements = new ArrayList<>(elements);
     }
 }
