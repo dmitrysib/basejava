@@ -7,15 +7,13 @@ import java.time.format.DateTimeFormatter;
 
 public class ResumeTestData {
     public static void main(String[] args) {
-        Resume resume = new Resume("John Weck");
+        Resume resume = new Resume("John Wick");
 
         AbstractSection<String> section;
-        section = new StringSection();
-        section.add("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.");
+        section = new StringSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.");
         resume.setSections(SectionType.PERSONAL, section);
 
-        section = new StringSection();
-        section.add("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям");
+        section = new StringSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям");
         resume.setSections(SectionType.OBJECTIVE, section);
 
         section = new ListSection();
