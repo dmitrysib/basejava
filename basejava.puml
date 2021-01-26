@@ -45,9 +45,7 @@ abstract class AbstractSection<ST> {
     getContent(): List<ST>
 }
 
-class StringSection<String> extends AbstractSection {
-    getContent(): String
-}
+class StringSection<String> extends AbstractSection
 
 class ListSection<String> extends AbstractSection
 
