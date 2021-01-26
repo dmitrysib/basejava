@@ -1,0 +1,68 @@
+@startuml
+
+enum SectionType {
+    PERSONAL
+    OBJECTIVE
+    ACHIEVEMENT
+    QUALIFICATIONS
+    EXPERIENCE
+    EDUCATION
+}
+
+enum ContactType {
+    PHONE
+    EMAIL
+    SKYPE
+    WEBPAGE
+    GITHUB
+    LINKEDIN
+}
+
+class Resume {
+    - uuid: String
+    - fullName: String
+
+    - contacts: Map<ContactType, Contact>
+    - sections: Map<SectionType, AbstractSection<?>>
+
+    + getUuid(): String
+    + getFullName(): String
+
+    + getSection(sectiontype: SectionType): AbstractSection<?>
+    + setSection(sectiontype: SectionType, section: AbstractSection<?>)
+
+    + getContact(contacttype: ContactType): String
+    + setSection(contacttype: ContactType, contact: String)
+}
+
+abstract class AbstractSection<ST> {
+    elements: List<ST>
+
+    add(element: ST)
+    del(index: int)
+    set(index: int, element: ST)
+    get(index: int): ST
+    getContent(): List<ST>
+}
+
+class StringSection<String> extends AbstractSection {
+    getContent(): String
+}
+
+class ListSection<String> extends AbstractSection
+
+class ComplexElement {
+    - name: String,
+    - url: String,
+    - position: String
+    - startDate: LocalDate
+    - endDate: LocalDate
+    - description: String
+}
+
+class ComplexSection<ComplexElement> extends AbstractSection
+
+Resume *-- AbstractSection
+ComplexSection *-- ComplexElement
+
+@enduml
