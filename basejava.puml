@@ -28,46 +28,51 @@ class Resume {
     + getUuid(): String
     + getFullName(): String
 
-    + getSection(sectiontype: SectionType): AbstractSection<?>
-    + setSection(sectiontype: SectionType, section: AbstractSection<?>)
+    + setSection(sectionType: SectionType, section: AbstractSection<?>)
+    + setSections(sections: Map<SectionType, AbstractSection<?>>)
+    + getSections(): Map<SectionType, AbstractSection<?>>
 
-    + getContact(contacttype: ContactType): String
-    + setSection(contacttype: ContactType, contact: String)
+    + getContacts(): Map<ContactType, String>
+    + setContacts(contacts: Map<ContactType, String>)
+}
+
+abstract class AbstractSection<ST> {
+    #elements: List<ST>
+}
+
+class StringSection<String> extends AbstractSection {
+    toString(): String
+}
+
+class ListSection<String> extends AbstractSection {
+    toString(): String
 }
 
 together {
+    class Link {
+        - url: String
+        - title: String
 
-    interface Section {
-        print()
+        toString(): String
     }
 
-    abstract class AbstractSection<ST> implements Section {
-        #elements: List<ST>
+    class Experience {
+        - link: Link
+        - title: String
+        - startDate: LocalDate
+        - endDate: LocalDate
+        - description: String
 
-        + add(element: ST)
-        + del(index: int)
-        + set(index: int, element: ST)
-        + get(index: int): ST
-        + getContent(): List<ST>
+        toString(): String
     }
 }
 
-class StringSection<String> extends AbstractSection
-
-class ListSection<String> extends AbstractSection
-
-class ComplexElement {
-    - name: String,
-    - url: String,
-    - position: String
-    - startDate: LocalDate
-    - endDate: LocalDate
-    - description: String
+class Organization<Experience> extends AbstractSection {
+    toString(): String
 }
-
-class ComplexSection<ComplexElement> extends AbstractSection
 
 Resume *-- AbstractSection
-ComplexSection *-- ComplexElement
+Organization *-- Experience
+Experience *- Link
 
 @enduml
