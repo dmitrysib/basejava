@@ -14,12 +14,11 @@ public class ResumeTestData {
     public static void main(String[] args) {
         Resume resume = new Resume("John Wick");
 
-        Map<ContactType, String> map = Map.of(
+        resume.setContacts(Map.of(
                 ContactType.EMAIL, "gkislin@yandex.ru",
                 ContactType.PHONE, "+7(921) 855-0482",
                 ContactType.SKYPE, "grigory.kislin"
-        );
-        resume.setContacts(map);
+        ));
 
         try {
             AbstractSection<String> section;
