@@ -25,6 +25,6 @@ public class Link {
 
     @Override
     public String toString() {
-        return "[URL: " + url + "]" + title + "[/URL]";
+        return "[URL " + url + "]" + title + "[/URL]";
     }
 }
