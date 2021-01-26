@@ -35,14 +35,21 @@ class Resume {
     + setSection(contacttype: ContactType, contact: String)
 }
 
-abstract class AbstractSection<ST> {
-    elements: List<ST>
+together {
 
-    add(element: ST)
-    del(index: int)
-    set(index: int, element: ST)
-    get(index: int): ST
-    getContent(): List<ST>
+    interface Section {
+        print()
+    }
+
+    abstract class AbstractSection<ST> implements Section {
+        #elements: List<ST>
+
+        + add(element: ST)
+        + del(index: int)
+        + set(index: int, element: ST)
+        + get(index: int): ST
+        + getContent(): List<ST>
+    }
 }
 
 class StringSection<String> extends AbstractSection

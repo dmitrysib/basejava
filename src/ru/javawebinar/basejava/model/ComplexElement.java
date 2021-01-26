@@ -18,4 +18,14 @@ public class ComplexElement {
         this.endDate = endDate;
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                ", position='" + position + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", description='" + description + '\'';
+    }
 }

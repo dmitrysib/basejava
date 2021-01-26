@@ -55,5 +55,12 @@ public class ResumeTestData {
         cmplxSection.add(ce);
         resume.setSections(SectionType.EXPERIENCE, cmplxSection);
 
+        for (SectionType type : SectionType.values()) {
+            AbstractSection<?> s = resume.getSection(type);
+            if (s != null) {
+                System.out.println(type.name() + ":");
+                s.print();
+            }
+        }
     }
 }
