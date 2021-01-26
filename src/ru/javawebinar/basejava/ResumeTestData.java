@@ -11,11 +11,11 @@ public class ResumeTestData {
 
         AbstractSection<String> section;
         section = new StringSection();
-        section.set("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.");
+        section.add("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.");
         resume.setSections(SectionType.PERSONAL, section);
 
         section = new StringSection();
-        section.set("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям");
+        section.add("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям");
         resume.setSections(SectionType.OBJECTIVE, section);
 
         section = new ListSection();
