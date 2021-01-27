@@ -2,7 +2,6 @@ package ru.javawebinar.basejava.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,11 +24,6 @@ public class Link implements Serializable {
         Objects.requireNonNull(title, "title cannot be null");
         this.url = url;
         this.title = title;
-    }
-
-    public Link(Link o) {
-        url = o.url;
-        title = o.title;
     }
 
     @Override
