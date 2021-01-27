@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ResumeTestData {
     public static void main(String[] args) {
-        Resume resume = new Resume("John Wick");
+        Resume resume = new Resume("Григорий Кислин");
 
         resume.setContacts(Map.of(
                 ContactType.EMAIL, "gkislin@yandex.ru",
