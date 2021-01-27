@@ -1,20 +1,22 @@
 package ru.javawebinar.basejava.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class Link implements Serializable {
     private final String url;
     private final String title;
 
-    private static final HashMap<String, Link> links = new HashMap<>();
+    private static final List<Link> links = new ArrayList<>();
 
     public static Link of(String title, String url) {
-        Link hpage = links.get(title + url);
+        Link hpage = links.get(Objects.hash(url, title));
         if (hpage == null) {
             hpage = new Link(title, url);
-            links.put(title + url, hpage);
+            links.set(Objects.hash(url, title), hpage);
         }
         return hpage;
     }
