@@ -1,29 +1,29 @@
 package ru.javawebinar.basejava.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Link implements Serializable {
+    private static final Map<Integer, Link> links = new HashMap<>();
     private final String url;
     private final String title;
-
-    private static final List<Link> links = new ArrayList<>();
-
-    public static Link of(String title, String url) {
-        Link hpage = links.get(Objects.hash(url, title));
-        if (hpage == null) {
-            hpage = new Link(title, url);
-            links.set(Objects.hash(url, title), hpage);
-        }
-        return hpage;
-    }
 
     public Link(String title, String url) {
         Objects.requireNonNull(title, "title cannot be null");
         this.url = url;
         this.title = title;
+    }
+
+    public static Link of(String title, String url) {
+        Link hpage;
+        hpage = links.get(Objects.hash(url, title));
+        if (hpage == null) {
+            hpage = new Link(title, url);
+            links.put(Objects.hash(url, title), hpage);
+        }
+        return hpage;
     }
 
     @Override
