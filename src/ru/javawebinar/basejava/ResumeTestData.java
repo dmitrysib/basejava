@@ -43,28 +43,24 @@ public class ResumeTestData {
         }
         resume.setContacts(contacts);
 
-        AbstractSection<String> section;
-        AbstractSection<Experience> experienceSection;
-        Experience[] experienceList;
-
         for (SectionType sectionType : SectionType.values()) {
             switch (sectionType.name()) {
                 case "PERSONAL", "OBJECTIVE" -> {
-                    section = new StringSection(generateRandomString(10));
-                    resume.setSection(sectionType, section);
+                    AbstractSection<String> sc = new StringSection(generateRandomString(10));
+                    resume.setSection(sectionType, sc);
                 }
                 case "ACHIEVEMENT", "QUALIFICATIONS" -> {
                     String[] list = new String[new Random().nextInt(2) + 3];
                     for (int i = 0; i < list.length; i++) {
                         list[i] = generateRandomString(10);
                     }
-                    section = new ListSection(new ArrayList<>(Arrays.asList(list)));
-                    resume.setSection(sectionType, section);
+                    AbstractSection<String> sc = new ListSection(new ArrayList<>(Arrays.asList(list)));
+                    resume.setSection(sectionType, sc);
                 }
                 case "EXPERIENCE" -> {
-                    experienceList = new Experience[new Random().nextInt(2) + 3];
-                    for (int i = 0; i < experienceList.length; i++) {
-                        experienceList[i] = new Experience(
+                    Experience[] eList = new Experience[new Random().nextInt(2) + 3];
+                    for (int i = 0; i < eList.length; i++) {
+                        eList[i] = new Experience(
                                 generateRandomString(2),
                                 "https://www." + generateRandomWord() + ".com/",
                                 generateRandomString(4),
@@ -73,13 +69,13 @@ public class ResumeTestData {
                                 generateRandomString(10)
                         );
                     }
-                    experienceSection = new Organization(new ArrayList<>(Arrays.asList(experienceList)));
-                    resume.setSection(sectionType, experienceSection);
+                    AbstractSection<Experience> exp = new Organization(new ArrayList<>(Arrays.asList(eList)));
+                    resume.setSection(sectionType, exp);
                 }
                 case "EDUCATION" -> {
-                    experienceList = new Experience[new Random().nextInt(2) + 3];
-                    for (int i = 0; i < experienceList.length; i++) {
-                        experienceList[i] = new Experience(
+                    Experience[] eList = new Experience[new Random().nextInt(2) + 3];
+                    for (int i = 0; i < eList.length; i++) {
+                        eList[i] = new Experience(
                                 generateRandomString(2),
                                 "https://www." + generateRandomWord() + ".com/",
                                 generateRandomString(4),
@@ -87,8 +83,8 @@ public class ResumeTestData {
                                 LocalDate.now()
                         );
                     }
-                    experienceSection = new Organization(new ArrayList<>(Arrays.asList(experienceList)));
-                    resume.setSection(sectionType, experienceSection);
+                    AbstractSection<Experience> exp = new Organization(new ArrayList<>(Arrays.asList(eList)));
+                    resume.setSection(sectionType, exp);
                 }
             }
         }
