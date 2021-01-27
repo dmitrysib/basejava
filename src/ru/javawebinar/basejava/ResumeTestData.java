@@ -1,8 +1,10 @@
 package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.*;
+import ru.javawebinar.basejava.util.DateUtil;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,14 +47,12 @@ public class ResumeTestData {
         section = new ListSection(list);
         resume.setSection(SectionType.QUALIFICATIONS, section);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
         List<Experience> exList = new ArrayList<>(Arrays.asList(
                 new Experience(
                         "Java Online Projects",
                         "http://javaops.ru/",
                         "Автор проекта.",
-                        LocalDate.parse("01/10/2013", formatter),
+                        DateUtil.of(2013, Month.OCTOBER),
                         LocalDate.now(),
                         "Создание, организация и проведение Java онлайн проектов и стажировок."
                 ),
@@ -60,8 +60,8 @@ public class ResumeTestData {
                         "Wrike",
                         "https://www.wrike.com/",
                         "Старший разработчик (backend)",
-                        LocalDate.parse("01/10/2014", formatter),
-                        LocalDate.parse("01/01/2016", formatter),
+                        DateUtil.of(2014, Month.OCTOBER),
+                        DateUtil.of(2016, Month.JANUARY),
                         "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."
                 )
         ));
@@ -73,15 +73,15 @@ public class ResumeTestData {
                         "Coursera",
                         "https://www.coursera.org/course/progfun",
                         "\"Functional Programming Principles in Scala\" by Martin Odersky",
-                        LocalDate.parse("01/03/2013", formatter),
-                        LocalDate.parse("01/05/2013", formatter)
+                        DateUtil.of(2013, Month.MARCH),
+                        DateUtil.of(2013, Month.MAY)
                 ),
                 new Experience(
                         "Luxoft",
                         "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
                         "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
-                        LocalDate.parse("01/03/2011", formatter),
-                        LocalDate.parse("01/04/2011", formatter)
+                        DateUtil.of(2011, Month.MARCH),
+                        DateUtil.of(2011, Month.APRIL)
                 )
         ));
         o = new Organization(exList);
