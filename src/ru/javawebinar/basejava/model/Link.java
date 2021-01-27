@@ -1,12 +1,22 @@
 package ru.javawebinar.basejava.model;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Link {
     private final String url;
     private final String title;
+
+    private static final HashMap<String, Link> links = new HashMap<>();
+
+    public static Link of(String title, String url) {
+        Link hpage = links.get(title + url);
+        if (hpage == null) {
+            hpage = new Link(title, url);
+            links.put(title + url, hpage);
+        }
+        return hpage;
+    }
 
     public Link(String title, String url) {
         Objects.requireNonNull(title, "title cannot be null");

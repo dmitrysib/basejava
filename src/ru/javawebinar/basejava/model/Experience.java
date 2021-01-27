@@ -21,7 +21,7 @@ public class Experience {
         Objects.requireNonNull(startDate, "position cannot be null");
         Objects.requireNonNull(endDate, "position cannot be null");
 
-        this.homePage = new Link(name, url);
+        this.homePage = Link.of(name, url);
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;

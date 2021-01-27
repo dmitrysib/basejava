@@ -5,13 +5,97 @@ import ru.javawebinar.basejava.util.DateUtil;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ResumeTestData {
+
+    public static String generateRandomWord() {
+        int leftLimit = 97;
+        int rightLimit = 122;
+        Random random = new Random();
+        int targetStringLength = random.nextInt(5) + 10;
+        StringBuilder buffer = new StringBuilder(targetStringLength);
+        for (int i = 0; i < targetStringLength; i++) {
+            int randomLimitedInt = leftLimit + (int)
+                    (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        return buffer.toString();
+    }
+
+    public static String generateRandomString(int words) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < words; i++) {
+            if (sb.length() > 0) {
+                sb.append(" ");
+            }
+            sb.append(generateRandomWord());
+        }
+        return sb.toString();
+    }
+
+    public static Resume generateResume(String uuid, String fullName) {
+        Resume resume = new Resume(uuid, fullName);
+
+        HashMap<ContactType, String> contacts = new HashMap<>();
+        for (ContactType contactType : ContactType.values()) {
+            contacts.put(contactType, generateRandomWord());
+        }
+        resume.setContacts(contacts);
+
+        AbstractSection<String> section;
+        AbstractSection<Experience> experienceSection;
+        Experience[] experienceList;
+
+        for (SectionType sectionType : SectionType.values()) {
+            switch (sectionType.name()) {
+                case "PERSONAL", "OBJECTIVE" -> {
+                    section = new StringSection(generateRandomString(10));
+                    resume.setSection(sectionType, section);
+                }
+                case "ACHIEVEMENT", "QUALIFICATIONS" -> {
+                    String[] list = new String[new Random().nextInt(2) + 3];
+                    for (int i = 0; i < list.length; i++) {
+                        list[i] = generateRandomString(10);
+                    }
+                    section = new ListSection(new ArrayList<>(Arrays.asList(list)));
+                    resume.setSection(sectionType, section);
+                }
+                case "EXPERIENCE" -> {
+                    experienceList = new Experience[new Random().nextInt(2) + 3];
+                    for (int i = 0; i < experienceList.length; i++) {
+                        experienceList[i] = new Experience(
+                                generateRandomString(2),
+                                "https://www." + generateRandomWord() + ".com/",
+                                generateRandomString(4),
+                                LocalDate.now(),
+                                LocalDate.now(),
+                                generateRandomString(10)
+                        );
+                    }
+                    experienceSection = new Organization(new ArrayList<>(Arrays.asList(experienceList)));
+                    resume.setSection(sectionType, experienceSection);
+                }
+                case "EDUCATION" -> {
+                    experienceList = new Experience[new Random().nextInt(2) + 3];
+                    for (int i = 0; i < experienceList.length; i++) {
+                        experienceList[i] = new Experience(
+                                generateRandomString(2),
+                                "https://www." + generateRandomWord() + ".com/",
+                                generateRandomString(4),
+                                LocalDate.now(),
+                                LocalDate.now()
+                        );
+                    }
+                    experienceSection = new Organization(new ArrayList<>(Arrays.asList(experienceList)));
+                    resume.setSection(sectionType, experienceSection);
+                }
+            }
+        }
+
+        return resume;
+    }
+
     public static void main(String[] args) {
         Resume resume = new Resume("Григорий Кислин");
 
