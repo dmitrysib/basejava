@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class AbstractSection<ST> {
-    protected List<ST> elements;
+    protected final List<ST> elements;
 
     public AbstractSection(List<ST> elements) {
         Objects.requireNonNull(elements, "elements cannot be null");

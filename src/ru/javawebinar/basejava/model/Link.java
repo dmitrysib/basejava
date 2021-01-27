@@ -8,12 +8,9 @@ public class Link {
     private final String url;
     private final String title;
 
-    public Link(String url, String title) throws MalformedURLException {
+    public Link(String url, String title) {
         Objects.requireNonNull(url, "url cannot be null");
         Objects.requireNonNull(title, "title cannot be null");
-
-        URL u = new URL(url);
-
         this.url = url;
         this.title = title;
     }
