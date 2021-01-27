@@ -4,25 +4,24 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Experience {
-    private final Link link;
+    private final Link homePage;
     private final String title;
     private final LocalDate startDate;
     private final LocalDate endDate;
     private final String description;
 
-    public Experience(Link link, String title, LocalDate startDate,
+    public Experience(String name, String url, String title, LocalDate startDate,
                       LocalDate endDate) {
-        this(link, title, startDate, endDate, "");
+        this(name, url, title, startDate, endDate, "");
     }
 
-    public Experience(Link link, String title, LocalDate startDate,
+    public Experience(String name, String url, String title, LocalDate startDate,
                       LocalDate endDate, String description) {
-        Objects.requireNonNull(link, "link cannot be null");
         Objects.requireNonNull(title, "title cannot be null");
         Objects.requireNonNull(startDate, "position cannot be null");
         Objects.requireNonNull(endDate, "position cannot be null");
 
-        this.link = link;
+        this.homePage = new Link(name, url);
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -32,11 +31,25 @@ public class Experience {
     @Override
     public String toString() {
         return "{\n" +
-                "\t\t" + link + "\n" +
+                "\t\t" + homePage + "\n" +
                 "\t\t" + title + "\n" +
                 "\t\t" + startDate + "\n" +
                 "\t\t" + endDate + "\n" +
                 "\t\t" + description + "\n" +
                 "\t}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Experience that = (Experience) o;
+        return homePage.equals(that.homePage) && title.equals(that.title) && startDate.equals(that.startDate)
+                && endDate.equals(that.endDate) && Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(homePage, title, startDate, endDate, description);
     }
 }

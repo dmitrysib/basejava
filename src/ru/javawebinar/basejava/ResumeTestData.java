@@ -49,14 +49,16 @@ public class ResumeTestData {
 
         List<Experience> exList = new ArrayList<>(Arrays.asList(
                 new Experience(
-                        new Link("http://javaops.ru/", "Java Online Projects"),
+                        "Java Online Projects",
+                        "http://javaops.ru/",
                         "Автор проекта.",
                         LocalDate.parse("01/10/2013", formatter),
                         LocalDate.now(),
                         "Создание, организация и проведение Java онлайн проектов и стажировок."
                 ),
                 new Experience(
-                        new Link("https://www.wrike.com/", "Wrike"),
+                        "Wrike",
+                        "https://www.wrike.com/",
                         "Старший разработчик (backend)",
                         LocalDate.parse("01/10/2014", formatter),
                         LocalDate.parse("01/01/2016", formatter),
@@ -68,13 +70,15 @@ public class ResumeTestData {
 
         exList = new ArrayList<>(Arrays.asList(
                 new Experience(
-                        new Link("https://www.coursera.org/course/progfun", "Coursera"),
+                        "Coursera",
+                        "https://www.coursera.org/course/progfun",
                         "\"Functional Programming Principles in Scala\" by Martin Odersky",
                         LocalDate.parse("01/03/2013", formatter),
                         LocalDate.parse("01/05/2013", formatter)
                 ),
                 new Experience(
-                        new Link("http://www.luxoft-training.ru/training/catalog/course.html?ID=22366", "Luxoft"),
+                        "Luxoft",
+                        "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
                         "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
                         LocalDate.parse("01/03/2011", formatter),
                         LocalDate.parse("01/04/2011", formatter)
