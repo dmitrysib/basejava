@@ -58,12 +58,16 @@ together {
 
     class Experience {
         - link: Link
-        - title: String
-        - startDate: LocalDate
-        - endDate: LocalDate
-        - description: String
+        - positions: List<Position>
 
         toString(): String
+    }
+
+    class Position {
+        title: String
+        startDate: LocalDate
+        endDate: LocalDate
+        description: String
     }
 }
 
@@ -73,6 +77,7 @@ class Organization<Experience> extends AbstractSection {
 
 Resume *-- AbstractSection
 Organization *-- Experience
-Experience *- Link
+Experience *-right- Link
+Experience *-left- Position
 
 @enduml
