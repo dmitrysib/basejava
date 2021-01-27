@@ -1,9 +1,10 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class Link {
+public class Link implements Serializable {
     private final String url;
     private final String title;
 

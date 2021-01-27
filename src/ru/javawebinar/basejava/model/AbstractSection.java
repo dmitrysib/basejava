@@ -1,10 +1,11 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractSection<ST> {
+public abstract class AbstractSection<ST> implements Serializable {
     protected final List<ST> elements;
 
     public AbstractSection(List<ST> elements) {

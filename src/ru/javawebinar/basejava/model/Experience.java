@@ -1,9 +1,10 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Experience {
+public class Experience implements Serializable {
     private final Link homePage;
     private final String title;
     private final LocalDate startDate;

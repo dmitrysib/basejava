@@ -44,7 +44,6 @@ public abstract class AbstractStorageTest {
 
     @Test
     void get() {
-        //Resume resume = ResumeTestData.generateResume(UUID_1, UUID_1);
         assertEquals(RESUME_1, storage.get(UUID_1));
     }
 
