@@ -63,10 +63,12 @@ public class ResumeTestData {
                         eList[i] = new Experience(
                                 generateRandomString(2),
                                 "https://www." + generateRandomWord() + ".com/",
-                                generateRandomString(4),
-                                LocalDate.now(),
-                                LocalDate.now(),
-                                generateRandomString(10)
+                                new Position(
+                                        generateRandomString(4),
+                                        LocalDate.now(),
+                                        LocalDate.now(),
+                                        generateRandomString(10)
+                                )
                         );
                     }
                     AbstractSection<Experience> exp = new Organization(new ArrayList<>(Arrays.asList(eList)));
@@ -78,9 +80,16 @@ public class ResumeTestData {
                         eList[i] = new Experience(
                                 generateRandomString(2),
                                 "https://www." + generateRandomWord() + ".com/",
-                                generateRandomString(4),
-                                LocalDate.now(),
-                                LocalDate.now()
+                                new Position(
+                                        generateRandomString(4),
+                                        LocalDate.now(),
+                                        LocalDate.now()
+                                ),
+                                new Position(
+                                        generateRandomString(4),
+                                        LocalDate.now(),
+                                        LocalDate.now()
+                                )
                         );
                     }
                     AbstractSection<Experience> exp = new Organization(new ArrayList<>(Arrays.asList(eList)));
@@ -131,18 +140,22 @@ public class ResumeTestData {
                 new Experience(
                         "Java Online Projects",
                         "http://javaops.ru/",
-                        "Автор проекта.",
-                        DateUtil.of(2013, Month.OCTOBER),
-                        LocalDate.now(),
-                        "Создание, организация и проведение Java онлайн проектов и стажировок."
+                        new Position(
+                                "Автор проекта.",
+                                DateUtil.of(2013, Month.OCTOBER),
+                                LocalDate.now(),
+                                "Создание, организация и проведение Java онлайн проектов и стажировок."
+                        )
                 ),
                 new Experience(
                         "Wrike",
                         "https://www.wrike.com/",
-                        "Старший разработчик (backend)",
-                        DateUtil.of(2014, Month.OCTOBER),
-                        DateUtil.of(2016, Month.JANUARY),
-                        "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."
+                        new Position(
+                                "Старший разработчик (backend)",
+                                DateUtil.of(2014, Month.OCTOBER),
+                                DateUtil.of(2016, Month.JANUARY),
+                                "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."
+                        )
                 )
         ));
         Organization o = new Organization(exList);
@@ -152,16 +165,20 @@ public class ResumeTestData {
                 new Experience(
                         "Coursera",
                         "https://www.coursera.org/course/progfun",
-                        "\"Functional Programming Principles in Scala\" by Martin Odersky",
-                        DateUtil.of(2013, Month.MARCH),
-                        DateUtil.of(2013, Month.MAY)
+                        new Position(
+                                "\"Functional Programming Principles in Scala\" by Martin Odersky",
+                                DateUtil.of(2013, Month.MARCH),
+                                DateUtil.of(2013, Month.MAY)
+                        )
                 ),
                 new Experience(
                         "Luxoft",
                         "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
-                        "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
-                        DateUtil.of(2011, Month.MARCH),
-                        DateUtil.of(2011, Month.APRIL)
+                        new Position(
+                                "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
+                                DateUtil.of(2011, Month.MARCH),
+                                DateUtil.of(2011, Month.APRIL)
+                        )
                 )
         ));
         o = new Organization(exList);
