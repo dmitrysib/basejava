@@ -17,7 +17,7 @@ public class Resume implements Comparable<Resume>, Serializable {
     private final String fullName;
 
     private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
-    private Map<SectionType, AbstractSection<?>> sections = new EnumMap<>(SectionType.class);
+    private final Map<SectionType, AbstractSection<?>> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -45,10 +45,6 @@ public class Resume implements Comparable<Resume>, Serializable {
 
     public Map<SectionType, AbstractSection<?>> getSections() {
         return sections;
-    }
-
-    public void setSections(Map<SectionType, AbstractSection<?>> sections) {
-        this.sections = sections;
     }
 
     public Map<ContactType, String> getContacts() {

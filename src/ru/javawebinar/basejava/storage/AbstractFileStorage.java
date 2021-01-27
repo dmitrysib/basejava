@@ -57,6 +57,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
+    @SuppressWarnings("ResultOfMethodCallIgnored ")
     protected void executeSave(File file, Resume resume) {
         try {
             file.createNewFile();
@@ -67,6 +68,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
+    @SuppressWarnings("ResultOfMethodCallIgnored ")
     protected void executeDelete(File file) {
         file.delete();
     }
@@ -82,6 +84,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
+    @SuppressWarnings("ResultOfMethodCallIgnored ")
     public void clear() {
         for (String path: Objects.requireNonNull(directory.list())) {
             File file = new File(directory, path);
