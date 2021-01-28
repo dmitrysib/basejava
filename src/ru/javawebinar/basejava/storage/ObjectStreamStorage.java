@@ -5,9 +5,9 @@ import ru.javawebinar.basejava.model.Resume;
 
 import java.io.*;
 
-public class ObjectStreamStorage extends AbstractFileStorage {
+public class ObjectStreamStorage extends AbstractPathStorage {
 
-    protected ObjectStreamStorage(File directory) {
+    protected ObjectStreamStorage(String directory) {
         super(directory);
     }
 

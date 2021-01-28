@@ -22,9 +22,9 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         }
     }
 
-    protected abstract Resume executeRead(BufferedInputStream path) throws IOException;
+    protected abstract Resume executeRead(InputStream is) throws IOException;
 
-    protected abstract void executeWrite(BufferedOutputStream path, Resume resume) throws IOException;
+    protected abstract void executeWrite(OutputStream os, Resume resume) throws IOException;
 
     @Override
     protected Path getKey(String key) {

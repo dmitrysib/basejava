@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public abstract class AbstractStorageTest {
-    protected static final File FILE_STORAGE_DIR = new File("storage");
+    protected static final String STORAGE_DIR = "storage";
     private static final String UUID_1 = UUID.randomUUID().toString();
     private static final String UUID_2 = UUID.randomUUID().toString();
     private static final String UUID_3 = UUID.randomUUID().toString();
