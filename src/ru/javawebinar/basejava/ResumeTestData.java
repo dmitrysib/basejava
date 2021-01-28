@@ -63,10 +63,10 @@ public class ResumeTestData {
                         eList[i] = new Experience(
                                 generateRandomString(2),
                                 "https://www." + generateRandomWord() + ".com/",
-                                new Position(
+                                new Experience.Position(
                                         generateRandomString(4),
-                                        LocalDate.now(),
-                                        LocalDate.now(),
+                                        DateUtil.NOW,
+                                        DateUtil.NOW,
                                         generateRandomString(10)
                                 )
                         );
@@ -80,15 +80,15 @@ public class ResumeTestData {
                         eList[i] = new Experience(
                                 generateRandomString(2),
                                 "https://www." + generateRandomWord() + ".com/",
-                                new Position(
+                                new Experience.Position(
                                         generateRandomString(4),
-                                        LocalDate.now(),
-                                        LocalDate.now()
+                                        DateUtil.NOW,
+                                        DateUtil.NOW
                                 ),
-                                new Position(
+                                new Experience.Position(
                                         generateRandomString(4),
-                                        LocalDate.now(),
-                                        LocalDate.now()
+                                        DateUtil.NOW,
+                                        DateUtil.NOW
                                 )
                         );
                     }
@@ -140,7 +140,7 @@ public class ResumeTestData {
                 new Experience(
                         "Java Online Projects",
                         "http://javaops.ru/",
-                        new Position(
+                        new Experience.Position(
                                 "Автор проекта.",
                                 DateUtil.of(2013, Month.OCTOBER),
                                 LocalDate.now(),
@@ -150,7 +150,7 @@ public class ResumeTestData {
                 new Experience(
                         "Wrike",
                         "https://www.wrike.com/",
-                        new Position(
+                        new Experience.Position(
                                 "Старший разработчик (backend)",
                                 DateUtil.of(2014, Month.OCTOBER),
                                 DateUtil.of(2016, Month.JANUARY),
@@ -165,7 +165,7 @@ public class ResumeTestData {
                 new Experience(
                         "Coursera",
                         "https://www.coursera.org/course/progfun",
-                        new Position(
+                        new Experience.Position(
                                 "\"Functional Programming Principles in Scala\" by Martin Odersky",
                                 DateUtil.of(2013, Month.MARCH),
                                 DateUtil.of(2013, Month.MAY)
@@ -174,7 +174,7 @@ public class ResumeTestData {
                 new Experience(
                         "Luxoft",
                         "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
-                        new Position(
+                        new Experience.Position(
                                 "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
                                 DateUtil.of(2011, Month.MARCH),
                                 DateUtil.of(2011, Month.APRIL)

@@ -42,7 +42,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             resume = executeRead(file);
         } catch (IOException e) {
-            throw new StorageException("IO error", e);
+            throw new StorageException("Couldn't read from file", e);
         }
         return resume;
     }
@@ -52,7 +52,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             executeWrite(file, resume);
         } catch (IOException e) {
-            throw new StorageException("IO error", e);
+            throw new StorageException("Couldn't write to file", e);
         }
     }
 
@@ -63,7 +63,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             file.createNewFile();
             executeWrite(file, resume);
         } catch (IOException e) {
-            throw new StorageException("IO error", e);
+            throw new StorageException("Couldn't create file", e);
         }
     }
 

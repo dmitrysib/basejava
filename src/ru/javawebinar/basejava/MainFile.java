@@ -6,22 +6,22 @@ import java.util.Objects;
 
 public class MainFile {
 
-    public static void printFile(File path) throws IOException {
-        if (path.isDirectory()) {
-            for (String f : Objects.requireNonNull(path.list())) {
-                File fn = new File(path.getCanonicalPath() + "/" + f);
-                if (fn.isDirectory()) {
-                    printFile(fn);
-                } else {
-                    System.out.println(fn.getCanonicalFile());
-                }
+    public static void printFile(File path, String indent) throws IOException {
+        for (String f : Objects.requireNonNull(path.list())) {
+            File fn = new File(path.getCanonicalPath() + "/" + f);
+            if (fn.isDirectory()) {
+                System.out.println(indent + "Directory: " + fn.getName());
+                printFile(fn, indent + "    ");
+            } else {
+                System.out.println(indent + "\u22A2File: " + fn.getName());
             }
         }
+
     }
 
     public static void main(String[] args) {
         try {
-            printFile(new File("."));
+            printFile(new File("."), "");
         } catch (IOException e) {
             e.printStackTrace();
         }
