@@ -6,14 +6,14 @@ import java.util.Objects;
 
 public class MainFile {
 
-    public static void printFile(File path, String indent) throws IOException {
+    public static void printFile(File path, int level) throws IOException {
         for (String f : Objects.requireNonNull(path.list())) {
-            File fn = new File(path.getCanonicalPath() + "/" + f);
+            File fn = new File(path.getPath() + "/" + f);
             if (fn.isDirectory()) {
-                System.out.println(indent + "Directory: " + fn.getName());
-                printFile(fn, indent + "    ");
+                System.out.println(" ".repeat(level * 2) + "Directory: " + fn.getName());
+                printFile(fn, level + 1);
             } else {
-                System.out.println(indent + "\u22A2File: " + fn.getName());
+                System.out.println(" ".repeat(level * 2) + "File: " + fn.getName());
             }
         }
 
@@ -21,7 +21,7 @@ public class MainFile {
 
     public static void main(String[] args) {
         try {
-            printFile(new File("."), "");
+            printFile(new File("."), 0);
         } catch (IOException e) {
             e.printStackTrace();
         }
