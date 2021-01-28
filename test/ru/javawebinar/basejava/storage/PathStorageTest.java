@@ -6,7 +6,7 @@ public class PathStorageTest extends AbstractStorageTest {
 
     PathStorageTest() {
         super(
-                new PathStorage("storage", new ObjectStreamSerialization())
+                new PathStorage(STORAGE_DIR, new ObjectStreamSerialization())
         );
     }
 }

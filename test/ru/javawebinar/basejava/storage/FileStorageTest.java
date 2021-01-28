@@ -6,7 +6,7 @@ public class FileStorageTest extends AbstractStorageTest {
 
     FileStorageTest() {
         super(
-                new FileStorage("storage", new ObjectStreamSerialization())
+                new FileStorage(STORAGE_DIR, new ObjectStreamSerialization())
         );
     }
 }
