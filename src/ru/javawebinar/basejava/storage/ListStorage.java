@@ -28,22 +28,22 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected Resume executeGet(Integer key) {
+    protected Resume doGet(Integer key) {
         return storage.get(key);
     }
 
     @Override
-    protected void executeUpdate(Integer key, Resume resume) {
+    protected void doUpdate(Integer key, Resume resume) {
         storage.set(key, resume);
     }
 
     @Override
-    protected void executeSave(Integer key, Resume resume) {
+    protected void doSave(Integer key, Resume resume) {
         storage.add(resume);
     }
 
     @Override
-    protected void executeDelete(Integer key) {
+    protected void doDelete(Integer key) {
         storage.remove((int) key);
     }
 
@@ -53,7 +53,7 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected List<Resume> getArrayList() {
+    protected List<Resume> getList() {
         return new ArrayList<>(storage);
     }
 

@@ -15,41 +15,41 @@ public abstract class AbstractStorage<SearchKey> implements Storage {
 
     protected abstract boolean isExit(SearchKey key);
 
-    protected abstract Resume executeGet(SearchKey key);
+    protected abstract Resume doGet(SearchKey key);
 
-    protected abstract void executeUpdate(SearchKey key, Resume resume);
+    protected abstract void doUpdate(SearchKey key, Resume resume);
 
-    protected abstract void executeSave(SearchKey key, Resume resume);
+    protected abstract void doSave(SearchKey key, Resume resume);
 
-    protected abstract void executeDelete(SearchKey key);
+    protected abstract void doDelete(SearchKey key);
 
-    protected abstract List<Resume> getArrayList();
+    protected abstract List<Resume> getList();
 
     @Override
     public Resume get(String uuid) {
         SearchKey key = getExistKey(uuid);
-        return executeGet(key);
+        return doGet(key);
     }
 
     @Override
     public void delete(String uuid) {
         LOG.info("Delete " + uuid);
         SearchKey key = getExistKey(uuid);
-        executeDelete(key);
+        doDelete(key);
     }
 
     @Override
     public void update(Resume resume) {
         LOG.info("Update " + resume);
         SearchKey key = getExistKey(resume.getUuid());
-        executeUpdate(key, resume);
+        doUpdate(key, resume);
     }
 
     @Override
     public void save(Resume resume) {
         LOG.info("Save " + resume);
         SearchKey key = getNotExistKey(resume.getUuid());
-        executeSave(key, resume);
+        doSave(key, resume);
     }
 
     private SearchKey getExistKey(String uuid) {
@@ -72,7 +72,7 @@ public abstract class AbstractStorage<SearchKey> implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> result = getArrayList();
+        List<Resume> result = getList();
         Collections.sort(result);
         return result;
     }

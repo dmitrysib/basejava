@@ -36,10 +36,10 @@ public class PathStorage extends AbstractStorage<Path> {
     }
 
     @Override
-    protected Resume executeGet(Path path) {
+    protected Resume doGet(Path path) {
         Resume resume;
         try {
-            resume = serialization.read(path.toFile());
+            resume = serialization.doRead(path.toFile());
         } catch (IOException e) {
             throw new StorageException("Couldn't read from Path", e);
         }
@@ -47,26 +47,26 @@ public class PathStorage extends AbstractStorage<Path> {
     }
 
     @Override
-    protected void executeUpdate(Path path, Resume resume) {
+    protected void doUpdate(Path path, Resume resume) {
         try {
-            serialization.write(path.toFile(), resume);
+            serialization.doWrite(path.toFile(), resume);
         } catch (IOException e) {
             throw new StorageException("Couldn't write to Path", e);
         }
     }
 
     @Override
-    protected void executeSave(Path path, Resume resume) {
+    protected void doSave(Path path, Resume resume) {
         try {
             Files.createFile(path);
         } catch (IOException e) {
             throw new StorageException("Couldn't create Path", e);
         }
-        executeUpdate(path, resume);
+        doUpdate(path, resume);
     }
 
     @Override
-    protected void executeDelete(Path path) {
+    protected void doDelete(Path path) {
         try {
             Files.delete(path);
         } catch (IOException e) {
@@ -75,10 +75,10 @@ public class PathStorage extends AbstractStorage<Path> {
     }
 
     @Override
-    protected List<Resume> getArrayList() {
+    protected List<Resume> getList() {
         List<Resume> resumes = new ArrayList<>();
         try {
-            Files.list(directory).forEach(path -> resumes.add(executeGet(path)));
+            Files.list(directory).forEach(path -> resumes.add(doGet(path)));
         } catch (IOException e) {
             throw new StorageException("Couldn't read path", e);
         }
@@ -88,7 +88,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     public void clear() {
         try {
-            Files.list(directory).forEach(this::executeDelete);
+            Files.list(directory).forEach(this::doDelete);
         } catch (IOException e) {
             throw new StorageException("Couldn't delete path", e);
         }

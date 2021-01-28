@@ -6,6 +6,6 @@ import java.io.File;
 import java.io.IOException;
 
 public interface Serialization {
-    void write(File file, Resume resume) throws IOException;
-    Resume read(File file) throws IOException;
+    void doWrite(File file, Resume resume) throws IOException;
+    Resume doRead(File file) throws IOException;
 }

@@ -38,10 +38,10 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected Resume executeGet(File file) {
+    protected Resume doGet(File file) {
         Resume resume;
         try {
-            resume = serialization.read(file);
+            resume = serialization.doRead(file);
         } catch (IOException e) {
             throw new StorageException("Couldn't read from file", e);
         }
@@ -49,9 +49,9 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected void executeUpdate(File file, Resume resume) {
+    protected void doUpdate(File file, Resume resume) {
         try {
-            serialization.write(file, resume);
+            serialization.doWrite(file, resume);
         } catch (IOException e) {
             throw new StorageException("Couldn't write to file", e);
         }
@@ -59,27 +59,27 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    protected void executeSave(File file, Resume resume) {
+    protected void doSave(File file, Resume resume) {
         try {
             file.createNewFile();
         } catch (IOException e) {
             throw new StorageException("Couldn't create file", e);
         }
-        executeUpdate(file, resume);
+        doUpdate(file, resume);
     }
 
     @Override
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    protected void executeDelete(File file) {
+    protected void doDelete(File file) {
         file.delete();
     }
 
     @Override
-    protected List<Resume> getArrayList() {
+    protected List<Resume> getList() {
         List<Resume> resumes = new ArrayList<>();
         for (String path : Objects.requireNonNull(directory.list())) {
             File file = new File(directory, path);
-            resumes.add(executeGet(file));
+            resumes.add(doGet(file));
         }
         return resumes;
     }

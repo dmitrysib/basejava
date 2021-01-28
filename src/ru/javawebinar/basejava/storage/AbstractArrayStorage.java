@@ -12,7 +12,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    protected abstract void saveElement(int index, Resume resume);
+    protected abstract void insertElement(int index, Resume resume);
 
     protected abstract void deleteElement(int index);
 
@@ -28,31 +28,31 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected List<Resume> getArrayList() {
+    protected List<Resume> getList() {
         return new ArrayList<>(Arrays.asList(Arrays.copyOf(storage, size)));
     }
 
     @Override
-    protected Resume executeGet(Integer key) {
+    protected Resume doGet(Integer key) {
         return storage[key];
     }
 
     @Override
-    protected void executeUpdate(Integer key, Resume resume) {
+    protected void doUpdate(Integer key, Resume resume) {
         storage[key] = resume;
     }
 
     @Override
-    protected void executeSave(Integer key, Resume resume) {
+    protected void doSave(Integer key, Resume resume) {
         if (size == AbstractArrayStorage.STORAGE_LIMIT) {
             throw new StorageException("Storage overflow");
         }
-        saveElement(key, resume);
+        insertElement(key, resume);
         size++;
     }
 
     @Override
-    protected void executeDelete(Integer key) {
+    protected void doDelete(Integer key) {
         deleteElement(key);
         storage[size - 1] = null;
         size--;

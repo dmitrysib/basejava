@@ -7,7 +7,7 @@ import java.io.*;
 
 public class ObjectStreamSerialization implements Serialization {
     @Override
-    public void write(File file, Resume resume) throws IOException {
+    public void doWrite(File file, Resume resume) throws IOException {
         var os = new BufferedOutputStream(new FileOutputStream(file));
         try (var oos = new ObjectOutputStream(os)) {
             oos.writeObject(resume);
@@ -15,7 +15,7 @@ public class ObjectStreamSerialization implements Serialization {
     }
 
     @Override
-    public Resume read(File file) throws IOException {
+    public Resume doRead(File file) throws IOException {
         Resume resume;
         var is = new BufferedInputStream(new FileInputStream(file));
         try (var ois = new ObjectInputStream(is)) {
