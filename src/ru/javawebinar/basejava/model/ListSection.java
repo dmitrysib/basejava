@@ -1,8 +1,11 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serial;
 import java.util.List;
 
 public class ListSection extends AbstractSection<String> {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public ListSection(List<String> elements) {
         super(elements);

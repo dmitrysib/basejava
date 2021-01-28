@@ -7,22 +7,22 @@ import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.File;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public abstract class AbstractStorageTest {
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
-    private static final String UUID_4 = "uuid4";
-    private static final Resume RESUME_1 = ResumeTestData.generateResume(UUID_1, UUID_1);
-    private static final Resume RESUME_2 = ResumeTestData.generateResume(UUID_2, UUID_2);
-    private static final Resume RESUME_3 = ResumeTestData.generateResume(UUID_3, UUID_3);
-    private static final Resume RESUME_4 = ResumeTestData.generateResume(UUID_4, UUID_4);
+    protected static final File FILE_STORAGE_DIR = new File("storage");
+    private static final String UUID_1 = UUID.randomUUID().toString();
+    private static final String UUID_2 = UUID.randomUUID().toString();
+    private static final String UUID_3 = UUID.randomUUID().toString();
+    private static final String UUID_4 = UUID.randomUUID().toString();
+    private static final Resume RESUME_1 = ResumeTestData.generateResume(UUID_1, ResumeTestData.generateRandomString(2));
+    private static final Resume RESUME_2 = ResumeTestData.generateResume(UUID_2, ResumeTestData.generateRandomString(2));
+    private static final Resume RESUME_3 = ResumeTestData.generateResume(UUID_3, ResumeTestData.generateRandomString(2));
+    private static final Resume RESUME_4 = ResumeTestData.generateResume(UUID_4, ResumeTestData.generateRandomString(2));
     protected final Storage storage;
 
     public AbstractStorageTest(Storage storage) {
@@ -32,9 +32,9 @@ public abstract class AbstractStorageTest {
     @BeforeEach
     void setUp() {
         storage.clear();
+        storage.save(RESUME_1);
         storage.save(RESUME_2);
         storage.save(RESUME_3);
-        storage.save(RESUME_1);
     }
 
     @Test
@@ -54,7 +54,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     void update() {
-        Resume resume = ResumeTestData.generateResume(UUID_1, UUID_1);
+        Resume resume = ResumeTestData.generateResume(UUID_1, ResumeTestData.generateRandomString(2));
         storage.update(resume);
         assertEquals(resume, storage.get(UUID_1));
     }
@@ -97,6 +97,8 @@ public abstract class AbstractStorageTest {
     @Test
     void getAllSorted() {
         List<Resume> expected = new ArrayList<>(Arrays.asList(RESUME_1, RESUME_2, RESUME_3));
+        Collections.sort(expected);
+
         List<Resume> result = storage.getAllSorted();
         assertEquals(expected, result);
     }

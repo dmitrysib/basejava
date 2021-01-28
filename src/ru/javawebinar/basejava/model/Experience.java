@@ -1,5 +1,6 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,6 +9,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class Experience implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private final Link homePage;
     private final List<Position> positions;
 
@@ -38,6 +42,9 @@ public class Experience implements Serializable {
     }
 
     public static class Position implements Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
+
         private final String title;
         private final LocalDate startDate;
         private final LocalDate endDate;
@@ -83,6 +90,9 @@ public class Experience implements Serializable {
     }
 
     public static class Link implements Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
+
         private final String url;
         private final String title;
 

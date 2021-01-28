@@ -3,8 +3,7 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -23,8 +22,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         this.directory = directory;
     }
 
-    protected abstract Resume executeRead(File file) throws IOException;
-    protected abstract void executeWrite(File file, Resume resume) throws IOException;
+    protected abstract Resume executeRead(InputStream is) throws IOException;
+    protected abstract void executeWrite(OutputStream os, Resume resume) throws IOException;
 
     @Override
     protected File getKey(String key) {
@@ -40,7 +39,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected Resume executeGet(File file) {
         Resume resume;
         try {
-            resume = executeRead(file);
+            resume = executeRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("Couldn't read from file", e);
         }
@@ -50,7 +49,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void executeUpdate(File file, Resume resume) {
         try {
-            executeWrite(file, resume);
+            executeWrite(new BufferedOutputStream(new FileOutputStream(file)), resume);
         } catch (IOException e) {
             throw new StorageException("Couldn't write to file", e);
         }
@@ -61,10 +60,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected void executeSave(File file, Resume resume) {
         try {
             file.createNewFile();
-            executeWrite(file, resume);
         } catch (IOException e) {
             throw new StorageException("Couldn't create file", e);
         }
+        executeUpdate(file, resume);
     }
 
     @Override

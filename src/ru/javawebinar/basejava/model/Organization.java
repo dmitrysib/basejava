@@ -1,8 +1,11 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serial;
 import java.util.List;
 
 public class Organization extends AbstractSection<Experience> {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public Organization(List<Experience> elements) {
         super(elements);
