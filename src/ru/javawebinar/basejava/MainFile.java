@@ -1,12 +1,11 @@
 package ru.javawebinar.basejava;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Objects;
 
 public class MainFile {
 
-    public static void printFile(File path, int level) throws IOException {
+    public static void printFile(File path, int level) {
         for (String f : Objects.requireNonNull(path.list())) {
             File fn = new File(path.getPath() + "/" + f);
             if (fn.isDirectory()) {
@@ -20,10 +19,6 @@ public class MainFile {
     }
 
     public static void main(String[] args) {
-        try {
-            printFile(new File("."), 0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        printFile(new File("."), 0);
     }
 }

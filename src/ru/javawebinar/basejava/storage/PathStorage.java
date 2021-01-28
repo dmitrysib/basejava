@@ -2,8 +2,9 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.storage.serialization.Serialization;
 
-import java.io.*;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,20 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
+public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
+    private final Serialization serialization;
 
-    protected AbstractPathStorage(String dir) {
+    PathStorage(String dir, Serialization serialization) {
         Objects.requireNonNull(dir, "directory cannot be null");
         directory = Paths.get(dir);
         if (!(Files.isDirectory(directory) && Files.isWritable(directory))) {
             throw new IllegalArgumentException(dir + " is not readable/writable");
         }
+        this.serialization = serialization;
     }
-
-    protected abstract Resume executeRead(InputStream is) throws IOException;
-
-    protected abstract void executeWrite(OutputStream os, Resume resume) throws IOException;
 
     @Override
     protected Path getKey(String key) {
@@ -40,7 +39,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     protected Resume executeGet(Path path) {
         Resume resume;
         try {
-            resume = executeRead(new BufferedInputStream(new FileInputStream(path.toFile())));
+            resume = serialization.read(path.toFile());
         } catch (IOException e) {
             throw new StorageException("Couldn't read from Path", e);
         }
@@ -50,7 +49,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected void executeUpdate(Path path, Resume resume) {
         try {
-            executeWrite(new BufferedOutputStream(new FileOutputStream(path.toFile())), resume);
+            serialization.write(path.toFile(), resume);
         } catch (IOException e) {
             throw new StorageException("Couldn't write to Path", e);
         }
@@ -97,12 +96,10 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     public int size() {
-        int size;
         try {
-            size = (int) Files.list(directory).count();
+            return (int) Files.list(directory).count();
         } catch (IOException e) {
             throw new StorageException("Couldn't read path", e);
         }
-        return size;
     }
 }

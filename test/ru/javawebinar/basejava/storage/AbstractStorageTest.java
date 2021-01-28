@@ -7,7 +7,6 @@ import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.io.File;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
