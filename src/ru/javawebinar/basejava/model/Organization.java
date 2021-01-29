@@ -16,7 +16,7 @@ public class Organization extends AbstractSection<Experience> {
         StringBuilder sb = new StringBuilder();
         for (Experience experience : elements) {
             if (sb.length() > 0) {
-                sb.append("\n");
+                sb.append(", ");
             }
             sb.append(experience);
         }
