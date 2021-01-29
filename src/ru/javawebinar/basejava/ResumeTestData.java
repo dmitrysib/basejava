@@ -56,7 +56,7 @@ public class ResumeTestData {
                     for (int i = 0; i < list.length; i++) {
                         list[i] = generateRandomString(10);
                     }
-                    AbstractSection<String> sc = new ListSection(new ArrayList<>(Arrays.asList(list)));
+                    AbstractSection<String> sc = new ListSection(List.of(list));
                     resume.setSection(sectionType, sc);
                 }
                 case "EXPERIENCE" -> {
@@ -73,7 +73,7 @@ public class ResumeTestData {
                                 )
                         );
                     }
-                    AbstractSection<Experience> exp = new Organization(new ArrayList<>(Arrays.asList(eList)));
+                    AbstractSection<Experience> exp = new Organization(List.of(eList));
                     resume.setSection(sectionType, exp);
                 }
                 case "EDUCATION" -> {
@@ -94,7 +94,7 @@ public class ResumeTestData {
                                 )
                         );
                     }
-                    AbstractSection<Experience> exp = new Organization(new ArrayList<>(Arrays.asList(eList)));
+                    AbstractSection<Experience> exp = new Organization(List.of(eList));
                     resume.setSection(sectionType, exp);
                 }
             }

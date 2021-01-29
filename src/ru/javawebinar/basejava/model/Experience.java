@@ -3,8 +3,6 @@ package ru.javawebinar.basejava.model;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,7 +15,7 @@ public class Experience implements Serializable {
 
     public Experience(String name, String url, Position... positions) {
         homePage = new Link(name, url);
-        this.positions = new ArrayList<>(Arrays.asList(positions));
+        this.positions = List.of(positions);
     }
 
     @Override
@@ -81,7 +79,7 @@ public class Experience implements Serializable {
         }
     }
 
-    public static class Link implements Serializable {
+    private static class Link implements Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
 
