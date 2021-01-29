@@ -77,7 +77,7 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected List<Resume> getList() {
         List<Resume> resumes = new ArrayList<>();
-        for (String path : getFileList(directory)) {
+        for (String path : getFilesList(directory)) {
             File file = new File(directory, path);
             resumes.add(doGet(file));
         }
@@ -86,7 +86,7 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        for (String path : getFileList(directory)) {
+        for (String path : getFilesList(directory)) {
             File file = new File(directory, path);
             if (!file.delete()) {
                 throw new StorageException("Couldn't delete file");
@@ -96,10 +96,10 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public int size() {
-        return getFileList(directory).length;
+        return getFilesList(directory).length;
     }
 
-    String[] getFileList(File directory) {
+    String[] getFilesList(File directory) {
         String[] list = directory.list();
         if (list == null) {
             throw new StorageException("Couldn't get directory list");
