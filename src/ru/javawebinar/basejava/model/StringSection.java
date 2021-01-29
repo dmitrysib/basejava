@@ -13,6 +13,6 @@ public class StringSection extends AbstractSection<String> {
 
     @Override
     public String toString() {
-        return elements.get(0);
+        return '\'' + elements.get(0) + '\'';
     }
 }

@@ -16,10 +16,10 @@ public class ListSection extends AbstractSection<String> {
         StringBuilder sb = new StringBuilder();
         for (String element : elements) {
             if (sb.length() > 0) {
-                sb.append("\n");
+                sb.append(", ");
             }
-            sb.append("\t'").append(element).append('\'');
+            sb.append('\'').append(element).append('\'');
         }
-        return "[\n" + sb.toString() + "\n]";
+        return '[' + sb.toString() + ']';
     }
 }

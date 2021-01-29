@@ -22,10 +22,7 @@ public class Experience implements Serializable {
 
     @Override
     public String toString() {
-        return "{\n" +
-                "\t\t" + homePage + "\n" +
-                "\t\t" + positions + "\n" +
-                "\t}";
+        return "Experience {" + homePage + ", " + positions + "}";
     }
 
     @Override
@@ -80,12 +77,7 @@ public class Experience implements Serializable {
 
         @Override
         public String toString() {
-            return "\n\t\t\t{\n" +
-                    "\t\t\t\t" + title + "\n" +
-                    "\t\t\t\t" + startDate + "\n" +
-                    "\t\t\t\t" + endDate + "\n" +
-                    "\t\t\t\t" + description + "\n" +
-                    "\t\t\t}\n\t\t";
+            return "Position {'" + title + "', '" + startDate + "', '" + endDate + "' ,'" + description + "'}";
         }
     }
 
@@ -104,7 +96,7 @@ public class Experience implements Serializable {
 
         @Override
         public String toString() {
-            return "[URL " + url + "]" + title + "[/URL]";
+            return "Link {'" + url + "', '" + title + "'}";
         }
 
         @Override
