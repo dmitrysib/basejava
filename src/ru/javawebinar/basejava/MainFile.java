@@ -8,12 +8,9 @@ public class MainFile {
     public static void recursiveDirScan(String dir, int level) {
         try {
             Files.list(Paths.get(dir)).forEach(path -> {
-                var fn = " ".repeat(level * 2) + path.toString().replace(dir + '/', "");
+                System.out.println(" ".repeat(level * 2) + path.getFileName().toString());
                 if (Files.isDirectory(path)) {
-                    System.out.println(fn + " -->");
                     recursiveDirScan(path.toString(), level + 1);
-                } else {
-                    System.out.println(fn);
                 }
             });
         } catch (IOException e) {
