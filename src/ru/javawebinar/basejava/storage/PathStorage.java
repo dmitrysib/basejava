@@ -8,9 +8,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
@@ -27,7 +28,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected Path getKey(String key) {
-        return Paths.get(directory.toString(), key);
+        return directory.resolve(key);
     }
 
     @Override
@@ -37,13 +38,11 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected Resume doGet(Path path) {
-        Resume resume;
         try {
-            resume = serialization.doRead(path.toFile());
+            return serialization.doRead(path.toFile());
         } catch (IOException e) {
             throw new StorageException("Couldn't read from Path", e);
         }
-        return resume;
     }
 
     @Override
@@ -76,28 +75,22 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getList() {
-        List<Resume> resumes = new ArrayList<>();
-        try {
-            Files.list(directory).forEach(path -> resumes.add(doGet(path)));
-        } catch (IOException e) {
-            throw new StorageException("Couldn't read path", e);
-        }
-        return resumes;
+        return getDirectoryList(directory).map(this::doGet).collect(Collectors.toList());
     }
 
     @Override
     public void clear() {
-        try {
-            Files.list(directory).forEach(this::doDelete);
-        } catch (IOException e) {
-            throw new StorageException("Couldn't delete path", e);
-        }
+        getDirectoryList(directory).forEach(this::doDelete);
     }
 
     @Override
     public int size() {
+        return (int) getDirectoryList(directory).count();
+    }
+
+    private Stream<Path> getDirectoryList(Path directory) {
         try {
-            return (int) Files.list(directory).count();
+            return Files.list(directory);
         } catch (IOException e) {
             throw new StorageException("Couldn't read path", e);
         }

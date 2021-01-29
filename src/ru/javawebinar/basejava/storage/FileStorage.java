@@ -39,13 +39,11 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected Resume doGet(File file) {
-        Resume resume;
         try {
-            resume = serialization.doRead(file);
+            return serialization.doRead(file);
         } catch (IOException e) {
             throw new StorageException("Couldn't read from file", e);
         }
-        return resume;
     }
 
     @Override
@@ -58,10 +56,11 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     protected void doSave(File file, Resume resume) {
         try {
-            file.createNewFile();
+            if (!(file.createNewFile())) {
+                throw new StorageException("Couldn't create new file");
+            }
         } catch (IOException e) {
             throw new StorageException("Couldn't create file", e);
         }
@@ -69,15 +68,16 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     protected void doDelete(File file) {
-        file.delete();
+        if (!file.delete()) {
+            throw new StorageException("Couldn't delete file");
+        }
     }
 
     @Override
     protected List<Resume> getList() {
         List<Resume> resumes = new ArrayList<>();
-        for (String path : Objects.requireNonNull(directory.list())) {
+        for (String path : getFileList(directory)) {
             File file = new File(directory, path);
             resumes.add(doGet(file));
         }
@@ -85,16 +85,25 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void clear() {
-        for (String path : Objects.requireNonNull(directory.list())) {
+        for (String path : getFileList(directory)) {
             File file = new File(directory, path);
-            file.delete();
+            if (!file.delete()) {
+                throw new StorageException("Couldn't delete file");
+            }
         }
     }
 
     @Override
     public int size() {
-        return Objects.requireNonNull(directory.list()).length;
+        return getFileList(directory).length;
+    }
+
+    String[] getFileList(File directory) {
+        String[] list = directory.list();
+        if (list == null) {
+            throw new StorageException("Couldn't get directory list");
+        }
+        return list;
     }
 }
