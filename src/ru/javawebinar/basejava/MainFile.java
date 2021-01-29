@@ -1,24 +1,24 @@
 package ru.javawebinar.basejava;
 
-import java.io.File;
-import java.util.Objects;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class MainFile {
-
-    public static void printFile(File path, int level) {
-        for (String f : Objects.requireNonNull(path.list())) {
-            File fn = new File(path.getPath() + "/" + f);
-            if (fn.isDirectory()) {
-                System.out.println(" ".repeat(level * 2) + "Directory: " + fn.getName());
-                printFile(fn, level + 1);
-            } else {
-                System.out.println(" ".repeat(level * 2) + "File: " + fn.getName());
-            }
+    public static void recursiveDirScan(String dir, int level) {
+        try {
+            Files.list(Paths.get(dir)).forEach(path -> {
+                System.out.println(" ".repeat(level * 2) + path.toString());
+                if (Files.isDirectory(path)) {
+                    recursiveDirScan(path.toString(), level + 1);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
 
     public static void main(String[] args) {
-        printFile(new File("."), 0);
+        recursiveDirScan(".", 0);
     }
 }
