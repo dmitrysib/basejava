@@ -1,12 +1,18 @@
 package ru.javawebinar.basejava.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class AbstractSection<ST> implements Serializable {
-    protected final List<ST> elements;
+    protected List<ST> elements;
+
+    public AbstractSection() {
+    }
 
     public AbstractSection(List<ST> elements) {
         Objects.requireNonNull(elements, "elements cannot be null");

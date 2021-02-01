@@ -1,17 +1,26 @@
 package ru.javawebinar.basejava.model;
 
+import ru.javawebinar.basejava.util.LocalDateAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Experience implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final Link homePage;
-    private final List<Position> positions;
+    private Link homePage;
+    private List<Position> positions;
+
+    public Experience() {
+    }
 
     public Experience(String name, String url, Position... positions) {
         homePage = new Link(name, url);
@@ -36,14 +45,22 @@ public class Experience implements Serializable {
         return Objects.hash(homePage, positions);
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
 
-        private final String title;
-        private final LocalDate startDate;
-        private final LocalDate endDate;
-        private final String description;
+        private String title;
+        private String description;
+
+        @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+        private LocalDate startDate;
+
+        @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+        private LocalDate endDate;
+
+        public Position() {
+        }
 
         public Position(String title, LocalDate startDate, LocalDate endDate) {
             this(title, startDate, endDate, "");
@@ -79,12 +96,16 @@ public class Experience implements Serializable {
         }
     }
 
-    private static class Link implements Serializable {
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Link implements Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
 
-        private final String url;
-        private final String title;
+        private String url;
+        private String title;
+
+        public Link() {
+        }
 
         public Link(String title, String url) {
             Objects.requireNonNull(title, "title cannot be null");

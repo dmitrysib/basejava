@@ -7,6 +7,9 @@ public class Organization extends AbstractSection<Experience> {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    public Organization() {
+    }
+
     public Organization(List<Experience> elements) {
         super(elements);
     }

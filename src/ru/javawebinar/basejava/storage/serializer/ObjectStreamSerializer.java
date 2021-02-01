@@ -7,17 +7,15 @@ import java.io.*;
 
 public class ObjectStreamSerializer implements Serializer {
     @Override
-    public void doWrite(File file, Resume resume) throws IOException {
-        var os = new BufferedOutputStream(new FileOutputStream(file));
+    public void doWrite(OutputStream os, Resume resume) throws IOException {
         try (var oos = new ObjectOutputStream(os)) {
             oos.writeObject(resume);
         }
     }
 
     @Override
-    public Resume doRead(File file) throws IOException {
+    public Resume doRead(InputStream is) throws IOException {
         Resume resume;
-        var is = new BufferedInputStream(new FileInputStream(file));
         try (var ois = new ObjectInputStream(is)) {
             resume = (Resume) ois.readObject();
         } catch (ClassNotFoundException e) {

@@ -7,6 +7,9 @@ public class StringSection extends AbstractSection<String> {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    public StringSection() {
+    }
+
     public StringSection(String element) {
         super(Collections.singletonList(element));
     }

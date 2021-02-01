@@ -4,7 +4,7 @@ import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.storage.serializer.Serializer;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,7 +39,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path path) {
         try {
-            return serializer.doRead(path.toFile());
+            return serializer.doRead(new BufferedInputStream(new FileInputStream(path.toFile())));
         } catch (IOException e) {
             throw new StorageException("Couldn't read from Path", e);
         }
@@ -48,7 +48,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Path path, Resume resume) {
         try {
-            serializer.doWrite(path.toFile(), resume);
+            serializer.doWrite(new BufferedOutputStream(new FileOutputStream(path.toFile())), resume);
         } catch (IOException e) {
             throw new StorageException("Couldn't write to Path", e);
         }
