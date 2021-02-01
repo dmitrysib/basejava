@@ -2,7 +2,7 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.storage.serialization.Serialization;
+import ru.javawebinar.basejava.storage.serializer.Serializer;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,15 +15,15 @@ import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
-    private final Serialization serialization;
+    private final Serializer serializer;
 
-    PathStorage(String dir, Serialization serialization) {
+    PathStorage(String dir, Serializer serializer) {
         Objects.requireNonNull(dir, "directory cannot be null");
         directory = Paths.get(dir);
         if (!(Files.isDirectory(directory) && Files.isWritable(directory))) {
             throw new IllegalArgumentException(dir + " is not readable/writable");
         }
-        this.serialization = serialization;
+        this.serializer = serializer;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path path) {
         try {
-            return serialization.doRead(path.toFile());
+            return serializer.doRead(path.toFile());
         } catch (IOException e) {
             throw new StorageException("Couldn't read from Path", e);
         }
@@ -48,7 +48,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Path path, Resume resume) {
         try {
-            serialization.doWrite(path.toFile(), resume);
+            serializer.doWrite(path.toFile(), resume);
         } catch (IOException e) {
             throw new StorageException("Couldn't write to Path", e);
         }

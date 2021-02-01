@@ -2,7 +2,7 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.storage.serialization.Serialization;
+import ru.javawebinar.basejava.storage.serializer.Serializer;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,9 +12,9 @@ import java.util.Objects;
 
 public class FileStorage extends AbstractStorage<File> {
     private final File directory;
-    private final Serialization serialization;
+    private final Serializer serializer;
 
-    public FileStorage(String dir, Serialization serialization) {
+    public FileStorage(String dir, Serializer serialization) {
         Objects.requireNonNull(dir, "directory cannot be null");
         directory = new File(dir);
         if (!directory.isDirectory()) {
@@ -23,8 +23,7 @@ public class FileStorage extends AbstractStorage<File> {
         if (!(directory.canRead() && directory.canWrite())) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
         }
-
-        this.serialization = serialization;
+        this.serializer = serialization;
     }
 
     @Override
@@ -40,7 +39,7 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected Resume doGet(File file) {
         try {
-            return serialization.doRead(file);
+            return serializer.doRead(file);
         } catch (IOException e) {
             throw new StorageException("Couldn't read from file", e);
         }
@@ -49,7 +48,7 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected void doUpdate(File file, Resume resume) {
         try {
-            serialization.doWrite(file, resume);
+            serializer.doWrite(file, resume);
         } catch (IOException e) {
             throw new StorageException("Couldn't write to file", e);
         }
