@@ -13,7 +13,6 @@ public class DateUtil {
     }
 
     public static LocalDate of(String str) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return LocalDate.parse(str, formatter);
+        return LocalDate.parse(str, DateTimeFormatter.ISO_LOCAL_DATE);
     }
 }
