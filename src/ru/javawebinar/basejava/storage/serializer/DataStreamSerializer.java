@@ -50,9 +50,17 @@ public class DataStreamSerializer implements Serializer {
             doForEachIn(dis, () -> {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
                 switch (sectionType) {
-                    case OBJECTIVE, PERSONAL -> resume.addSection(sectionType, new StringSection(dis.readUTF()));
-                    case ACHIEVEMENT, QUALIFICATIONS -> resume.addSection(sectionType, new ListSection(readList(dis)));
-                    case EDUCATION, EXPERIENCE -> resume.addSection(sectionType, new Organization(readExperienceList(dis, e -> e.setPositions(readPosition(dis)))));
+                    case OBJECTIVE, PERSONAL ->
+                            resume.addSection(sectionType, new StringSection(dis.readUTF()));
+                    case ACHIEVEMENT, QUALIFICATIONS ->
+                            resume.addSection(sectionType, new ListSection(
+                                    readList(dis)
+                            ));
+                    case EDUCATION, EXPERIENCE ->
+                            resume.addSection(sectionType, new Organization(
+                                    readExperienceList(dis, e ->
+                                            e.setPositions(readPosition(dis)))
+                            ));
                 }
             });
             return resume;
