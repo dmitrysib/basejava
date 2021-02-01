@@ -50,17 +50,17 @@ public class DataStreamSerializer implements Serializer {
             doForEachIn(dis, () -> {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
                 switch (sectionType) {
-                    case OBJECTIVE, PERSONAL ->
-                            resume.addSection(sectionType, new StringSection(dis.readUTF()));
-                    case ACHIEVEMENT, QUALIFICATIONS ->
-                            resume.addSection(sectionType, new ListSection(
-                                    readList(dis)
-                            ));
-                    case EDUCATION, EXPERIENCE ->
-                            resume.addSection(sectionType, new Organization(
-                                    readExperienceList(dis, e ->
-                                            e.setPositions(readPosition(dis)))
-                            ));
+                    case OBJECTIVE, PERSONAL -> resume.addSection(sectionType, new StringSection(dis.readUTF()));
+                    case ACHIEVEMENT, QUALIFICATIONS -> resume.addSection(sectionType, new ListSection(
+                            readList(dis, dis::readUTF)
+                    ));
+                    case EDUCATION, EXPERIENCE -> resume.addSection(sectionType, new Organization(
+                            readList(dis, () -> new Experience(
+                                    new Experience.Link(dis.readUTF(), dis.readUTF()),
+                                    readList(dis, () ->
+                                            new Experience.Position(dis.readUTF(), dis.readUTF(), dis.readUTF(), dis.readUTF()))
+                            ))
+                    ));
                 }
             });
             return resume;
@@ -81,32 +81,11 @@ public class DataStreamSerializer implements Serializer {
         }
     }
 
-    private List<String> readList(DataInputStream dis) throws IOException {
+    private <T> List<T> readList(DataInputStream dis, ActionInType<T> action) throws IOException {
         int size = dis.readInt();
-        List<String> result = new ArrayList<>(size);
+        List<T> result = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
-            result.add(dis.readUTF());
-        }
-        return result;
-    }
-
-    private List<Experience> readExperienceList(DataInputStream dis, ActionInExperience action) throws IOException {
-        int size = dis.readInt();
-        List<Experience> result = new ArrayList<>(size);
-        for (int i = 0; i < size; i++) {
-            Experience e = new Experience(dis.readUTF(), dis.readUTF());
-            action.action(e);
-            result.add(e);
-        }
-        return result;
-    }
-
-    private List<Experience.Position> readPosition(DataInputStream dis) throws IOException {
-        int size = dis.readInt();
-        List<Experience.Position> result = new ArrayList<>(size);
-        for (int i = 0; i < size; i++) {
-            Experience.Position position = new Experience.Position(dis.readUTF(), dis.readUTF(), dis.readUTF(), dis.readUTF());
-            result.add(position);
+            result.add(action.action());
         }
         return result;
     }
@@ -119,7 +98,7 @@ public class DataStreamSerializer implements Serializer {
         void action() throws IOException;
     }
 
-    private interface ActionInExperience {
-        void action(Experience e) throws IOException;
+    private interface ActionInType<T> {
+        T action() throws IOException;
     }
 }

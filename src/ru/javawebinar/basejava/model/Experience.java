@@ -32,6 +32,11 @@ public class Experience implements Serializable {
         this.positions = List.of(positions);
     }
 
+    public Experience(Link homePage, List<Position> positions) {
+        this.homePage = homePage;
+        this.positions = positions;
+    }
+
     public Link getHomePage() {
         return homePage;
     }
