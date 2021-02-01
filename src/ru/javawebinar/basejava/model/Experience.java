@@ -1,7 +1,9 @@
 package ru.javawebinar.basejava.model;
 
+import com.google.gson.annotations.JsonAdapter;
 import ru.javawebinar.basejava.util.DateUtil;
 import ru.javawebinar.basejava.util.LocalDateAdapter;
+import ru.javawebinar.basejava.util.LocalDateJsonAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -76,9 +78,11 @@ public class Experience implements Serializable {
         private String description;
 
         @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+        @JsonAdapter(value = LocalDateJsonAdapter.class)
         private LocalDate startDate;
 
         @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+        @JsonAdapter(value = LocalDateJsonAdapter.class)
         private LocalDate endDate;
 
         public Position() {
