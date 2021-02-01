@@ -1,5 +1,6 @@
 package ru.javawebinar.basejava.model;
 
+import ru.javawebinar.basejava.util.DateUtil;
 import ru.javawebinar.basejava.util.LocalDateAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -22,9 +23,25 @@ public class Experience implements Serializable {
     public Experience() {
     }
 
+    public Experience(String name, String url) {
+        homePage = new Link(name, url);
+    }
+
     public Experience(String name, String url, Position... positions) {
         homePage = new Link(name, url);
         this.positions = List.of(positions);
+    }
+
+    public Link getHomePage() {
+        return homePage;
+    }
+
+    public List<Position> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(List<Position> positions) {
+        this.positions = positions;
     }
 
     @Override
@@ -77,6 +94,33 @@ public class Experience implements Serializable {
             this.description = description;
         }
 
+        public Position(String title, String startDate, String endDate, String description) {
+            Objects.requireNonNull(title, "title cannot be null");
+            Objects.requireNonNull(startDate, "start date cannot be null");
+            Objects.requireNonNull(endDate, "end date cannot be null");
+
+            this.title = title;
+            this.startDate = DateUtil.of(startDate);
+            this.endDate = DateUtil.of(endDate);
+            this.description = description;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getStartDate() {
+            return startDate.toString();
+        }
+
+        public String getEndDate() {
+            return endDate.toString();
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -111,6 +155,14 @@ public class Experience implements Serializable {
             Objects.requireNonNull(title, "title cannot be null");
             this.url = url;
             this.title = title;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public String getTitle() {
+            return title;
         }
 
         @Override

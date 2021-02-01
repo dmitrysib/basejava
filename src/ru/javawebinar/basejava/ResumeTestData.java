@@ -48,16 +48,16 @@ public class ResumeTestData {
         for (SectionType sectionType : SectionType.values()) {
             switch (sectionType.name()) {
                 case "PERSONAL", "OBJECTIVE" -> {
-                    AbstractSection<String> sc = new StringSection(generateRandomString(10));
-                    resume.setSection(sectionType, sc);
+                    AbstractSection sc = new StringSection(generateRandomString(10));
+                    resume.addSection(sectionType, sc);
                 }
                 case "ACHIEVEMENT", "QUALIFICATIONS" -> {
                     String[] list = new String[random.nextInt(2) + 3];
                     for (int i = 0; i < list.length; i++) {
                         list[i] = generateRandomString(10);
                     }
-                    AbstractSection<String> sc = new ListSection(List.of(list));
-                    resume.setSection(sectionType, sc);
+                    AbstractSection sc = new ListSection(List.of(list));
+                    resume.addSection(sectionType, sc);
                 }
                 case "EXPERIENCE" -> {
                     Experience[] eList = new Experience[random.nextInt(2) + 3];
@@ -73,8 +73,8 @@ public class ResumeTestData {
                                 )
                         );
                     }
-                    AbstractSection<Experience> exp = new Organization(List.of(eList));
-                    resume.setSection(sectionType, exp);
+                    AbstractSection exp = new Organization(List.of(eList));
+                    resume.addSection(sectionType, exp);
                 }
                 case "EDUCATION" -> {
                     Experience[] eList = new Experience[random.nextInt(2) + 3];
@@ -94,8 +94,8 @@ public class ResumeTestData {
                                 )
                         );
                     }
-                    AbstractSection<Experience> exp = new Organization(List.of(eList));
-                    resume.setSection(sectionType, exp);
+                    AbstractSection exp = new Organization(List.of(eList));
+                    resume.addSection(sectionType, exp);
                 }
             }
         }
@@ -110,7 +110,7 @@ public class ResumeTestData {
         for (Map.Entry<ContactType, String> entry: resume.getContacts().entrySet()) {
             System.out.println(entry.getKey().getTitle() + ": " + entry.getValue());
         }
-        for (Map.Entry<SectionType, AbstractSection<?>> entry: resume.getSections().entrySet()) {
+        for (Map.Entry<SectionType, AbstractSection> entry: resume.getSections().entrySet()) {
             System.out.println(entry.getKey().getTitle() + ": " + entry.getValue());
         }
     }
