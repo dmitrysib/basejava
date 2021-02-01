@@ -14,21 +14,21 @@ public class DataStreamSerializer implements Serializer {
             dos.writeUTF(resume.getUuid());
             dos.writeUTF(resume.getFullName());
 
-            execute(dos, resume.getContacts().entrySet(), contact -> {
+            doForEach(dos, resume.getContacts().entrySet(), contact -> {
                 dos.writeUTF(contact.getKey().name());
                 dos.writeUTF(contact.getValue());
             });
 
-            execute(dos, resume.getSections().entrySet(), section -> {
+            doForEach(dos, resume.getSections().entrySet(), section -> {
                 dos.writeUTF(section.getKey().name());
                 switch (section.getKey()) {
                     case PERSONAL, OBJECTIVE -> dos.writeUTF(((StringSection) section.getValue()).getValue());
-                    case ACHIEVEMENT, QUALIFICATIONS -> execute(dos, ((ListSection) section.getValue()).getElements(), dos::writeUTF);
-                    case EDUCATION, EXPERIENCE -> execute(dos, ((Organization) section.getValue()).getElements(), experience -> {
+                    case ACHIEVEMENT, QUALIFICATIONS -> doForEach(dos, ((ListSection) section.getValue()).getElements(), dos::writeUTF);
+                    case EDUCATION, EXPERIENCE -> doForEach(dos, ((Organization) section.getValue()).getElements(), experience -> {
                         dos.writeUTF(experience.getHomePage().getTitle());
                         dos.writeUTF(experience.getHomePage().getUrl());
 
-                        execute(dos, experience.getPositions(), position -> {
+                        doForEach(dos, experience.getPositions(), position -> {
                             dos.writeUTF(position.getTitle());
                             dos.writeUTF(position.getStartDate());
                             dos.writeUTF(position.getEndDate());
@@ -86,25 +86,14 @@ public class DataStreamSerializer implements Serializer {
         }
     }
 
-    /*
-    Определяется функциональный интерфейс, в котром описан метод принимающий один аргумент
-    любого типа
-     */
-    private interface FunctionalBlock<T> {
-        void lambda(T t) throws IOException;
+    private interface Action<T> {
+        void action(T t) throws IOException;
     }
 
-    /*
-    на вход обобщеного метода подается выходной поток, коллеция и лямбда
-    краткое описание - перебрать колекцию по элементам и что-то сделать с каждым элементом. Что сделать - описано в
-    функциональном блоке
-    Это прикольно но это работает типа
-    execute(dos, Arrays.asList("a", "b", "c"), System.out::println);
-     */
-    private <T> void execute(DataOutputStream dos, Collection<T> collection, FunctionalBlock<T> functionalBlock) throws IOException {
+    private <T> void doForEach(DataOutputStream dos, Collection<T> collection, Action<T> action) throws IOException {
         dos.writeInt(collection.size());
         for (T item : collection) {
-            functionalBlock.lambda(item);
+            action.action(item);
         }
     }
 }
