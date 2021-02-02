@@ -13,14 +13,15 @@ public class MainConcurrency {
     @SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
     private static void doTask(Object resource1,Object resource2) {
         synchronized (resource1) {
-            System.out.println(Thread.currentThread().getName() + ": lock resource " + resource1);
+            String threadName = Thread.currentThread().getName();
+            System.out.println(threadName + ": lock resource " + resource1);
 
             DateUtil.sleep();
 
-            System.out.println(Thread.currentThread().getName() + ": waiting resource  " + resource2);
+            System.out.println(threadName + ": waiting resource  " + resource2);
 
             synchronized (resource2) {
-                System.out.println(Thread.currentThread().getName() + ": lock resource  " + resource2);
+                System.out.println(threadName + ": lock resource  " + resource2);
             }
         }
     }
