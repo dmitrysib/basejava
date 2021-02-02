@@ -11,7 +11,7 @@ public class MainConcurrency {
     }
 
     @SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
-    private static void doTask(Object resource1,Object resource2) {
+    private static void doTask(Object resource1, Object resource2) {
         synchronized (resource1) {
             String threadName = Thread.currentThread().getName();
             System.out.println(threadName + ": lock object " + resource1);
