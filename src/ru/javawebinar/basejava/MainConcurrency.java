@@ -16,7 +16,7 @@ public class MainConcurrency {
             String threadName = Thread.currentThread().getName();
             System.out.println(threadName + ": lock object " + resource1);
 
-            DateUtil.sleep();
+            TimeUtil.sleep();
 
             System.out.println(threadName + ": waiting object " + resource2);
 
@@ -26,7 +26,7 @@ public class MainConcurrency {
         }
     }
 
-    static class DateUtil {
+    static class TimeUtil {
         static void sleep() {
             try {
                 Thread.sleep(100);
