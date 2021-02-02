@@ -10,6 +10,7 @@ public class MainConcurrency {
         thread2.start();
     }
 
+    @SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
     private static void doTask(Object resource1,Object resource2) {
         synchronized (resource1) {
             System.out.println(Thread.currentThread().getName() + ": lock resource " + resource1);
