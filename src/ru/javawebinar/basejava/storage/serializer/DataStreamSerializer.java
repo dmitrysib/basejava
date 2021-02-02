@@ -25,8 +25,9 @@ public class DataStreamSerializer implements Serializer {
                     case PERSONAL, OBJECTIVE -> dos.writeUTF(((StringSection) section.getValue()).getValue());
                     case ACHIEVEMENT, QUALIFICATIONS -> doForEachOut(dos, ((ListSection) section.getValue()).getElements(), dos::writeUTF);
                     case EDUCATION, EXPERIENCE -> doForEachOut(dos, ((Organization) section.getValue()).getElements(), experience -> {
-                        dos.writeUTF(experience.getHomePage().getTitle());
-                        dos.writeUTF(experience.getHomePage().getUrl());
+                        Experience.Link homePage = experience.getHomePage();
+                        dos.writeUTF(homePage.getTitle());
+                        dos.writeUTF(homePage.getUrl());
 
                         doForEachOut(dos, experience.getPositions(), position -> {
                             dos.writeUTF(position.getTitle());
