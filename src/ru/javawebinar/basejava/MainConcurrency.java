@@ -33,11 +33,11 @@ public class MainConcurrency {
 
     private static void part1() {
         synchronized (RESOURCE_1) {
-            System.out.print("1 --> ");
+            System.out.print("\n1 --> ");
             synchronized (RESOURCE_2) {
                 System.out.println("2");
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -47,11 +47,11 @@ public class MainConcurrency {
 
     private static void part2() {
         synchronized (RESOURCE_2) {
-            System.out.print("2 --> ");
+            System.out.print("\n2 --> ");
             synchronized (RESOURCE_1) {
                 System.out.println("1");
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
