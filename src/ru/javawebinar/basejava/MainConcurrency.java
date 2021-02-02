@@ -1,39 +1,27 @@
 package ru.javawebinar.basejava;
 
 public class MainConcurrency {
-
-    static final Resource RESOURCE_1 = new Resource();
-    static final Resource RESOURCE_2 = new Resource();
-
     public static void main(String[] args) {
 
-        Thread thread1 = new Thread(() -> {
-            synchronized (RESOURCE_1) {
-                System.out.println(Thread.currentThread().getName() + ": lock resource 1");
-                DateUtil.sleep();
-                System.out.println(Thread.currentThread().getName() + ": waiting resource 2");
-                synchronized (RESOURCE_2) {
-                    System.out.println(Thread.currentThread().getName() + ": lock resource 2");
-                }
-            }
-        }, "Thread1");
-
-        Thread thread2 = new Thread(() -> {
-            synchronized (RESOURCE_2) {
-                System.out.println(Thread.currentThread().getName() + ": lock resource 2");
-                DateUtil.sleep();
-                System.out.println(Thread.currentThread().getName() + ": waiting resource 1");
-                synchronized (RESOURCE_1) {
-                    System.out.println(Thread.currentThread().getName() + ": lock resource 1");
-                }
-            }
-        }, "Thread2");
+        Thread thread1 = new Thread(() -> doTask("ResourceA", "ResourceB"), "Thread1");
+        Thread thread2 = new Thread(() -> doTask("ResourceB", "ResourceA"), "Thread2");
 
         thread1.start();
         thread2.start();
     }
 
-    static class Resource {
+    private static void doTask(Object resource1,Object resource2) {
+        synchronized (resource1) {
+            System.out.println(Thread.currentThread().getName() + ": lock resource " + resource1);
+
+            DateUtil.sleep();
+
+            System.out.println(Thread.currentThread().getName() + ": waiting resource  " + resource2);
+
+            synchronized (resource2) {
+                System.out.println(Thread.currentThread().getName() + ": lock resource  " + resource2);
+            }
+        }
     }
 
     static class DateUtil {
