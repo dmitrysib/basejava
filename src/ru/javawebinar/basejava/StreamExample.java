@@ -8,7 +8,7 @@ public class StreamExample {
 
     public static void main(String[] args) {
 
-        List<Integer> list = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13);
+        List<Integer> list = List.of(8, 9);
         System.out.println(list + " --> oddOrEven --> " + oddOrEven(list));
 
         int[] array = {1, 2, 3, 3, 2, 3};
@@ -30,7 +30,7 @@ public class StreamExample {
                 })
                 .reduce(Integer::sum).orElse(0);
 
-        return sum % 2 == 0 ? even : odd;
+        return sum % 2 == 0 ? odd : even;
     }
 
     private static int minValue(int[] values) {
