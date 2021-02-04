@@ -17,15 +17,15 @@ public class StreamExample {
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
 
-        List<Integer> odd = new ArrayList<>();
-        List<Integer> even = new ArrayList<>();
+        var odd = new ArrayList<>(integers);
+        var even = new ArrayList<>(integers);
 
         int sum = integers.stream()
                 .peek(i -> {
                     if (i % 2 == 0) {
-                        even.add(i);
+                        odd.remove(i);
                     } else {
-                        odd.add(i);
+                        even.remove(i);
                     }
                 })
                 .reduce(Integer::sum).orElse(0);
