@@ -34,6 +34,9 @@ public class StreamExample {
     }
 
     private static int minValue(int[] values) {
-        return Arrays.stream(values).distinct().sorted().reduce(0, (a, b) -> a * 10 + b);
+        return Arrays.stream(values)
+                .distinct()
+                .sorted()
+                .reduce(0, (a, b) -> a * 10 + b);
     }
 }
