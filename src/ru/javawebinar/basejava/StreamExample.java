@@ -17,9 +17,8 @@ public class StreamExample {
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
         var result = integers
-                .parallelStream()
-                .collect(Collectors.groupingBy(i -> i % 2 == 0 ? "even" : "odd")
-                );
+                .stream()
+                .collect(Collectors.groupingBy(i -> i % 2 == 0 ? "even" : "odd"));
         return result.get("odd").size() % 2 == 0 ? result.get("even") : result.get("odd");
     }
 
