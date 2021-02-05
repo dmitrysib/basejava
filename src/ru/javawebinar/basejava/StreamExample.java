@@ -9,7 +9,7 @@ public class StreamExample {
 
     public static void main(String[] args) {
 
-        List<Integer> list = List.of(8, 9);
+        List<Integer> list = List.of(8, 9, 1);
         System.out.println(list + " --> oddOrEven --> " + oddOrEven(list));
 
         int[] array = {1, 2, 3, 3, 2, 3};
@@ -17,11 +17,10 @@ public class StreamExample {
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
-        IntPredicate evenPredicate = x -> x % 2 == 0;
         var result = integers
                 .stream()
-                .collect(Collectors.groupingBy(evenPredicate::test));
-        return result.get(evenPredicate.negate().test(result.get(false).size()));
+                .collect(Collectors.groupingBy(x -> x % 2 == 0));
+        return result.get(result.get(false).size() % 2 != 0);
     }
 
     private static int minValue(int[] values) {
