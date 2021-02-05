@@ -21,6 +21,7 @@ public class SQLHelper {
             SQLHelper.prepareQueryArguments(ps, queryArgs);
 
             ps.execute();
+
         } catch (SQLException e) {
             throw new StorageException(e);
         }
@@ -63,5 +64,10 @@ public class SQLHelper {
         } catch (SQLException e) {
             throw new StorageException(e);
         }
+    }
+
+    public static String getOneResult(ConnectionFactory cf, String query, String... queryArgs) {
+        var result = doQuery(cf, query, queryArgs);
+        return result.size() == 0 ? null : result.get(0).get(0);
     }
 }

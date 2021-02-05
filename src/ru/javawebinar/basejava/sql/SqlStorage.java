@@ -20,8 +20,8 @@ public class SqlStorage implements Storage {
     }
 
     private boolean isExit(String uuid) {
-        var result = SQLHelper.doQuery(cf, "SELECT full_name FROM resume r WHERE uuid = ?", uuid);
-        return result.size() == 1;
+        var result = SQLHelper.getOneResult(cf, "SELECT full_name FROM resume r WHERE uuid = ?", uuid);
+        return result != null;
     }
 
     private void checkExistKey(String uuid) {
@@ -59,11 +59,11 @@ public class SqlStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        var result = SQLHelper.doQuery(cf, "SELECT full_name FROM resume r WHERE uuid = ?", uuid);
-        if (result.size() == 0) {
+        var fullName = SQLHelper.getOneResult(cf, "SELECT full_name FROM resume r WHERE uuid = ?", uuid);
+        if (fullName == null) {
             throw new NotExistStorageException(uuid);
         }
-        return new Resume(uuid, result.get(0).get(0));
+        return new Resume(uuid, fullName);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public int size() {
-        var result = SQLHelper.doQuery(cf, "SELECT COUNT(uuid) FROM resume");
-        return result.size() == 0 ? 0 : Integer.parseInt(result.get(0).get(0));
+        var result = SQLHelper.getOneResult(cf, "SELECT COUNT(uuid) FROM resume");
+        return result == null ? 0 : Integer.parseInt(result);
     }
 }
