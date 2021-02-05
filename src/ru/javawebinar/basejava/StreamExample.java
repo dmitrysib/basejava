@@ -2,6 +2,7 @@ package ru.javawebinar.basejava;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 
 public class StreamExample {
@@ -16,10 +17,11 @@ public class StreamExample {
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
+        IntPredicate evenPredicate = x -> x % 2 == 0;
         var result = integers
                 .stream()
-                .collect(Collectors.groupingBy(i -> i % 2 == 0));
-        return result.get(result.get(false).size() % 2 == 0);
+                .collect(Collectors.groupingBy(evenPredicate::test));
+        return result.get(evenPredicate.test(result.get(false).size()));
     }
 
     private static int minValue(int[] values) {
