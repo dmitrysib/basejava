@@ -21,7 +21,7 @@ public class StreamExample {
         var result = integers
                 .stream()
                 .collect(Collectors.groupingBy(evenPredicate::test));
-        return result.get(evenPredicate.test(result.get(false).size()));
+        return result.get(evenPredicate.negate().test(result.get(false).size()));
     }
 
     private static int minValue(int[] values) {
