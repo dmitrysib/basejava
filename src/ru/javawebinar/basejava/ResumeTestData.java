@@ -1,10 +1,13 @@
 package ru.javawebinar.basejava;
 
-import ru.javawebinar.basejava.model.*;
-import ru.javawebinar.basejava.util.DateUtil;
+import ru.javawebinar.basejava.model.AbstractSection;
+import ru.javawebinar.basejava.model.ContactType;
+import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.SectionType;
 
-import java.time.Month;
-import java.util.*;
+import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 
 public class ResumeTestData {
 
@@ -35,10 +38,11 @@ public class ResumeTestData {
 
     public static Resume generateResume(String uuid, String fullName) {
 
-        Random random = new Random();
+//        Random random = new Random();
+        return new Resume(uuid, fullName);
+        //Resume resume = new Resume(uuid, fullName);
 
-        Resume resume = new Resume(uuid, fullName);
-
+/*
         HashMap<ContactType, String> contacts = new HashMap<>();
         for (ContactType contactType : ContactType.values()) {
             contacts.put(contactType, generateRandomWord());
@@ -99,18 +103,18 @@ public class ResumeTestData {
                 }
             }
         }
-
         return resume;
+ */
     }
 
     public static void main(String[] args) {
         Resume resume = generateResume(UUID.randomUUID().toString(), generateRandomString(2));
 
         System.out.println(resume);
-        for (Map.Entry<ContactType, String> entry: resume.getContacts().entrySet()) {
+        for (Map.Entry<ContactType, String> entry : resume.getContacts().entrySet()) {
             System.out.println(entry.getKey().getTitle() + ": " + entry.getValue());
         }
-        for (Map.Entry<SectionType, AbstractSection> entry: resume.getSections().entrySet()) {
+        for (Map.Entry<SectionType, AbstractSection> entry : resume.getSections().entrySet()) {
             System.out.println(entry.getKey().getTitle() + ": " + entry.getValue());
         }
     }
