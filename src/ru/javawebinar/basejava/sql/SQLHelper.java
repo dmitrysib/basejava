@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class SQLHelper {
-    private static final String POSTGRES_DUPLICATE_KEY_STATEMENT = "23505";
     private final ConnectionFactory cf;
 
     public SQLHelper(ConnectionFactory cf) {
@@ -22,7 +21,8 @@ public class SQLHelper {
             return action.execute(ps);
 
         } catch (SQLException e) {
-            if (POSTGRES_DUPLICATE_KEY_STATEMENT.equals(e.getSQLState())) {
+            // UNIQUE VIOLATION
+            if ("23505".equals(e.getSQLState())) {
                 throw new ExistStorageException(e);
             }
             throw new StorageException(e);
