@@ -23,7 +23,7 @@ public class SQLHelper {
 
         } catch (SQLException e) {
             if (POSTGRES_DUPLICATE_KEY_STATEMENT.equals(e.getSQLState())) {
-                throw new ExistStorageException(null);
+                throw new ExistStorageException(e);
             }
             throw new StorageException(e);
         }
