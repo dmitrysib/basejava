@@ -21,7 +21,7 @@ public class SqlStorage implements Storage {
     }
 
     private boolean isExit(String uuid) {
-        var result = SQLHelper.getOneResult(cf, "SELECT full_name FROM resume r WHERE uuid = ?", uuid);
+        var result = SQLHelper.getOneResult(cf, "SELECT full_name FROM resume WHERE uuid = ?", uuid);
         return result != null;
     }
 
@@ -60,7 +60,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        var fullName = SQLHelper.getOneResult(cf, "SELECT full_name FROM resume r WHERE uuid = ?", uuid);
+        var fullName = SQLHelper.getOneResult(cf, "SELECT full_name FROM resume WHERE uuid = ?", uuid);
         if (fullName == null) {
             throw new NotExistStorageException(uuid);
         }
