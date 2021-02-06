@@ -25,7 +25,7 @@ public class SQLHelper {
         }
     }
 
-    static class SQLExceptionHelper extends RuntimeException {
+    private static class SQLExceptionHelper extends RuntimeException {
         private static final String POSTGRES_DUPLICATE_KEY_STATEMENT = "23505";
         private static final int MYSQL_DUPLICATE_KEY_CODE = 1062;
 
