@@ -49,7 +49,7 @@ public class SqlStorage implements Storage {
     public void update(Resume resume) {
         LOG.info("Update " + resume);
         checkExistKey(resume.getUuid());
-        SQLHelper.doUpdate(cf, "UPDATE resume SET full_name = ? WHERE uuid = ?", resume.getFullName(), resume.getUuid());
+        SQLHelper.doExecute(cf, "UPDATE resume SET full_name = ? WHERE uuid = ?", resume.getFullName(), resume.getUuid());
     }
 
     @Override

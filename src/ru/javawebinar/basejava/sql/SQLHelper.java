@@ -27,19 +27,6 @@ public class SQLHelper {
         }
     }
 
-    public static int doUpdate(ConnectionFactory cf, String query, String... queryArgs) {
-        try (Connection conn = cf.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-
-            SQLHelper.prepareQueryArguments(ps, queryArgs);
-
-            return ps.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new StorageException(e);
-        }
-    }
-
     public static List<List<String>> doQuery(ConnectionFactory cf, String query, String... queryArgs) {
         try (Connection conn = cf.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
