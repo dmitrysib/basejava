@@ -20,7 +20,7 @@ public class SQLHelper {
             return action.execute(ps);
 
         } catch (SQLException e) {
-            throw new StorageException(e);
+            throw new SQLExceptionHelper(e);
         }
     }
 }
