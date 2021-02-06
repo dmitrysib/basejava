@@ -5,7 +5,6 @@ import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.sql.ConnectionFactory;
 import ru.javawebinar.basejava.sql.SQLHelper;
-import ru.javawebinar.basejava.storage.Storage;
 import ru.javawebinar.basejava.util.LoggerUtil;
 
 import java.sql.DriverManager;
@@ -42,21 +41,21 @@ public class SqlStorage implements Storage {
 
     @Override
     public void clear() {
-        SQLHelper.doExecute(cf, "DELETE FROM resume");
+        SQLHelper.doQuery(cf, "DELETE FROM resume");
     }
 
     @Override
     public void update(Resume resume) {
         LOG.info("Update " + resume);
         checkExistKey(resume.getUuid());
-        SQLHelper.doExecute(cf, "UPDATE resume SET full_name = ? WHERE uuid = ?", resume.getFullName(), resume.getUuid());
+        SQLHelper.doQuery(cf, "UPDATE resume SET full_name = ? WHERE uuid = ?", resume.getFullName(), resume.getUuid());
     }
 
     @Override
     public void save(Resume resume) {
         LOG.info("Save " + resume);
         checkNotExistKey(resume.getUuid());
-        SQLHelper.doExecute(cf, "INSERT INTO resume (uuid, full_name)VALUES (?, ?)", resume.getUuid(), resume.getFullName());
+        SQLHelper.doQuery(cf, "INSERT INTO resume (uuid, full_name)VALUES (?, ?)", resume.getUuid(), resume.getFullName());
     }
 
     @Override
@@ -72,12 +71,12 @@ public class SqlStorage implements Storage {
     public void delete(String uuid) {
         LOG.info("Delete " + uuid);
         checkExistKey(uuid);
-        SQLHelper.doExecute(cf, "DELETE FROM resume WHERE uuid = ?", uuid);
+        SQLHelper.doQuery(cf, "DELETE FROM resume WHERE uuid = ?", uuid);
     }
 
     @Override
     public List<Resume> getAllSorted() {
-        var result = SQLHelper.doQuery(cf, "SELECT * FROM resume ORDER BY full_name, uuid");
+        var result = SQLHelper.doQuerySelect(cf, "SELECT * FROM resume ORDER BY full_name, uuid");
         List<Resume> resumes = new ArrayList<>(result.size());
 
         result.forEach(res -> resumes.add(new Resume(res.get(0), res.get(1))));

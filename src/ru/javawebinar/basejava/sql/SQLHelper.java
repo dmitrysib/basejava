@@ -14,7 +14,7 @@ public class SQLHelper {
         }
     }
 
-    public static void doExecute(ConnectionFactory cf, String query, String... queryArgs) {
+    public static void doQuery(ConnectionFactory cf, String query, String... queryArgs) {
         try (Connection conn = cf.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
@@ -27,16 +27,16 @@ public class SQLHelper {
         }
     }
 
-    public static List<List<String>> doQuery(ConnectionFactory cf, String query, String... queryArgs) {
+    public static List<List<String>> doQuerySelect(ConnectionFactory cf, String query, String... queryArgs) {
         try (Connection conn = cf.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
             SQLHelper.prepareQueryArguments(ps, queryArgs);
 
             ps.executeQuery();
+
             ResultSet rs = ps.getResultSet();
             ResultSetMetaData metaData = rs.getMetaData();
-
             int columnCount = metaData.getColumnCount();
             var result = new ArrayList<List<String>>(columnCount);
             while (rs.next()) {
@@ -54,7 +54,7 @@ public class SQLHelper {
     }
 
     public static String getOneResult(ConnectionFactory cf, String query, String... queryArgs) {
-        var result = doQuery(cf, query, queryArgs);
+        var result = doQuerySelect(cf, query, queryArgs);
         return result.size() == 0 ? null : result.get(0).get(0);
     }
 }
