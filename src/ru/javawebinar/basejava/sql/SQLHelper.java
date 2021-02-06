@@ -6,6 +6,7 @@ import ru.javawebinar.basejava.exception.StorageException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 public class SQLHelper {
     private final ConnectionFactory cf;
@@ -19,7 +20,9 @@ public class SQLHelper {
              PreparedStatement ps = conn.prepareStatement(query)) {
 
             return action.execute(ps);
-
+        } catch (SQLIntegrityConstraintViolationException e) {
+            // MYSQL UNIQUE VIOLATION
+            throw new ExistStorageException(e);
         } catch (SQLException e) {
             // POSTGRESQL UNIQUE VIOLATION
             if ("23505".equals(e.getSQLState())) {
