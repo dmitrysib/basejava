@@ -41,8 +41,8 @@ public class SQLHelper {
             var result = new ArrayList<List<String>>(columnCount);
             while (rs.next()) {
                 var row = new ArrayList<String>(columnCount);
-                for (int i = 0; i < columnCount; i++) {
-                    row.add(rs.getString(i + 1));
+                for (int i = 1; i <= columnCount; i++) {
+                    row.add(rs.getString(i));
                 }
                 result.add(row);
             }
