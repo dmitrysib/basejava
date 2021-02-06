@@ -21,7 +21,7 @@ public class SQLHelper {
             return action.execute(ps);
 
         } catch (SQLException e) {
-            // UNIQUE VIOLATION
+            // POSTGRESQL UNIQUE VIOLATION
             if ("23505".equals(e.getSQLState())) {
                 throw new ExistStorageException(e);
             }
