@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class SQLHelper {
+    private static final String POSTGRES_DUPLICATE_KEY_STATEMENT = "23505";
     private final ConnectionFactory cf;
 
     public SQLHelper(ConnectionFactory cf) {
@@ -21,16 +22,7 @@ public class SQLHelper {
             return action.execute(ps);
 
         } catch (SQLException e) {
-            throw new SQLExceptionHelper(e);
-        }
-    }
-
-    private static class SQLExceptionHelper extends RuntimeException {
-        private static final String POSTGRES_DUPLICATE_KEY_STATEMENT = "23505";
-        private static final int MYSQL_DUPLICATE_KEY_CODE = 1062;
-
-        SQLExceptionHelper(SQLException e) {
-            if (POSTGRES_DUPLICATE_KEY_STATEMENT.equals(e.getSQLState()) || MYSQL_DUPLICATE_KEY_CODE == e.getErrorCode()) {
+            if (POSTGRES_DUPLICATE_KEY_STATEMENT.equals(e.getSQLState())) {
                 throw new ExistStorageException(null);
             }
             throw new StorageException(e);
