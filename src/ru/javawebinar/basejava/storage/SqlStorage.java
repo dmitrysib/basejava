@@ -37,12 +37,10 @@ public class SqlStorage implements Storage {
                 if (ps.executeUpdate() < 1) {
                     throw new NotExistStorageException(uuid);
                 }
+
+                deleteConstacts(conn, uuid);
+                insertContacts(conn, resume);
             }
-            try (var ps = conn.prepareStatement("DELETE FROM contact WHERE resume_uuid = ?")) {
-                ps.setString(1, uuid);
-                ps.execute();
-            }
-            insertContacts(conn, resume);
             return null;
         });
     }
@@ -55,8 +53,9 @@ public class SqlStorage implements Storage {
                 ps.setString(1, resume.getUuid());
                 ps.setString(2, resume.getFullName());
                 ps.execute();
+
+                insertContacts(conn, resume);
             }
-            insertContacts(conn, resume);
             return null;
         });
     }
@@ -130,6 +129,13 @@ public class SqlStorage implements Storage {
             ResultSet rs = ps.executeQuery();
             return rs.next() ? rs.getInt("uuid_count") : 0;
         });
+    }
+
+    private void deleteConstacts(Connection conn, String uuid) throws SQLException {
+        try (var ps = conn.prepareStatement("DELETE FROM contact WHERE resume_uuid = ?")) {
+            ps.setString(1, uuid);
+            ps.execute();
+        }
     }
 
     private void insertContacts(Connection conn, Resume resume) throws SQLException {
