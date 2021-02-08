@@ -5,6 +5,7 @@ import ru.javawebinar.basejava.model.ContactType;
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.model.SectionType;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -38,17 +39,15 @@ public class ResumeTestData {
 
     public static Resume generateResume(String uuid, String fullName) {
 
-//        Random random = new Random();
-        return new Resume(uuid, fullName);
-        //Resume resume = new Resume(uuid, fullName);
+        //Random random = new Random();
+        Resume resume = new Resume(uuid, fullName);
 
-/*
         HashMap<ContactType, String> contacts = new HashMap<>();
         for (ContactType contactType : ContactType.values()) {
             contacts.put(contactType, generateRandomWord());
         }
         resume.setContacts(contacts);
-
+/*
         for (SectionType sectionType : SectionType.values()) {
             switch (sectionType.name()) {
                 case "PERSONAL", "OBJECTIVE" -> {
@@ -103,8 +102,8 @@ public class ResumeTestData {
                 }
             }
         }
+*/
         return resume;
- */
     }
 
     public static void main(String[] args) {

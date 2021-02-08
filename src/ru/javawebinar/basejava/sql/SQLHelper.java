@@ -1,12 +1,10 @@
 package ru.javawebinar.basejava.sql;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 
 public class SQLHelper {
     private final ConnectionFactory cf;
@@ -20,14 +18,23 @@ public class SQLHelper {
              PreparedStatement ps = conn.prepareStatement(query)) {
 
             return action.execute(ps);
-        } catch (SQLIntegrityConstraintViolationException e) {
-            // MYSQL UNIQUE VIOLATION
-            throw new ExistStorageException(e);
         } catch (SQLException e) {
-            // POSTGRESQL UNIQUE VIOLATION
-            if ("23505".equals(e.getSQLState())) {
-                throw new ExistStorageException(e);
+            throw ExceptionUtil.convertException(e);
+        }
+    }
+
+    public <T> T transactionalExecute(SqlTransaction<T> action) {
+        try (Connection conn = cf.getConnection()) {
+            try {
+                conn.setAutoCommit(false);
+                T result = action.execute(conn);
+                conn.commit();
+                return result;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw ExceptionUtil.convertException(e);
             }
+        } catch (SQLException e) {
             throw new StorageException(e);
         }
     }

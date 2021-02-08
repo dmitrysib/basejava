@@ -1,6 +1,7 @@
 package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.storage.SqlStorage;
+import ru.javawebinar.basejava.storage.Storage;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,7 +13,7 @@ public class Config {
     private static final Config INSTANCE = new Config();
 
     private final String storageDirectory;
-    private final SqlStorage sqlStorage;
+    private final Storage sqlStorage;
 
     private Config() {
         try (var is = new FileInputStream(PROPS)) {
@@ -34,7 +35,7 @@ public class Config {
         return storageDirectory;
     }
 
-    public SqlStorage getSqlStorage() {
+    public Storage getSqlStorage() {
         return sqlStorage;
     }
 }
