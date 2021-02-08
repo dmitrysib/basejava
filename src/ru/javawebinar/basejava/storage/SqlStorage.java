@@ -30,9 +30,10 @@ public class SqlStorage implements Storage {
         LOG.info("Update " + resume);
         sqlHelper.doQuery("UPDATE resume SET full_name = ? WHERE uuid = ?", ps -> {
             ps.setString(1, resume.getFullName());
-            ps.setString(2, resume.getUuid());
+            final String uuid = resume.getUuid();
+            ps.setString(2, uuid);
             if (ps.executeUpdate() < 1) {
-                throw new NotExistStorageException(resume.getUuid());
+                throw new NotExistStorageException(uuid);
             }
             return null;
         });
@@ -50,15 +51,14 @@ public class SqlStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        String fullName = sqlHelper.doQuery("SELECT full_name FROM resume WHERE uuid = ?", ps -> {
+        return sqlHelper.doQuery("SELECT full_name FROM resume WHERE uuid = ?", ps -> {
             ps.setString(1, uuid);
             ResultSet rs = ps.executeQuery();
             if (!rs.next()) {
                 throw new NotExistStorageException(uuid);
             }
-            return rs.getString("full_name");
+            return new Resume(uuid, rs.getString("full_name"));
         });
-        return new Resume(uuid, fullName);
     }
 
     @Override
