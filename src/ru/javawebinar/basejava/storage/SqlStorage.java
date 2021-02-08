@@ -28,9 +28,9 @@ public class SqlStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        final String uuid = resume.getUuid();
         LOG.info("Update " + resume);
         sqlHelper.transactionalExecute(conn -> {
+            final String uuid = resume.getUuid();
             try (var ps = conn.prepareStatement("UPDATE resume SET full_name = ? WHERE uuid = ?")) {
                 ps.setString(1, resume.getFullName());
                 ps.setString(2, uuid);
