@@ -126,11 +126,11 @@ public class SqlStorage implements Storage {
     }
 
     private void addContact(ResultSet rs, Resume resume) throws SQLException {
-        String typeString = rs.getString("type");
-        if (typeString != null) {
+        String value = rs.getString("value");
+        if (value != null) {
             resume.addContact(
-                    ContactType.valueOf(typeString),
-                    rs.getString("value")
+                    ContactType.valueOf(rs.getString("type")),
+                    value
             );
         }
     }
