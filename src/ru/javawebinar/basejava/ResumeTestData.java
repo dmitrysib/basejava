@@ -1,14 +1,8 @@
 package ru.javawebinar.basejava;
 
-import ru.javawebinar.basejava.model.AbstractSection;
-import ru.javawebinar.basejava.model.ContactType;
-import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.model.SectionType;
+import ru.javawebinar.basejava.model.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class ResumeTestData {
 
@@ -39,7 +33,7 @@ public class ResumeTestData {
 
     public static Resume generateResume(String uuid, String fullName) {
 
-        //Random random = new Random();
+        Random random = new Random();
         Resume resume = new Resume(uuid, fullName);
 
         HashMap<ContactType, String> contacts = new HashMap<>();
@@ -47,7 +41,6 @@ public class ResumeTestData {
             contacts.put(contactType, generateRandomWord());
         }
         resume.setContacts(contacts);
-/*
         for (SectionType sectionType : SectionType.values()) {
             switch (sectionType.name()) {
                 case "PERSONAL", "OBJECTIVE" -> {
@@ -62,6 +55,7 @@ public class ResumeTestData {
                     AbstractSection sc = new ListSection(List.of(list));
                     resume.addSection(sectionType, sc);
                 }
+/*
                 case "EXPERIENCE" -> {
                     Experience[] eList = new Experience[random.nextInt(2) + 3];
                     for (int i = 0; i < eList.length; i++) {
@@ -100,9 +94,9 @@ public class ResumeTestData {
                     AbstractSection exp = new Organization(List.of(eList));
                     resume.addSection(sectionType, exp);
                 }
+*/
             }
         }
-*/
         return resume;
     }
 
