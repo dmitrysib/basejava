@@ -20,19 +20,15 @@ public class ResumeServlet extends HttpServlet {
 
         Storage storage = Config.getInstance().getSqlStorage();
         String uuid = request.getParameter("uuid");
-
         List<Resume> resumes = uuid == null ? storage.getAllSorted() : List.of(storage.get(uuid));
-
         response.getWriter().write("<table>");
         for (Resume resume : resumes) {
             response.getWriter().write("<tr><td>" + resume.getUuid() + "</td><td>" + resume.getFullName() + "</td></tr>");
         }
         response.getWriter().write("</table>");
-
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-
     }
 }
