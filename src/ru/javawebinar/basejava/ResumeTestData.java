@@ -38,9 +38,9 @@ public class ResumeTestData {
 
         HashMap<ContactType, String> contacts = new HashMap<>();
         for (ContactType contactType : ContactType.values()) {
-            contacts.put(contactType, generateRandomWord());
+            resume.addContact(contactType, generateRandomWord());
         }
-        resume.setContacts(contacts);
+
         for (SectionType sectionType : SectionType.values()) {
             switch (sectionType.name()) {
                 case "PERSONAL", "OBJECTIVE" -> {
