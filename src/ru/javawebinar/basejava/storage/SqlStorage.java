@@ -205,14 +205,15 @@ public class SqlStorage implements Storage {
     }
 
     private void deleteSections(Connection conn, String uuid) throws SQLException {
-        try (var ps = conn.prepareStatement("DELETE FROM section WHERE resume_uuid = ?")) {
-            ps.setString(1, uuid);
-            ps.execute();
-        }
+        doDelete(conn, uuid, "DELETE FROM section WHERE resume_uuid = ?");
     }
 
     private void deleteContacts(Connection conn, String uuid) throws SQLException {
-        try (var ps = conn.prepareStatement("DELETE FROM contact WHERE resume_uuid = ?")) {
+        doDelete(conn, uuid, "DELETE FROM contact WHERE resume_uuid = ?");
+    }
+
+    private void doDelete(Connection conn, String uuid, String query) throws SQLException {
+        try (var ps = conn.prepareStatement(query)) {
             ps.setString(1, uuid);
             ps.execute();
         }
