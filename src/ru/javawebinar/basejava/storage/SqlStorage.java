@@ -155,14 +155,10 @@ public class SqlStorage implements Storage {
     private void addSection(ResultSet rs, Resume resume) throws SQLException {
         SectionType section = SectionType.valueOf(rs.getString("section"));
         switch (section) {
-            case PERSONAL, OBJECTIVE -> {
-                resume.addSection(section, new StringSection(rs.getString("value")));
-            }
-            case ACHIEVEMENT, QUALIFICATIONS -> {
-                resume.addSection(section, new ListSection(List.of(
-                        rs.getString("value").split("\n")
-                )));
-            }
+            case PERSONAL, OBJECTIVE -> resume.addSection(section, new StringSection(rs.getString("value")));
+            case ACHIEVEMENT, QUALIFICATIONS -> resume.addSection(section, new ListSection(List.of(
+                    rs.getString("value").split("\n")
+            )));
         }
     }
 
@@ -179,12 +175,8 @@ public class SqlStorage implements Storage {
                 ps.setString(1, resume.getUuid());
                 ps.setString(2, entry.getKey().name());
                 switch (entry.getKey()) {
-                    case PERSONAL, OBJECTIVE -> {
-                        ps.setString(3, ((StringSection) entry.getValue()).getValue());
-                    }
-                    case ACHIEVEMENT, QUALIFICATIONS -> {
-                        ps.setString(3, String.join("\n", ((ListSection) entry.getValue()).getElements()));
-                    }
+                    case PERSONAL, OBJECTIVE -> ps.setString(3, ((StringSection) entry.getValue()).getValue());
+                    case ACHIEVEMENT, QUALIFICATIONS -> ps.setString(3, String.join("\n", ((ListSection) entry.getValue()).getElements()));
                 }
                 ps.addBatch();
             }
