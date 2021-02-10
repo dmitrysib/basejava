@@ -8,7 +8,6 @@ import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.storage.Storage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
@@ -22,7 +21,7 @@ public class ResumeServlet extends HttpServlet {
         Storage storage = Config.getInstance().getSqlStorage();
         String uuid = request.getParameter("uuid");
 
-        List<Resume> resumes = uuid == null ? storage.getAllSorted() : new ArrayList<>(List.of(storage.get(uuid)));
+        List<Resume> resumes = uuid == null ? storage.getAllSorted() : List.of(storage.get(uuid));
 
         response.getWriter().write("<table>");
         for (Resume resume : resumes) {
