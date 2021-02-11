@@ -2,8 +2,12 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
-import ru.javawebinar.basejava.model.*;
+import ru.javawebinar.basejava.model.AbstractSection;
+import ru.javawebinar.basejava.model.ContactType;
+import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.SectionType;
 import ru.javawebinar.basejava.sql.SQLHelper;
+import ru.javawebinar.basejava.util.JsonParer;
 import ru.javawebinar.basejava.util.LoggerUtil;
 
 import java.sql.*;
@@ -21,7 +25,7 @@ public class SqlStorage implements Storage {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            throw new StorageException(e);
+            throw new IllegalStateException(e);
         }
         sqlHelper = new SQLHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
     }
@@ -153,12 +157,10 @@ public class SqlStorage implements Storage {
     }
 
     private void addSection(ResultSet rs, Resume resume) throws SQLException {
-        SectionType section = SectionType.valueOf(rs.getString("section_name"));
-        switch (section) {
-            case PERSONAL, OBJECTIVE -> resume.addSection(section, new StringSection(rs.getString("value")));
-            case ACHIEVEMENT, QUALIFICATIONS -> resume.addSection(section, new ListSection(List.of(
-                    rs.getString("value").split("\n")
-            )));
+        String content = rs.getString("value");
+        if (content != null) {
+            SectionType section = SectionType.valueOf(rs.getString("section_name"));
+            resume.addSection(section, JsonParer.read(content, AbstractSection.class));
         }
     }
 
@@ -174,10 +176,7 @@ public class SqlStorage implements Storage {
             for (Map.Entry<SectionType, AbstractSection> entry : resume.getSections().entrySet()) {
                 ps.setString(1, resume.getUuid());
                 ps.setString(2, entry.getKey().name());
-                switch (entry.getKey()) {
-                    case PERSONAL, OBJECTIVE -> ps.setString(3, ((StringSection) entry.getValue()).getValue());
-                    case ACHIEVEMENT, QUALIFICATIONS -> ps.setString(3, String.join("\n", ((ListSection) entry.getValue()).getElements()));
-                }
+                ps.setString(3, JsonParer.write(entry.getValue(), AbstractSection.class));
                 ps.addBatch();
             }
             ps.executeBatch();
@@ -204,8 +203,8 @@ public class SqlStorage implements Storage {
         deleteValues(conn, uuid, "DELETE FROM contact WHERE resume_uuid = ?");
     }
 
-    private void deleteValues(Connection conn, String uuid, String query) throws SQLException {
-        try (var ps = conn.prepareStatement(query)) {
+    private void deleteValues(Connection conn, String uuid, String sql) throws SQLException {
+        try (var ps = conn.prepareStatement(sql)) {
             ps.setString(1, uuid);
             ps.execute();
         }

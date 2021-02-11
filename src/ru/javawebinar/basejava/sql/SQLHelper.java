@@ -13,9 +13,9 @@ public class SQLHelper {
         this.cf = cf;
     }
 
-    public <T> T doQuery(String query, SQLAction<T> action) {
+    public <T> T doQuery(String sql, SQLAction<T> action) {
         try (Connection conn = cf.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             return action.execute(ps);
         } catch (SQLException e) {

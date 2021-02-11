@@ -1,7 +1,9 @@
 package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.*;
+import ru.javawebinar.basejava.util.DateUtil;
 
+import java.time.Month;
 import java.util.*;
 
 public class ResumeTestData {
@@ -36,11 +38,9 @@ public class ResumeTestData {
         Random random = new Random();
         Resume resume = new Resume(uuid, fullName);
 
-        HashMap<ContactType, String> contacts = new HashMap<>();
         for (ContactType contactType : ContactType.values()) {
             resume.addContact(contactType, generateRandomWord());
         }
-
         for (SectionType sectionType : SectionType.values()) {
             switch (sectionType.name()) {
                 case "PERSONAL", "OBJECTIVE" -> {
@@ -55,7 +55,6 @@ public class ResumeTestData {
                     AbstractSection sc = new ListSection(List.of(list));
                     resume.addSection(sectionType, sc);
                 }
-/*
                 case "EXPERIENCE" -> {
                     Experience[] eList = new Experience[random.nextInt(2) + 3];
                     for (int i = 0; i < eList.length; i++) {
@@ -94,7 +93,6 @@ public class ResumeTestData {
                     AbstractSection exp = new Organization(List.of(eList));
                     resume.addSection(sectionType, exp);
                 }
-*/
             }
         }
         return resume;

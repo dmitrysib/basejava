@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public final class LocalDateJsonAdapter implements JsonSerializer<LocalDate>, JsonDeserializer<LocalDate> {
-    public static final LocalDateJsonAdapter INSTANCE = new LocalDateJsonAdapter();
 
     private LocalDateJsonAdapter() {
     }

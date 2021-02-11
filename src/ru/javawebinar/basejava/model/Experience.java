@@ -47,10 +47,6 @@ public class Experience implements Serializable {
         return positions;
     }
 
-    public void setPositions(List<Position> positions) {
-        this.positions = positions;
-    }
-
     @Override
     public String toString() {
         return "Experience {" + homePage + ", " + positions + "}";

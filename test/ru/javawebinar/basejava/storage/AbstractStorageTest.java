@@ -2,27 +2,20 @@ package ru.javawebinar.basejava.storage;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.ResumeTestData;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.javawebinar.basejava.TestData.*;
 
 public abstract class AbstractStorageTest {
-    protected static final String STORAGE_DIR = Config.getInstance().getStorageDirectory();
-    private static final String UUID_1 = UUID.randomUUID().toString();
-    private static final String UUID_2 = UUID.randomUUID().toString();
-    private static final String UUID_3 = UUID.randomUUID().toString();
-    private static final String UUID_4 = UUID.randomUUID().toString();
-    private static final Resume RESUME_1 = ResumeTestData.generateResume(UUID_1, ResumeTestData.generateRandomString(2));
-    private static final Resume RESUME_2 = ResumeTestData.generateResume(UUID_2, ResumeTestData.generateRandomString(2));
-    private static final Resume RESUME_3 = ResumeTestData.generateResume(UUID_3, ResumeTestData.generateRandomString(2));
-    private static final Resume RESUME_4 = ResumeTestData.generateResume(UUID_4, ResumeTestData.generateRandomString(2));
     protected final Storage storage;
 
     public AbstractStorageTest(Storage storage) {
