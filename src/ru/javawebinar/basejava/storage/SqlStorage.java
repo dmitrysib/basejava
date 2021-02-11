@@ -89,7 +89,7 @@ public class SqlStorage implements Storage {
                 }
             }
 
-            try (var ps = conn.prepareStatement("SELECT section, value FROM section WHERE resume_uuid = ?")) {
+            try (var ps = conn.prepareStatement("SELECT section_name, value FROM section WHERE resume_uuid = ?")) {
                 ps.setString(1, uuid);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
@@ -132,7 +132,7 @@ public class SqlStorage implements Storage {
                 }
             }
 
-            try (var ps = conn.prepareStatement("SELECT resume_uuid, section, value FROM section")) {
+            try (var ps = conn.prepareStatement("SELECT resume_uuid, section_name, value FROM section")) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     Resume resume = resumes.get(rs.getString("resume_uuid"));
@@ -153,7 +153,7 @@ public class SqlStorage implements Storage {
     }
 
     private void addSection(ResultSet rs, Resume resume) throws SQLException {
-        SectionType section = SectionType.valueOf(rs.getString("section"));
+        SectionType section = SectionType.valueOf(rs.getString("section_name"));
         switch (section) {
             case PERSONAL, OBJECTIVE -> resume.addSection(section, new StringSection(rs.getString("value")));
             case ACHIEVEMENT, QUALIFICATIONS -> resume.addSection(section, new ListSection(List.of(
@@ -170,7 +170,7 @@ public class SqlStorage implements Storage {
     }
 
     private void insertSections(Connection conn, Resume resume) throws SQLException {
-        try (var ps = conn.prepareStatement("INSERT INTO section (resume_uuid, section, value) VALUES (?, ?, ?)")) {
+        try (var ps = conn.prepareStatement("INSERT INTO section (resume_uuid, section_name, value) VALUES (?, ?, ?)")) {
             for (Map.Entry<SectionType, AbstractSection> entry : resume.getSections().entrySet()) {
                 ps.setString(1, resume.getUuid());
                 ps.setString(2, entry.getKey().name());

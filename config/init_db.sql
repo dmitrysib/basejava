@@ -26,7 +26,7 @@ create table section
     id serial not null
         constraint section_pk
             primary key,
-    section varchar(256) not null,
+    section_name varchar(256) not null,
     value text not null,
     resume_uuid varchar(36) not null
         constraint section_resume_uuid_fk
