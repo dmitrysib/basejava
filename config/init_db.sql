@@ -11,12 +11,12 @@ CREATE TABLE resume (
 create table contact
 (
     id serial not null
-        constraint section_pk
+        constraint contact_pk
             primary key,
     type varchar(256) not null,
     value varchar(256) not null,
     resume_uuid varchar(36) not null
-        constraint section_resume_uuid_fk
+        constraint contact_resume_uuid_fk
             references resume
             on delete cascade
 );
