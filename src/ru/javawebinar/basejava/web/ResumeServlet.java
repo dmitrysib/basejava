@@ -25,13 +25,9 @@ public class ResumeServlet extends HttpServlet {
         List<Resume> resumes = uuid == null ? storage.getAllSorted() : new ArrayList<>(List.of(storage.get(uuid)));
 
         response.getWriter().write("<table>");
-        resumes.forEach(resume -> {
-            try {
-                response.getWriter().write("<tr><td>" + resume.getUuid() + "</td><td>" + resume.getFullName() + "</td></tr>");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        for (Resume resume: resumes) {
+            response.getWriter().write("<tr><td>" + resume.getUuid() + "</td><td>" + resume.getFullName() + "</td></tr>");
+        }
         response.getWriter().write("</table>");
 
     }
