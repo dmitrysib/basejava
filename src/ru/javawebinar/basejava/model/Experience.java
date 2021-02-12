@@ -126,6 +126,10 @@ public class Experience implements Serializable {
             return endDate.toString();
         }
 
+        public String getDatePeriod() {
+            return DateUtil.format(startDate) + " - " + DateUtil.format(endDate);
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;

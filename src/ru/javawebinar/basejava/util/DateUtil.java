@@ -5,6 +5,7 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 
 public class DateUtil {
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MM/yyyy");
 
     public static final LocalDate NOW = LocalDate.of(3000, 1, 1);
 
@@ -14,5 +15,9 @@ public class DateUtil {
 
     public static LocalDate of(String str) {
         return LocalDate.parse(str, DateTimeFormatter.ISO_LOCAL_DATE);
+    }
+
+    public static String format(LocalDate date) {
+        return date.isEqual(NOW) ? "Сейчас" : date.format(DATE_FORMATTER);
     }
 }

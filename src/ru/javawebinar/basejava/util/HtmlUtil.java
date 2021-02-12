@@ -1,11 +1,12 @@
 package ru.javawebinar.basejava.util;
 
-import ru.javawebinar.basejava.model.ContactType;
-import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.Experience;
 
 public final class HtmlUtil {
 
-    public static String getContact(Resume resume, ContactType contactType) {
-        return resume.getContacts().get(ContactType.EMAIL);
+    public static String buildHtmlLink(Experience.Link homePage) {
+        return homePage.getUrl() == null
+                ? homePage.getTitle()
+                : "<a href=\"" + homePage.getUrl() + "\" target=\"_blank\">" + homePage.getTitle() + "</a>";
     }
 }

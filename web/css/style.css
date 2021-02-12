@@ -13,6 +13,11 @@ footer {
     margin: 20px 0;
 }
 
+section {
+    width: 900px;
+    margin: auto;
+}
+
 dl {
     background: none repeat scroll 0 0 #FAFAFA;
     margin: 8px 0;
@@ -61,4 +66,18 @@ a[href^="https://www.linkedin.com"] {
 a[href*="github."] {
     padding-left: 20px !important;
     background: url(../img/gh.png) no-repeat center left;
+}
+
+.section_objective {
+    font-weight: bold;
+}
+
+.organization {
+    padding: 10px;
+    margin: 10px;
+}
+
+.date-period {
+    width: 150px;
+    vertical-align: top;
 }
