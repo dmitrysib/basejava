@@ -53,7 +53,7 @@ public class ResumeServlet extends HttpServlet {
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
             if (value != null && value.trim().length() != 0) {
-                resume.addContact(type, value);
+                resume.addContact(type, value.trim());
             }
         }
 
@@ -62,7 +62,7 @@ public class ResumeServlet extends HttpServlet {
             String value = request.getParameter(sectionType.name());
             if (value != null && value.trim().length() != 0) {
                 switch (sectionType) {
-                    case PERSONAL,OBJECTIVE -> resume.addSection(sectionType, new StringSection(value));
+                    case PERSONAL,OBJECTIVE -> resume.addSection(sectionType, new StringSection(value.trim()));
                     case QUALIFICATIONS, ACHIEVEMENT -> resume.addSection(sectionType, new ListSection(List.of(value.trim().split("\n"))));
                 }
             }
