@@ -1,4 +1,6 @@
 <%@ page import="ru.javawebinar.basejava.model.ContactType" %>
+<%@ page import="ru.javawebinar.basejava.model.SectionType" %>
+<%@ page import="ru.javawebinar.basejava.model.StringSection" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -20,6 +22,7 @@
                 <%--suppress HtmlFormInputWithoutLabel --%>
                 <input type="text" name="fullName" size="50" value="${resume.fullName}"></dd>
         </dl>
+        <hr/>
         <h3>Контакты:</h3>
         <c:forEach var="type" items="<%=ContactType.values()%>">
             <dl>
@@ -30,8 +33,22 @@
                 </dd>
             </dl>
         </c:forEach>
+        <hr/>
         <h3>Секции:</h3>
-        <hr>
+        <c:forEach var="section" items="<%=SectionType.values()%>">
+            <jsp:useBean id="section" type="ru.javawebinar.basejava.model.SectionType"/>
+            <dl>
+                <dt>${section.title}</dt>
+                <c:choose>
+                    <c:when test="${section.equals(SectionType.OBJECTIVE) || section.equals(SectionType.PERSONAL)}">
+<%--suppress HtmlFormInputWithoutLabel --%>
+                        <input type="text" name="${section.name()}" size="100" value="<%=((StringSection) resume.getSections().get(section)).getValue()%>">
+                    </c:when>
+                </c:choose>
+            </dl>
+
+        </c:forEach>
+        <hr/>
         <button type="submit">Сохранить</button>
         <button onclick="window.history.back()">Отменить</button>
     </form>
