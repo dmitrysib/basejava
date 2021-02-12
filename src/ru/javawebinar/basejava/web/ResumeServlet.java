@@ -1,8 +1,7 @@
 package ru.javawebinar.basejava.web;
 
 import ru.javawebinar.basejava.Config;
-import ru.javawebinar.basejava.model.ContactType;
-import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.storage.Storage;
 
 import javax.servlet.ServletException;
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
     private final Storage storage = Config.getInstance().getSqlStorage();
@@ -49,12 +49,22 @@ public class ResumeServlet extends HttpServlet {
         Resume resume = storage.get(uuid);
         resume.setFullName(fullName);
 
+        resume.getContacts().clear();
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
             if (value != null && value.trim().length() != 0) {
                 resume.addContact(type, value);
-            } else {
-                resume.getContacts().remove(type);
+            }
+        }
+
+        resume.getSections().clear();
+        for (SectionType sectionType: SectionType.values()) {
+            String value = request.getParameter(sectionType.name());
+            if (value != null && value.trim().length() != 0) {
+                switch (sectionType) {
+                    case PERSONAL,OBJECTIVE -> resume.addSection(sectionType, new StringSection(value));
+                    case QUALIFICATIONS, ACHIEVEMENT -> resume.addSection(sectionType, new ListSection(List.of(value.trim().split("\n"))));
+                }
             }
         }
         storage.update(resume);

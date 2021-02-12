@@ -27,6 +27,7 @@ dl {
 dt {
     display: inline-block;
     width: 170px;
+    vertical-align: top;
 }
 
 dd {
@@ -80,4 +81,13 @@ a[href*="github."] {
 .date-period {
     width: 150px;
     vertical-align: top;
+}
+
+input, textarea {
+    padding: 2px;
+    margin: 2px;
+}
+
+.list-block {
+    width: 80%;
 }
