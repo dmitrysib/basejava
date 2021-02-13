@@ -11,7 +11,7 @@
     <%--suppress HtmlUnknownTarget --%>
     <link rel="stylesheet" href="css/style.css">
     <jsp:useBean id="resume" type="ru.javawebinar.basejava.model.Resume" scope="request"/>
-    <title>${resume.uuid.length() == 0? "Новое" : "Редактирование"} Резюме ${resume.fullName}</title>
+    <title>${resume.uuid.length() == 0? "Новое" : "Редактирование"} резюме ${resume.fullName}</title>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
@@ -45,7 +45,7 @@
                     <c:when test="${section.equals(SectionType.OBJECTIVE) || section.equals(SectionType.PERSONAL)}">
                         <% StringSection stringSection = (StringSection) resume.getSection(section); %>
                         <input type="text" name="${section.name()}" size="100"
-                               value="<% out.print(stringSection == null? "" :stringSection.getValue()); %>">
+                               value="<% out.print(stringSection == null ? "" : stringSection.getValue()); %>">
                     </c:when>
                     <c:when test="${section.equals(SectionType.ACHIEVEMENT) || section.equals(SectionType.QUALIFICATIONS)}">
                         <% ListSection listSection = (ListSection) resume.getSection(section); %>
