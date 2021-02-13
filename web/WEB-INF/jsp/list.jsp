@@ -14,7 +14,8 @@
 <section>
     <table class="table-list">
         <tr>
-            <td colspan="4" style="text-align: right;"><a href="resume?action=new" class="add-link"><img src="img/add.png" alt="Добавить резюме"/>&nbsp;Добавить резюме</a></td>
+            <td colspan="4" style="text-align: right;"><a href="resume?action=new" class="add-link"><img
+                    src="img/add.png" alt="Добавить резюме"/>&nbsp;Добавить резюме</a></td>
         </tr>
         <tr>
             <th class="full-name-field">Имя</th>
@@ -25,8 +26,7 @@
             <jsp:useBean id="resume" type="ru.javawebinar.basejava.model.Resume"/>
             <tr>
                 <td class="full-name-field"><a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a></td>
-                <td><%=ContactType.EMAIL.toHtml(resume.getContact(ContactType.EMAIL))%>
-                </td>
+                <td>${ContactType.EMAIL.toHtml(resume.getContact(ContactType.EMAIL))}</td>
                 <td class="td-control"><a
                         href="resume?uuid=${resume.uuid}&action=delete"><img
                         src="img/delete.png" alt="Delete"/></a></td>

@@ -27,7 +27,7 @@
         </dl>
         <hr/>
         <h3>Контакты:</h3>
-        <c:forEach var="type" items="<%=ContactType.values()%>">
+        <c:forEach var="type" items="${ContactType.values()}">
             <dl>
                 <dt>${type.title}</dt>
                 <dd>
@@ -37,7 +37,7 @@
         </c:forEach>
         <hr/>
         <h3>Секции:</h3>
-        <c:forEach var="section" items="<%=SectionType.values()%>">
+        <c:forEach var="section" items="${SectionType.values()}">
             <jsp:useBean id="section" type="ru.javawebinar.basejava.model.SectionType"/>
             <dl>
                 <dt>${section.title}</dt>
@@ -50,7 +50,7 @@
                     <c:when test="${section.equals(SectionType.ACHIEVEMENT) || section.equals(SectionType.QUALIFICATIONS)}">
                         <% ListSection listSection = (ListSection) resume.getSection(section); %>
                         <textarea cols="10" class="list-block"
-                                  name="<%=section.name()%>"><% out.print(listSection == null ? "" : String.join("\n", listSection.getElements())); %></textarea>
+                                  name="${section.name()}"><% out.print(listSection == null ? "" : String.join("\n", listSection.getElements())); %></textarea>
                     </c:when>
                 </c:choose>
             </dl>

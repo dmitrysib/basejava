@@ -2,7 +2,7 @@ package ru.javawebinar.basejava.model;
 
 public enum ContactType {
     PHONE("Тел."),
-    EMAIL("Почта"){
+    EMAIL("Почта") {
         @Override
         public String toHtml0(String value) {
             return "<a href=\"mailto:" + value + "\">" + value + "</a>";
@@ -34,6 +34,6 @@ public enum ContactType {
     }
 
     public String toHtml(String value) {
-        return value == null ? "" : toHtml0(value);
+        return value == null || value.length() == 0 ? "" : toHtml0(value);
     }
 }

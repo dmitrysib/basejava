@@ -22,18 +22,18 @@
         <c:forEach var="contactEntry" items="${resume.contacts}">
             <jsp:useBean id="contactEntry"
                          type="java.util.Map.Entry<ru.javawebinar.basejava.model.ContactType, java.lang.String>"/>
-            <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
+            ${contactEntry.key.toHtml(contactEntry.value)}<br/>
         </c:forEach>
     </p>
     <hr/>
     <c:forEach var="sectionEntry" items="${resume.sections}">
         <jsp:useBean id="sectionEntry"
                      type="java.util.Map.Entry<ru.javawebinar.basejava.model.SectionType, ru.javawebinar.basejava.model.AbstractSection>"/>
-        <h2><%=sectionEntry.getKey().getTitle()%></h2>
+        <h2>${sectionEntry.key.title}</h2>
         <c:choose>
             <c:when test="${sectionEntry.key == 'PERSONAL' || sectionEntry.key == 'OBJECTIVE'}">
 <%--suppress HtmlUnknownAttribute --%>
-                <span class="section_<%=sectionEntry.getKey().name()%>"><%=((StringSection) sectionEntry.getValue()).getValue()%></span>
+                <span class="section_${sectionEntry.key.name()}"><%=((StringSection) sectionEntry.getValue()).getValue()%></span>
             </c:when>
             <c:when test="${sectionEntry.key == 'ACHIEVEMENT' || sectionEntry.key == 'QUALIFICATIONS'}">
                 <ul>
@@ -47,11 +47,11 @@
                     <jsp:useBean id="item" type="ru.javawebinar.basejava.model.Experience"/>
                     <div class="organization">
                         <h3><%=HtmlUtil.buildHtmlLink(item.getHomePage())%></h3>
-                        <c:forEach var="position" items="<%=item.getPositions()%>">
+                        <c:forEach var="position" items="${item.positions}">
                             <jsp:useBean id="position" type="ru.javawebinar.basejava.model.Experience.Position"/>
                             <table>
                                 <tr>
-                                    <td class="date-period"><%=position.getDatePeriod()%></td>
+                                    <td class="date-period">${position.datePeriod}</td>
                                     <td>
                                         <b>${position.title}</b>
                                         <c:if test="${sectionEntry.key == 'EXPERIENCE'}">
