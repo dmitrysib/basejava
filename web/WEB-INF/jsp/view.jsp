@@ -46,7 +46,7 @@
                 <c:forEach var="item" items="<%=((Organization) sectionEntry.getValue()).getElements()%>">
                     <jsp:useBean id="item" type="ru.javawebinar.basejava.model.Experience"/>
                     <div class="organization">
-                        <h3><%=HtmlUtil.buildHtmlLink(item.getHomePage())%></h3>
+                        <h3>${HtmlUtil.buildHtmlLink(item.homePage)}</h3>
                         <c:forEach var="position" items="${item.positions}">
                             <jsp:useBean id="position" type="ru.javawebinar.basejava.model.Experience.Position"/>
                             <table>
