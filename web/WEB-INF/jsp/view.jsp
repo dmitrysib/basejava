@@ -15,6 +15,7 @@
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
+    <h2 class="h2-operation">Просмотр резюме</h2>
     <h2>${resume.fullName}&nbsp;<a href="resume?uuid=${resume.uuid}&action=edit"><%--suppress HtmlUnknownTarget --%><img
             src="img/pencil.png" alt="Edit"/></a></h2>
     <p>

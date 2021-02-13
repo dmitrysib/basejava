@@ -16,6 +16,8 @@
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
+    <h2 class="h2-operation">${resume.uuid.length() == 0 ? "Новое" : "Редактирование"}
+        резюме</h2>
     <form method="post" action="resume" enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="uuid" value="${resume.uuid}">
         <dl>

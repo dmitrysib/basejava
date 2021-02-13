@@ -123,3 +123,19 @@ input, textarea {
     width: 80%;
     height: 120px;
 }
+
+.td-control {
+    text-align: center;
+    width: 20px;
+}
+
+.full-name-field {
+    width: 300px;
+}
+
+.h2-operation {
+    font-style: italic;
+    text-align: left;
+    padding: 2px;
+    background: #CCCCCC;
+}
