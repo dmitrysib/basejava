@@ -1,6 +1,7 @@
 package ru.javawebinar.basejava.web;
 
 import ru.javawebinar.basejava.Config;
+import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.storage.Storage;
 
@@ -60,10 +61,15 @@ public class ResumeServlet extends HttpServlet {
         if (uuid.length() == 0) {
             resume = new Resume(UUID.randomUUID().toString(), fullName);
         } else {
-            resume = storage.get(uuid);
-            resume.setFullName(fullName);
-            resume.getContacts().clear();
-            resume.getSections().clear();
+            try {
+                resume = storage.get(uuid);
+                resume.setFullName(fullName);
+                resume.getContacts().clear();
+                resume.getSections().clear();
+            } catch (NotExistStorageException e) {
+                uuid = "";
+                resume = new Resume(UUID.randomUUID().toString(), fullName);
+            }
         }
 
         for (ContactType type : ContactType.values()) {
