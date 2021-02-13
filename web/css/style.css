@@ -3,6 +3,7 @@ header {
     color: #2E6E9E;
     font-size: 20px;
     padding: 5px 20px;
+    text-align: center;
 }
 
 footer {
@@ -11,11 +12,40 @@ footer {
     font-size: 20px;
     padding: 5px 20px;
     margin: 20px 0;
+    text-align: center;
 }
 
 section {
     width: 900px;
     margin: auto;
+}
+
+.table-list {
+    margin: auto;
+    width: 100%;
+}
+
+.table-list tr:nth-child(even) {
+    background: #CCCCCC;
+}
+
+.table-list tr:nth-child(odd) {
+    background: #FFFFFF;
+}
+
+.table-list th {
+    text-align: left;
+}
+
+.add-link {
+    text-decoration: none;
+}
+.add-link img {
+    vertical-align: text-top;
+}
+
+.table-list td, th {
+    padding: 10px;
 }
 
 dl {
@@ -69,6 +99,7 @@ a[href*="github."] {
     background: url(../img/gh.png) no-repeat center left;
 }
 
+/*noinspection CssUnusedSymbol*/
 .section_objective {
     font-weight: bold;
 }
@@ -90,4 +121,5 @@ input, textarea {
 
 .list-block {
     width: 80%;
+    height: 120px;
 }

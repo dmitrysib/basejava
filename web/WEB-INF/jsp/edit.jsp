@@ -1,3 +1,4 @@
+<%--suppress HtmlFormInputWithoutLabel --%>
 <%@ page import="ru.javawebinar.basejava.model.ContactType" %>
 <%@ page import="ru.javawebinar.basejava.model.SectionType" %>
 <%@ page import="ru.javawebinar.basejava.model.StringSection" %>
@@ -20,8 +21,7 @@
         <dl>
             <dt>Имя:</dt>
             <dd>
-                <%--suppress HtmlFormInputWithoutLabel --%>
-                <input type="text" name="fullName" size="50" value="${resume.fullName}"></dd>
+                <input type="text" name="fullName" size="50" value="${resume.fullName}" required></dd>
         </dl>
         <hr/>
         <h3>Контакты:</h3>
@@ -29,7 +29,6 @@
             <dl>
                 <dt>${type.title}</dt>
                 <dd>
-                        <%--suppress HtmlFormInputWithoutLabel --%>
                     <input type="text" name="${type.name()}" size="30" value="${resume.getContact(type)}">
                 </dd>
             </dl>
@@ -42,12 +41,18 @@
                 <dt>${section.title}</dt>
                 <c:choose>
                     <c:when test="${section.equals(SectionType.OBJECTIVE) || section.equals(SectionType.PERSONAL)}">
-<%--suppress HtmlFormInputWithoutLabel --%>
-                        <input type="text" name="${section.name()}" size="100" value="<%=((StringSection) resume.getSections().get(section)).getValue()%>">
+                        <%
+                            StringSection stringSection = (StringSection) resume.getSection(section);
+                        %>
+                        <input type="text" name="${section.name()}" size="100"
+                               value="<% out.print(stringSection == null? "" :stringSection.getValue()); %>">
                     </c:when>
                     <c:when test="${section.equals(SectionType.ACHIEVEMENT) || section.equals(SectionType.QUALIFICATIONS)}">
-                        <%--suppress HtmlFormInputWithoutLabel --%>
-                        <textarea cols="5" class="list-block" name="<%=section.name()%>"><%=String.join("\n", ((ListSection) resume.getSections().get(section)).getElements())%></textarea>
+                        <%
+                            ListSection listSection = (ListSection) resume.getSection(section);
+                            String textArea = listSection == null ? "" : String.join("\n", listSection.getElements());
+                        %>
+                        <textarea cols="10" class="list-block" name="<%=section.name()%>"><%=textArea%></textarea>
                     </c:when>
                 </c:choose>
             </dl>
@@ -55,7 +60,7 @@
         </c:forEach>
         <hr/>
         <button type="submit">Сохранить</button>
-        <button onclick="window.history.back()">Отменить</button>
+        <button onclick="window.history.back()" type="reset">Отменить</button>
     </form>
 </section>
 <jsp:include page="fragments/footer.jsp"/>

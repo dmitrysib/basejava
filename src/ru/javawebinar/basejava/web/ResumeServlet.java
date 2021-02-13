@@ -1,6 +1,7 @@
 package ru.javawebinar.basejava.web;
 
 import ru.javawebinar.basejava.Config;
+import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.storage.Storage;
 
@@ -9,7 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
+import java.util.Arrays;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ResumeServlet extends HttpServlet {
     private final Storage storage = Config.getInstance().getSqlStorage();
@@ -31,6 +34,11 @@ public class ResumeServlet extends HttpServlet {
                 response.sendRedirect("resume");
                 return;
             }
+            case "new" -> {
+                uuid = UUID.randomUUID().toString();
+                resume = new Resume(uuid, "");
+                action = "edit";
+            }
             case "view", "edit" -> resume = storage.get(uuid);
             default -> throw new IllegalArgumentException("Action " + action + " is illegal");
         }
@@ -45,11 +53,21 @@ public class ResumeServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullName");
+        if (fullName == null || fullName.trim().length() == 0) {
+            response.sendRedirect("resume");
+        }
 
-        Resume resume = storage.get(uuid);
-        resume.setFullName(fullName);
+        Resume resume;
+        try {
+            resume = storage.get(uuid);
+            resume.setFullName(fullName);
+            resume.getContacts().clear();
+            resume.getSections().clear();
+        } catch (NotExistStorageException e) {
+            resume = new Resume(uuid, fullName);
+            storage.save(resume);
+        }
 
-        resume.getContacts().clear();
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
             if (value != null && value.trim().length() != 0) {
@@ -57,17 +75,22 @@ public class ResumeServlet extends HttpServlet {
             }
         }
 
-        resume.getSections().clear();
-        for (SectionType sectionType: SectionType.values()) {
+        for (SectionType sectionType : SectionType.values()) {
             String value = request.getParameter(sectionType.name());
             if (value != null && value.trim().length() != 0) {
                 switch (sectionType) {
-                    case PERSONAL,OBJECTIVE -> resume.addSection(sectionType, new StringSection(value.trim()));
-                    case QUALIFICATIONS, ACHIEVEMENT -> resume.addSection(sectionType, new ListSection(List.of(value.trim().split("\n"))));
+                    case PERSONAL, OBJECTIVE -> resume.addSection(sectionType, new StringSection(value.trim()));
+                    case QUALIFICATIONS, ACHIEVEMENT -> {
+                        var values = Arrays.stream(
+                                value.split("[\r\n]"))
+                                .filter(s -> !s.isEmpty())
+                                .collect(Collectors.toList());
+                        resume.addSection(sectionType, new ListSection(values));
+                    }
                 }
             }
         }
         storage.update(resume);
-        response.sendRedirect("resume");
+        response.sendRedirect("resume?action=view&uuid=" + uuid);
     }
 }
