@@ -58,20 +58,16 @@ public class ResumeServlet extends HttpServlet {
         }
 
         Resume resume;
-        if (uuid.length() == 0) {
+        try {
+            resume = storage.get(uuid);
+        } catch (NotExistStorageException e) {
+            uuid = "";
             resume = new Resume(UUID.randomUUID().toString(), fullName);
-        } else {
-            try {
-                resume = storage.get(uuid);
-            } catch (NotExistStorageException e) {
-                uuid = "";
-                resume = new Resume(UUID.randomUUID().toString(), fullName);
-            }
-
-            resume.setFullName(fullName);
-            resume.getContacts().clear();
-            resume.getSections().clear();
         }
+
+        resume.setFullName(fullName);
+        resume.getContacts().clear();
+        resume.getSections().clear();
 
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
