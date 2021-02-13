@@ -43,22 +43,17 @@
                 <dt>${section.title}</dt>
                 <c:choose>
                     <c:when test="${section.equals(SectionType.OBJECTIVE) || section.equals(SectionType.PERSONAL)}">
-                        <%
-                            StringSection stringSection = (StringSection) resume.getSection(section);
-                        %>
+                        <% StringSection stringSection = (StringSection) resume.getSection(section); %>
                         <input type="text" name="${section.name()}" size="100"
                                value="<% out.print(stringSection == null? "" :stringSection.getValue()); %>">
                     </c:when>
                     <c:when test="${section.equals(SectionType.ACHIEVEMENT) || section.equals(SectionType.QUALIFICATIONS)}">
-                        <%
-                            ListSection listSection = (ListSection) resume.getSection(section);
-                            String textArea = listSection == null ? "" : String.join("\n", listSection.getElements());
-                        %>
-                        <textarea cols="10" class="list-block" name="<%=section.name()%>"><%=textArea%></textarea>
+                        <% ListSection listSection = (ListSection) resume.getSection(section); %>
+                        <textarea cols="10" class="list-block"
+                                  name="<%=section.name()%>"><% out.print(listSection == null ? "" : String.join("\n", listSection.getElements())); %></textarea>
                     </c:when>
                 </c:choose>
             </dl>
-
         </c:forEach>
         <hr/>
         <button type="submit">Сохранить</button>
