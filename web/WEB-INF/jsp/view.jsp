@@ -1,3 +1,4 @@
+<%--suppress HtmlUnknownTarget --%>
 <%@ page import="ru.javawebinar.basejava.model.StringSection" %>
 <%@ page import="ru.javawebinar.basejava.model.ListSection" %>
 <%@ page import="ru.javawebinar.basejava.model.Organization" %>
@@ -7,7 +8,6 @@
 <html>
 <head>
     <meta http-equiv="Content-type" content="text/html" charset="utf-8">
-    <%--suppress HtmlUnknownTarget --%>
     <link rel="stylesheet" href="css/style.css">
     <jsp:useBean id="resume" type="ru.javawebinar.basejava.model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
@@ -16,8 +16,8 @@
 <jsp:include page="fragments/header.jsp"/>
 <section>
     <h2 class="h2-operation">Просмотр резюме</h2>
-    <h2>${resume.fullName}&nbsp;<a href="resume?uuid=${resume.uuid}&action=edit"><%--suppress HtmlUnknownTarget --%><img
-            src="img/pencil.png" alt="Edit"/></a></h2>
+    <h2>${resume.fullName}&nbsp;<a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png" alt="Edit"/></a>
+    </h2>
     <p>
         <c:forEach var="contactEntry" items="${resume.contacts}">
             <jsp:useBean id="contactEntry"
@@ -32,7 +32,7 @@
         <h2>${sectionEntry.key.title}</h2>
         <c:choose>
             <c:when test="${sectionEntry.key == 'PERSONAL' || sectionEntry.key == 'OBJECTIVE'}">
-<%--suppress HtmlUnknownAttribute --%>
+                <%--suppress HtmlUnknownAttribute --%>
                 <span class="section_${sectionEntry.key.name()}"><%=((StringSection) sectionEntry.getValue()).getValue()%></span>
             </c:when>
             <c:when test="${sectionEntry.key == 'ACHIEVEMENT' || sectionEntry.key == 'QUALIFICATIONS'}">
