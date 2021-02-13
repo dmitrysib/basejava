@@ -11,7 +11,7 @@
     <%--suppress HtmlUnknownTarget --%>
     <link rel="stylesheet" href="css/style.css">
     <jsp:useBean id="resume" type="ru.javawebinar.basejava.model.Resume" scope="request"/>
-    <title>Резюме ${resume.fullName}</title>
+    <title>${resume.uuid.length() == 0? "Новое" : "Редактирование"} Резюме ${resume.fullName}</title>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
