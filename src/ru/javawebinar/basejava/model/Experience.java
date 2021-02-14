@@ -122,8 +122,16 @@ public class Experience implements Serializable {
             return startDate.toString();
         }
 
+        public LocalDate getStartDateDt() {
+            return startDate;
+        }
+
         public String getEndDate() {
             return endDate.toString();
+        }
+
+        public LocalDate getEndDateDt() {
+            return endDate;
         }
 
         public String getDatePeriod() {
