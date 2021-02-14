@@ -11,13 +11,13 @@
     <%--suppress HtmlUnknownTarget --%>
     <link rel="stylesheet" href="css/style.css">
     <jsp:useBean id="resume" type="ru.javawebinar.basejava.model.Resume" scope="request"/>
-    <c:set var="resumeType" value="${resume.uuid == 'new' ? 'Новое' : 'Редактирование'}"/>
-    <title>${resumeType} резюме ${resume.fullName}</title>
+    <c:set var="resumeType" value="${resume.uuid == 'new' ? 'Новое' : 'Редактирование'} резюме"/>
+    <title>${resumeType} ${resume.fullName}</title>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <h2 class="h2-operation">${resumeType} резюме</h2>
+    <h2 class="h2-operation">${resumeType}</h2>
     <form method="post" action="resume" enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="uuid" value="${resume.uuid}">
         <dl>
@@ -57,7 +57,7 @@
         </c:forEach>
         <hr/>
         <button type="submit">${resume.uuid == "new" ? "Добавить" : "Сохранить"}</button>
-        <button onclick="window.history.back()" type="reset">Отменить</button>
+        <button type="reset" onclick="window.history.back()">Отменить</button>
     </form>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
