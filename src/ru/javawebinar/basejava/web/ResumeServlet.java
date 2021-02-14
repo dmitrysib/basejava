@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -92,12 +94,18 @@ public class ResumeServlet extends HttpServlet {
                                 .collect(Collectors.toList());
                         resume.addSection(sectionType, new ListSection(values));
                     }
+                    case EXPERIENCE, EDUCATION -> {
+                        String[] titles = request.getParameterValues(sectionType.name());
+                        String[] urls = request.getParameterValues(sectionType.name() + "url");
+                        List<Experience> experiences = new ArrayList<>();
+                        for (int i = 0; i < titles.length; i++) {
+                            experiences.add(new Experience(titles[i], urls[i]));
+                        }
+                        resume.addSection(sectionType, new Organization(experiences));
+                    }
                 }
             }
         }
-
-        var titles = request.getParameterValues("EXPERIENCE-title");
-
         if (uuid.equals("new")) {
             storage.save(resume);
         } else {

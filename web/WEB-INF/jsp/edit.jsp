@@ -73,30 +73,30 @@
                                 <div style="text-align: right"><a href="javascript:void(0);" onclick="deleteSection('experience-${section.name()}-${loop.index}')"><%--suppress HtmlUnknownTarget --%><img src="img/delete.png" alt="Удалить блок"/></a></div>
                                 <dl>
                                     <dt>Название учреждения</dt>
-                                    <dd><input type="text" value="${item.homePage.title}" name="${section.name()}-title" size="100"/></dd>
+                                    <dd><input type="text" value="${item.homePage.title}" name="${section.name()}" size="100"/></dd>
                                 </dl>
                                 <dl>
                                     <dt>Урл учреждения</dt>
-                                    <dd><input type="text" value="${item.homePage.url}" name="${section.name()}-url" size="100"/></dd>
+                                    <dd><input type="text" value="${item.homePage.url}" name="${section.name()}url" size="100"/></dd>
                                 </dl>
                                 <c:forEach items="${item.positions}" var="position">
                                     <div class="o-position">
                                         <dl>
                                             <dt>Начальная дата</dt>
-                                            <dd><input type="text" value="${DateUtil.format(position.startDateDt)}" placeholder="MM/yyyy" name="${section.name()}-startDate"/></dd>
+                                            <dd><input type="text" value="${DateUtil.format(position.startDateDt)}" placeholder="MM/yyyy" name="${section.name()}${loop.index}startDate"/></dd>
                                         </dl>
                                         <dl>
                                             <dt>Конечная дата</dt>
-                                            <dd><input type="text" value="${DateUtil.format(position.endDateDt)}" placeholder="MM/yyyy" name="${section.name()}-endDate"/></dd>
+                                            <dd><input type="text" value="${DateUtil.format(position.endDateDt)}" placeholder="MM/yyyy" name="${section.name()}${loop.index}endDate"/></dd>
                                         </dl>
                                         <dl>
                                             <dt>Должность/Позиция</dt>
-                                            <dd><input type="text" value="${position.title}" size="80" name="${section.name()}-position"/></dd>
+                                            <dd><input type="text" value="${position.title}" size="80" name="${section.name()}${loop.index}position"/></dd>
                                         </dl>
                                         <c:if test="${section.equals(SectionType.EXPERIENCE)}">
                                         <dl>
                                             <dt>Описание</dt>
-                                            <dd><textarea cols="5" style="width: 500px;" name="${section.name()}-description">${position.description}</textarea></dd>
+                                            <dd><textarea cols="5" style="width: 500px;" name="${section.name()}${loop.index}description">${position.description}</textarea></dd>
                                         </dl>
                                         </c:if>
                                     </div>
