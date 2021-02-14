@@ -62,9 +62,9 @@
                         <%
                             Organization organization = (Organization) resume.getSection(section);
                             if (organization == null) {
-                                organization = new Organization(Collections.singletonList(new Experience("", "", new Experience.Position() )));
+                                organization = new Organization(Collections.singletonList(Experience.EMPTY));
                             } else {
-                                organization.getElements().add(new Experience("", "", new Experience.Position() ));
+                                organization.getElements().add(Experience.EMPTY);
                             }
                         %>
                         <c:forEach items="<%=organization.getElements()%>" var="item" varStatus="loop">

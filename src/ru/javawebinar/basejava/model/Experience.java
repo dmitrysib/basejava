@@ -19,6 +19,8 @@ public class Experience implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    public static final Experience EMPTY = new Experience("", "", Position.EMPTY);
+
     private Link homePage;
     private List<Position> positions;
 
@@ -69,6 +71,8 @@ public class Experience implements Serializable {
     public static class Position implements Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
+
+        public static final Position EMPTY = new Position("", LocalDate.now(), LocalDate.now());
 
         private String title;
         private String description;
