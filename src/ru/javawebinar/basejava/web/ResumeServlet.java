@@ -95,6 +95,9 @@ public class ResumeServlet extends HttpServlet {
                 }
             }
         }
+
+        var titles = request.getParameterValues("EXPERIENCE-title");
+
         if (uuid.equals("new")) {
             storage.save(resume);
         } else {
