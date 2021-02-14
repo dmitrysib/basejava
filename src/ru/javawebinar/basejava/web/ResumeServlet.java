@@ -4,6 +4,7 @@ import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.storage.Storage;
+import ru.javawebinar.basejava.util.DateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -99,7 +100,24 @@ public class ResumeServlet extends HttpServlet {
                         String[] urls = request.getParameterValues(sectionType.name() + "url");
                         List<Experience> experiences = new ArrayList<>();
                         for (int i = 0; i < titles.length; i++) {
-                            experiences.add(new Experience(titles[i], urls[i]));
+                            String prefix = sectionType.name() + i;
+                            String[] positions = request.getParameterValues(prefix);
+                            String[] startDate = request.getParameterValues(prefix + "startDate");
+                            String[] endDate = request.getParameterValues(prefix + "endDate");
+                            String[] description = request.getParameterValues(prefix + "description");
+                            List<Experience.Position> positionsList = new ArrayList<>();
+                            for (int j = 0; j < positions.length; j++) {
+                                try {
+                                    positionsList.add(new Experience.Position(positions[i], DateUtil.parse(startDate[i]), DateUtil.parse(endDate[i]), (description == null ? "" : description[i])));
+                                } catch (Exception ignored) {
+                                }
+                            }
+                            if (positionsList.size() > 0) {
+                                try {
+                                    experiences.add(new Experience(new Experience.Link(titles[i], urls[i]), positionsList));
+                                } catch (Exception ignored) {
+                                }
+                            }
                         }
                         resume.addSection(sectionType, new Organization(experiences));
                     }

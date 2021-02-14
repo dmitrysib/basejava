@@ -91,7 +91,7 @@
                                         </dl>
                                         <dl>
                                             <dt>Должность/Позиция</dt>
-                                            <dd><input type="text" value="${position.title}" size="80" name="${section.name()}${loop.index}position"/></dd>
+                                            <dd><input type="text" value="${position.title}" size="80" name="${section.name()}${loop.index}"/></dd>
                                         </dl>
                                         <c:if test="${section.equals(SectionType.EXPERIENCE)}">
                                         <dl>
