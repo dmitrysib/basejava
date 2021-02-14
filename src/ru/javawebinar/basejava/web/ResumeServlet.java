@@ -35,9 +35,9 @@ public class ResumeServlet extends HttpServlet {
                 return;
             }
             case "new" -> {
-                uuid = "";
-                resume = new Resume(uuid, "");
+                uuid = "new";
                 action = "edit";
+                resume = new Resume(uuid, "");
             }
             case "view", "edit" -> resume = storage.get(uuid);
             default -> throw new IllegalArgumentException("Action " + action + " is illegal");
@@ -58,16 +58,20 @@ public class ResumeServlet extends HttpServlet {
         }
 
         Resume resume;
-        try {
-            resume = storage.get(uuid);
-        } catch (NotExistStorageException e) {
-            uuid = "";
+        if (uuid.equals("new")) {
             resume = new Resume(UUID.randomUUID().toString(), fullName);
-        }
+        } else {
+            try {
+                resume = storage.get(uuid);
+            } catch (NotExistStorageException e) {
+                uuid = "new";
+                resume = new Resume(UUID.randomUUID().toString(), fullName);
+            }
 
-        resume.setFullName(fullName);
-        resume.getContacts().clear();
-        resume.getSections().clear();
+            resume.setFullName(fullName);
+            resume.getContacts().clear();
+            resume.getSections().clear();
+        }
 
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
@@ -91,7 +95,7 @@ public class ResumeServlet extends HttpServlet {
                 }
             }
         }
-        if (uuid.length() == 0) {
+        if (uuid.equals("new")) {
             storage.save(resume);
         } else {
             storage.update(resume);
