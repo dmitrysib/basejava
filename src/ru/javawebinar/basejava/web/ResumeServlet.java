@@ -107,7 +107,7 @@ public class ResumeServlet extends HttpServlet {
                             for (int j = 0; positions != null && j < positions.length; j++) {
                                 try {
                                     StringUtil.requireNonEmpty(positions[j], "title cannot be empty");
-                                    positionsList.add(new Experience.Position(positions[j], DateUtil.parse(startDate[j]), DateUtil.parse(endDate[j]), description[j]));
+                                    positionsList.add(new Experience.Position(positions[j], DateUtil.parse(startDate[j]), DateUtil.parse(endDate[j]), (description == null ? "" : description[j])));
                                 } catch (Exception ignored) {
                                 }
                             }
@@ -126,7 +126,7 @@ public class ResumeServlet extends HttpServlet {
                             }
                         }
                         List<Experience> experienceList = new ArrayList<>();
-                        for (Map.Entry<Experience.Link, List<Experience.Position>> entry: experiences.entrySet()) {
+                        for (Map.Entry<Experience.Link, List<Experience.Position>> entry : experiences.entrySet()) {
                             experienceList.add(new Experience(entry.getKey(), entry.getValue()));
                         }
                         resume.addSection(sectionType, new Organization(experienceList));
