@@ -5,16 +5,14 @@ import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.storage.Storage;
 import ru.javawebinar.basejava.util.DateUtil;
+import ru.javawebinar.basejava.util.StringUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ResumeServlet extends HttpServlet {
@@ -98,7 +96,7 @@ public class ResumeServlet extends HttpServlet {
                     case EXPERIENCE, EDUCATION -> {
                         String[] titles = request.getParameterValues(sectionType.name());
                         String[] urls = request.getParameterValues(sectionType.name() + "url");
-                        List<Experience> experiences = new ArrayList<>();
+                        Map<Experience.Link, List<Experience.Position>> experiences = new HashMap<>();
                         for (int i = 0; i < titles.length; i++) {
                             String prefix = sectionType.name() + i;
                             String[] positions = request.getParameterValues(prefix);
@@ -106,20 +104,32 @@ public class ResumeServlet extends HttpServlet {
                             String[] endDate = request.getParameterValues(prefix + "endDate");
                             String[] description = request.getParameterValues(prefix + "description");
                             List<Experience.Position> positionsList = new ArrayList<>();
-                            for (int j = 0; j < positions.length; j++) {
+                            for (int j = 0; positions != null && j < positions.length; j++) {
                                 try {
-                                    positionsList.add(new Experience.Position(positions[i], DateUtil.parse(startDate[i]), DateUtil.parse(endDate[i]), (description == null ? "" : description[i])));
+                                    StringUtil.requireNonEmpty(positions[j], "title cannot be empty");
+                                    positionsList.add(new Experience.Position(positions[j], DateUtil.parse(startDate[j]), DateUtil.parse(endDate[j]), description[j]));
                                 } catch (Exception ignored) {
                                 }
                             }
                             if (positionsList.size() > 0) {
                                 try {
-                                    experiences.add(new Experience(new Experience.Link(titles[i], urls[i]), positionsList));
+                                    StringUtil.requireNonEmpty(titles[i], "title cannot be empty");
+                                    Experience.Link homePage = new Experience.Link(titles[i], urls[i]);
+                                    List<Experience.Position> pos = experiences.get(homePage);
+                                    if (pos == null) {
+                                        experiences.put(homePage, positionsList);
+                                    } else {
+                                        pos.addAll(positionsList);
+                                    }
                                 } catch (Exception ignored) {
                                 }
                             }
                         }
-                        resume.addSection(sectionType, new Organization(experiences));
+                        List<Experience> experienceList = new ArrayList<>();
+                        for (Map.Entry<Experience.Link, List<Experience.Position>> entry: experiences.entrySet()) {
+                            experienceList.add(new Experience(entry.getKey(), entry.getValue()));
+                        }
+                        resume.addSection(sectionType, new Organization(experienceList));
                     }
                 }
             }
