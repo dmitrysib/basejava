@@ -70,37 +70,57 @@
                         <c:forEach items="<%=organization.getElements()%>" var="item" varStatus="loop">
                             <jsp:useBean id="item" type="ru.javawebinar.basejava.model.Experience"/>
                             <div class="o-section" id="experience-${section.name()}-${loop.index}">
-                                <div style="text-align: right"><a href="javascript:void(0);" onclick="deleteSection('experience-${section.name()}-${loop.index}')"><%--suppress HtmlUnknownTarget --%><img src="img/delete.png" alt="Удалить блок"/></a></div>
+                                <div style="text-align: right"><a href="javascript:void(0);"
+                                                                  onclick="deleteSection('experience-${section.name()}-${loop.index}')"><%--suppress HtmlUnknownTarget --%><img
+                                        src="img/delete.png" alt="Удалить блок"/></a></div>
                                 <dl>
                                     <dt>Название учреждения</dt>
-                                    <dd><input type="text" value="${item.homePage.title}" name="${section.name()}" size="100"/></dd>
+                                    <dd><input type="text" value="${item.homePage.title}" name="${section.name()}"
+                                               size="100"/></dd>
                                 </dl>
                                 <dl>
                                     <dt>Урл учреждения</dt>
-                                    <dd><input type="text" value="${item.homePage.url}" name="${section.name()}url" size="100"/></dd>
+                                    <dd><input type="text" value="${item.homePage.url}" name="${section.name()}url"
+                                               size="100"/></dd>
                                 </dl>
-                                <c:forEach items="${item.positions}" var="position">
-                                    <div class="o-position">
-                                        <dl>
-                                            <dt>Начальная дата</dt>
-                                            <dd><input type="text" value="${DateUtil.format(position.startDateDt)}" placeholder="MM/yyyy" name="${section.name()}${loop.index}startDate"/></dd>
-                                        </dl>
-                                        <dl>
-                                            <dt>Конечная дата</dt>
-                                            <dd><input type="text" value="${DateUtil.format(position.endDateDt)}" placeholder="MM/yyyy" name="${section.name()}${loop.index}endDate"/></dd>
-                                        </dl>
-                                        <dl>
-                                            <dt>Должность/Позиция</dt>
-                                            <dd><input type="text" value="${position.title}" size="80" name="${section.name()}${loop.index}"/></dd>
-                                        </dl>
-                                        <c:if test="${section.equals(SectionType.EXPERIENCE)}">
-                                        <dl>
-                                            <dt>Описание</dt>
-                                            <dd><textarea cols="5" style="width: 500px;" name="${section.name()}${loop.index}description">${position.description}</textarea></dd>
-                                        </dl>
-                                        </c:if>
+                                <div>
+                                    <div id="positions-${section.name()}-${loop.index}">
+                                        <c:forEach items="${item.positions}" var="position" varStatus="posLoop">
+                                            <div class="o-position">
+                                                <dl>
+                                                    <dt>Начальная дата</dt>
+                                                    <dd><input type="text"
+                                                               value="${DateUtil.format(position.startDateDt)}"
+                                                               placeholder="MM/yyyy"
+                                                               name="${section.name()}${loop.index}startDate"/></dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>Конечная дата</dt>
+                                                    <dd><input type="text"
+                                                               value="${DateUtil.format(position.endDateDt)}"
+                                                               placeholder="MM/yyyy"
+                                                               name="${section.name()}${loop.index}endDate"/></dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>Должность/Позиция</dt>
+                                                    <dd><input type="text" value="${position.title}" size="80"
+                                                               name="${section.name()}${loop.index}"/></dd>
+                                                </dl>
+                                                <c:if test="${section.equals(SectionType.EXPERIENCE)}">
+                                                    <dl>
+                                                        <dt>Описание</dt>
+                                                        <dd><textarea cols="5" style="width: 500px;"
+                                                                      name="${section.name()}${loop.index}description">${position.description}</textarea>
+                                                        </dd>
+                                                    </dl>
+                                                </c:if>
+                                            </div>
+                                        </c:forEach>
                                     </div>
-                                </c:forEach>
+                                    <div class="add-position"><a href="javascript:void(0);"
+                                                                 onclick="addPosition('positions-${section.name()}-${loop.index}', '${section.name()}', '${section.name()}${loop.index}')">Добавить
+                                        позицию</a></div>
+                                </div>
                             </div>
                         </c:forEach>
                     </c:when>
@@ -115,6 +135,34 @@
 <script>
     function deleteSection(sectionId) {
         $("div#" + sectionId).empty().hide();
+    }
+
+    function addPosition(divId, section, sectionId) {
+        let position =
+            '<div class="o-position">' +
+                '<dl>' +
+                    '<dt>Начальная дата</dt>' +
+                    '<dd><input type="text" value="" placeholder="MM/yyyy" name="' + sectionId + 'startDate"/></dd>' +
+                '</dl>' +
+                '<dl>' +
+                    '<dt>Конечная дата</dt>' +
+                    '<dd><input type="text" value="" placeholder="MM/yyyy" name="' + sectionId + 'endDate"/></dd>' +
+                '</dl>' +
+                '<dl>' +
+                    '<dt>Должность/Позиция</dt>' +
+                    '<dd><input type="text" value="" size="80" name="' + sectionId + '"/></dd>' +
+                '</dl>';
+
+        if (section === 'EXPERIENCE') {
+            position +=
+                '<dl>' +
+                    '<dt>Описание</dt>' +
+                    '<dd><textarea cols="5" style="width: 500px;" name="' + sectionId + 'description"></textarea></dd>' +
+                '</dl>';
+        }
+
+        position += '</div>';
+        $('#' + divId).append(position);
     }
 </script>
 <jsp:include page="fragments/footer.jsp"/>

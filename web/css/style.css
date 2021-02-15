@@ -148,4 +148,15 @@ input, textarea {
 
 .o-position {
     margin-left: 50px;
+    border-top: 1px solid #000;
+}
+
+.add-position {
+    text-align: right;
+}
+
+.add-position a {
+    font-style: italic;
+    text-decoration: none;
+    font-size: medium;
 }
