@@ -118,7 +118,7 @@
                                         </c:forEach>
                                     </div>
                                     <div class="add-position"><a href="javascript:void(0);"
-                                                                 onclick="addPosition('positions-${section.name()}-${loop.index}', '${section.name()}', '${section.name()}${loop.index}')">Добавить
+                                                                 onclick="addPosition('${section.name()}', '${loop.index}')">Добавить
                                         позицию</a></div>
                                 </div>
                             </div>
@@ -137,32 +137,32 @@
         $("div#" + sectionId).empty().hide();
     }
 
-    function addPosition(divId, section, sectionId) {
+    function addPosition(section, index) {
         let position =
             '<div class="o-position">' +
-                '<dl>' +
-                    '<dt>Начальная дата</dt>' +
-                    '<dd><input type="text" value="" placeholder="MM/yyyy" name="' + sectionId + 'startDate"/></dd>' +
-                '</dl>' +
-                '<dl>' +
-                    '<dt>Конечная дата</dt>' +
-                    '<dd><input type="text" value="" placeholder="MM/yyyy" name="' + sectionId + 'endDate"/></dd>' +
-                '</dl>' +
-                '<dl>' +
-                    '<dt>Должность/Позиция</dt>' +
-                    '<dd><input type="text" value="" size="80" name="' + sectionId + '"/></dd>' +
-                '</dl>';
+            '<dl>' +
+            '<dt>Начальная дата</dt>' +
+            '<dd><input type="text" value="" placeholder="MM/yyyy" name="' + section + index + 'startDate"/></dd>' +
+            '</dl>' +
+            '<dl>' +
+            '<dt>Конечная дата</dt>' +
+            '<dd><input type="text" value="" placeholder="MM/yyyy" name="' + section + index + 'endDate"/></dd>' +
+            '</dl>' +
+            '<dl>' +
+            '<dt>Должность/Позиция</dt>' +
+            '<dd><input type="text" value="" size="80" name="' + section + index + '"/></dd>' +
+            '</dl>';
 
         if (section === 'EXPERIENCE') {
             position +=
                 '<dl>' +
-                    '<dt>Описание</dt>' +
-                    '<dd><textarea cols="5" style="width: 500px;" name="' + sectionId + 'description"></textarea></dd>' +
+                '<dt>Описание</dt>' +
+                '<dd><textarea cols="5" style="width: 500px;" name="' + section + index + 'description"></textarea></dd>' +
                 '</dl>';
         }
 
         position += '</div>';
-        $('#' + divId).append(position);
+        $('#' + 'positions-' + section + '-' + index).append(position);
     }
 </script>
 <jsp:include page="fragments/footer.jsp"/>
